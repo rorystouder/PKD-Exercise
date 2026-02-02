@@ -7,7 +7,7 @@
 <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
 <meta name="theme-color" content="#0f172a">
 <title>P45x — 9-Week Muscle Confusion</title>
-<link rel="manifest" href="data:application/json;base64,eyJuYW1lIjoiUEtEIEV4ZXJjaXNlIiwic2hvcnRfbmFtZSI6IlBLRCBGaXQiLCJzdGFydF91cmwiOiIuIiwiZGlzcGxheSI6InN0YW5kYWxvbmUiLCJiYWNrZ3JvdW5kX2NvbG9yIjoiIzBmMTcyYSIsInRoZW1lX2NvbG9yIjoiIzBmMTcyYSJ9">
+<link rel="manifest" href="data:application/json;base64,eyJuYW1lIjoiUDQ1eCIsInNob3J0X25hbWUiOiJQNDV4Iiwic3RhcnRfdXJsIjoiLiIsImRpc3BsYXkiOiJzdGFuZGFsb25lIiwiYmFja2dyb3VuZF9jb2xvciI6IiMwZjE3MmEiLCJ0aGVtZV9jb2xvciI6IiMwZjE3MmEifQ==">
 <script src="https://cdn.tailwindcss.com"></script>
 <script>
 tailwind.config = {
@@ -49,6 +49,8 @@ body { font-family: 'Inter', sans-serif; -webkit-tap-highlight-color: transparen
       </div>
       <div class="text-xs text-slate-500" id="header-date"></div>
     </div>
+    <!-- Phase Banner -->
+    <div id="phase-banner" class="mt-2 rounded-xl p-2 text-center font-bold text-sm"></div>
   </header>
 
   <!-- Pages -->
@@ -75,7 +77,7 @@ body { font-family: 'Inter', sans-serif; -webkit-tap-highlight-color: transparen
 
         <!-- PKD Notice -->
         <div class="bg-blue-900/30 border border-blue-800/50 rounded-xl p-3 mb-4 text-sm">
-          <p class="text-blue-300">⚠️ <strong>PKD Reminder:</strong> Moderate weight, perfect form. Avoid heavy straining & valsalva. Breathe through every rep.</p>
+          <p class="text-blue-300">⚠️ <strong>PKD Reminder:</strong> Moderate weight, perfect form. Avoid heavy straining & valsalva. Breathe through every rep. Burpees: step back, no jump, no push-up.</p>
         </div>
 
         <!-- Workout Timer -->
@@ -133,6 +135,7 @@ body { font-family: 'Inter', sans-serif; -webkit-tap-highlight-color: transparen
         <button onclick="filterCategory('pull')" class="cat-btn bg-slate-700 text-slate-300 px-3 py-1.5 rounded-lg text-sm whitespace-nowrap" data-cat="pull">🔙 Pull</button>
         <button onclick="filterCategory('legs')" class="cat-btn bg-slate-700 text-slate-300 px-3 py-1.5 rounded-lg text-sm whitespace-nowrap" data-cat="legs">🦵 Legs</button>
         <button onclick="filterCategory('bodyweight')" class="cat-btn bg-slate-700 text-slate-300 px-3 py-1.5 rounded-lg text-sm whitespace-nowrap" data-cat="bodyweight">🏃 Bodyweight</button>
+        <button onclick="filterCategory('compound')" class="cat-btn bg-slate-700 text-slate-300 px-3 py-1.5 rounded-lg text-sm whitespace-nowrap" data-cat="compound">🔥 Compound</button>
         <button onclick="filterCategory('stretch')" class="cat-btn bg-slate-700 text-slate-300 px-3 py-1.5 rounded-lg text-sm whitespace-nowrap" data-cat="stretch">🧘 Stretch</button>
         <button onclick="filterCategory('yoga')" class="cat-btn bg-slate-700 text-slate-300 px-3 py-1.5 rounded-lg text-sm whitespace-nowrap" data-cat="yoga">🧘‍♀️ Yoga</button>
         <button onclick="filterCategory('kb')" class="cat-btn bg-slate-700 text-slate-300 px-3 py-1.5 rounded-lg text-sm whitespace-nowrap" data-cat="kb">🔔 Kettlebell</button>
@@ -193,8 +196,7 @@ body { font-family: 'Inter', sans-serif; -webkit-tap-highlight-color: transparen
       <div class="bg-navy-800 rounded-xl p-4 mb-6">
         <h3 class="font-bold mb-3">🏋️ Weight Log</h3>
         <div class="flex gap-2 mb-3">
-          <select id="weight-exercise" class="bg-slate-700 rounded-lg px-3 py-2 text-sm flex-1">
-          </select>
+          <select id="weight-exercise" class="bg-slate-700 rounded-lg px-3 py-2 text-sm flex-1"></select>
           <input type="number" id="weight-value" placeholder="lbs" class="bg-slate-700 rounded-lg px-3 py-2 text-sm w-20">
           <button onclick="logWeight()" class="bg-fire-500 px-3 py-2 rounded-lg text-sm font-semibold active:scale-95">Log</button>
         </div>
@@ -232,7 +234,7 @@ body { font-family: 'Inter', sans-serif; -webkit-tap-highlight-color: transparen
 </nav>
 
 <script>
-// ===== DATA =====
+// ===== EXERCISES =====
 const EXERCISES = {
   flow: [
     { id:'f1', name:'Bear Crawls', muscles:'Full body, shoulders, core', sets:'30-40s', reps:'continuous', tips:'Stay low, opposite hand/foot move together. Keep hips level.', category:'flow' },
@@ -253,10 +255,6 @@ const EXERCISES = {
     { id:'p6', name:'Side Lateral Raises', muscles:'Side delts', sets:'3', reps:'15', rest:60, tips:'Arms at sides, raise to parallel, slight elbow bend, lower slowly.', category:'push' },
     { id:'p7', name:'Rear Delt Raises', muscles:'Rear delts, upper back', sets:'3', reps:'15', rest:60, tips:'Hinge at hips, raise arms to sides until parallel, slight elbow bend, lower slowly.', category:'push' },
     { id:'p8', name:'Front Raises', muscles:'Front delts', sets:'3', reps:'12', rest:60, tips:'Hold in front of thighs, raise to shoulder height, slight elbow bend, lower slowly.', category:'push' },
-    { id:'p9', name:'Dumbbell Thrusters', muscles:'Quads, shoulders, full body', sets:'3', reps:'10', rest:60, tips:'Squat with DBs at shoulders, explode up pressing overhead in one motion. Full body power move. ⚠️ PKD: moderate weight.', category:'push', phase:2 },
-    { id:'p10', name:'Pike Push-ups', muscles:'Shoulders, triceps', sets:'3', reps:'max', rest:60, tips:'Feet elevated or hips high in pike position. Lower head toward floor. Modified handstand push-up.', category:'push', phase:2 },
-    { id:'p11', name:'Dumbbell Clean and Press', muscles:'Full body power, shoulders', sets:'3', reps:'8', rest:90, tips:'Hinge to pick up DBs, explosively clean to shoulders, press overhead. One fluid motion. ⚠️ PKD: moderate weight, control the movement.', category:'push', phase:3 },
-    { id:'p12', name:'Dumbbell Pullover', muscles:'Chest, lats, serratus', sets:'3', reps:'12', rest:60, tips:'Lie on bench/floor, hold DB over chest, lower behind head with slight elbow bend, pull back over chest. Feel the stretch.', category:'push', phase:3 },
   ],
   pull: [
     { id:'r1', name:'Incline Dumbbell Row', muscles:'Upper back, lats', sets:'3', reps:'10', rest:90, tips:'Start fully extended, pull toward hips not straight up, sweeping motion, hold at top.', category:'pull' },
@@ -265,15 +263,14 @@ const EXERCISES = {
     { id:'r4', name:'Dumbbell Shrugs', muscles:'Traps', sets:'3', reps:'10-12', rest:60, tips:'Hold at sides, shrug as high as possible, straight up/down not rolling, hold at top.', category:'pull' },
     { id:'r5', name:'Bicep Curls', muscles:'Biceps', sets:'3', reps:'12', rest:60, tips:"Don't swing, only move forearms, squeeze at top, go slow.", category:'pull' },
     { id:'r6', name:'Hammer Curls', muscles:'Biceps, brachialis', sets:'3', reps:'12', rest:60, tips:"Don't swing, only forearms, stable wrist, arms in front of body.", category:'pull' },
-    { id:'r7', name:'Dumbbell Renegade Rows', muscles:'Back, core, shoulders', sets:'3', reps:'8/side', rest:60, tips:'Plank position on DBs. Row one arm while stabilizing with the other. Keep hips square, no rotation. Core stays tight.', category:'pull', phase:2 },
   ],
   legs: [
     { id:'l1', name:'Bulgarian Split Squat', muscles:'Quads, glutes', sets:'3', reps:'10/leg', rest:90, tips:'One foot on bench behind, lower to 90°, stay upright, push through front heel.', category:'legs' },
     { id:'l2', name:'Goblet Squat', muscles:'Quads, glutes, core', sets:'3', reps:'12', rest:90, tips:'Hold dumbbell at chest, feet shoulder-width, squat to parallel, chest up, push through heels.', category:'legs' },
     { id:'l3', name:'Walking Lunges', muscles:'Quads, glutes, hamstrings', sets:'3', reps:'10/leg', rest:90, tips:'Hold at sides, step forward to 90°, push through front heel, torso upright.', category:'legs' },
     { id:'l4', name:'Romanian Deadlift', muscles:'Hamstrings, glutes, lower back', sets:'3', reps:'10', rest:90, tips:'Hold in front, hinge hips, keep back straight, lower until hamstring stretch, drive through heels.', category:'legs' },
-    { id:'l5', name:'Dumbbell Sumo Squats', muscles:'Inner thighs, quads, glutes', sets:'3', reps:'12', rest:60, tips:'Wide stance, toes pointed out 45°. Hold DB between legs. Squat deep, knees track over toes. Squeeze glutes at top.', category:'legs', phase:2 },
-    { id:'l6', name:'Curtsy Lunges', muscles:'Glutes, quads, adductors', sets:'3', reps:'10/leg', rest:60, tips:'Step one foot behind and across, lowering into a lunge. Front knee tracks over toes. Great for glute medius.', category:'legs', phase:3 },
+    { id:'l5', name:'Sumo Squats', muscles:'Inner thighs, quads, glutes', sets:'3', reps:'12', rest:90, tips:'Wide stance, toes pointed out, hold DB at center. Squat deep, knees track toes.', category:'legs' },
+    { id:'l6', name:'Curtsy Lunges', muscles:'Glutes, inner thighs', sets:'3', reps:'10/leg', rest:90, tips:'Step one leg behind and across, lower into lunge. Targets glutes and inner thighs.', category:'legs' },
   ],
   bodyweight: [
     { id:'bw1', name:'Push-ups (Wide)', muscles:'Chest, triceps, shoulders', sets:'3', reps:'max', rest:60, tips:'Hands wider than shoulders, full range, chest to floor.', category:'bodyweight' },
@@ -284,11 +281,19 @@ const EXERCISES = {
     { id:'bw6', name:'Burpees (PKD-safe)', muscles:'Full body cardio', sets:'45s', reps:'continuous', tips:'Squat down, step back to plank (no jump back), step forward, stand. Skip the push-up to reduce strain.', category:'bodyweight' },
     { id:'bw7', name:'High Knees', muscles:'Cardio, hip flexors', sets:'45s', reps:'continuous', tips:'Run in place, drive knees above hip height, pump arms.', category:'bodyweight' },
     { id:'bw8', name:'Jump Squats', muscles:'Quads, glutes, cardio', sets:'45s', reps:'continuous', tips:'Bodyweight squat, explode up, land soft. ⚠️ PKD: skip if uncomfortable, sub regular squats.', category:'bodyweight' },
-    { id:'bw9', name:'Plank Hold', muscles:'Core, shoulders, full body', sets:'60s', reps:'hold', tips:'Forearms on ground, body straight as a board. Squeeze glutes, brace core. Don\'t let hips sag or pike up.', category:'bodyweight', phase:2 },
-    { id:'bw10', name:'Side Plank', muscles:'Obliques, core, shoulders', sets:'30s', reps:'each side', tips:'Stack feet or stagger. Hips high, body in straight line. Top arm to sky or on hip.', category:'bodyweight', phase:2 },
-    { id:'bw11', name:'Commando Plank', muscles:'Core, triceps, shoulders', sets:'3', reps:'10', rest:60, tips:'Start on forearms, push up to hands one arm at a time, lower back down. Alternate leading arm. Minimize hip rotation.', category:'bodyweight', phase:3 },
-    { id:'bw12', name:'Superman Hold', muscles:'Lower back, glutes, erectors', sets:'30s', reps:'hold ×3', tips:'Lie face down, lift arms and legs off ground simultaneously. Squeeze glutes and back. Hold and breathe.', category:'bodyweight', phase:3 },
-    { id:'bw13', name:'Plank to Push-up', muscles:'Core, triceps, shoulders', sets:'3', reps:'10', rest:60, tips:'Start in forearm plank, push up to hands one at a time, lower back. Alternate leading arm each rep. Keep core braced.', category:'bodyweight', phase:3 },
+    { id:'bw9', name:'Renegade Rows', muscles:'Back, core, arms', sets:'3', reps:'8/side', rest:60, tips:'Plank position, row one DB at a time. Core tight, don\'t rotate hips.', category:'bodyweight' },
+    { id:'bw10', name:'Plank Hold', muscles:'Core, shoulders', sets:'1', reps:'60s hold', tips:'Forearms on ground, straight line head to heels. Squeeze core, breathe steadily.', category:'bodyweight' },
+    { id:'bw11', name:'Side Plank', muscles:'Obliques, core', sets:'1', reps:'30s/side', tips:'On one forearm, stack feet, hips high. 30s each side.', category:'bodyweight' },
+    { id:'bw12', name:'Pike Push-ups', muscles:'Shoulders, triceps', sets:'3', reps:'8', rest:60, tips:'Feet elevated or hips high in inverted V. Press head toward floor. Targets shoulders.', category:'bodyweight' },
+    { id:'bw13', name:'Bench Dips', muscles:'Triceps, chest', sets:'3', reps:'max', rest:60, tips:'Hands on bench behind you, lower body by bending elbows to 90°. Extend back up.', category:'bodyweight' },
+    { id:'bw14', name:'Commando Plank', muscles:'Core, shoulders, triceps', sets:'3', reps:'10', rest:60, tips:'Forearm plank, push up to hands one at a time, back down. Don\'t rock hips.', category:'bodyweight' },
+    { id:'bw15', name:'Superman Hold', muscles:'Lower back, glutes', sets:'1', reps:'30s hold', tips:'Face down, lift arms and legs off floor. Hold 30s. Strengthens lower back.', category:'bodyweight' },
+    { id:'bw16', name:'Plank to Push-up', muscles:'Core, shoulders, triceps', sets:'3', reps:'10', rest:60, tips:'Start in forearm plank, push up to hands one at a time, lower back down.', category:'bodyweight' },
+  ],
+  compound: [
+    { id:'c1', name:'Dumbbell Thrusters', muscles:'Quads, shoulders, full body', sets:'3', reps:'10', rest:60, tips:'Squat holding DBs at shoulders, explode up pressing overhead in one motion.', category:'compound' },
+    { id:'c2', name:'DB Clean and Press', muscles:'Full body, shoulders', sets:'3', reps:'8', rest:60, tips:'Power clean DB from floor to shoulder, press overhead. One fluid motion.', category:'compound' },
+    { id:'c3', name:'DB Pullover', muscles:'Chest, lats', sets:'3', reps:'10', rest:60, tips:'Lying on floor/bench, hold DB over chest, lower behind head with straight arms, pull back over.', category:'compound' },
   ],
   yoga: [
     { id:'y1', name:'Downward Dog', muscles:'Hamstrings, calves, shoulders', sets:'30-60s', reps:'hold', tips:'Inverted V shape, press heels toward floor, spread fingers wide. Hold 30-60s.', category:'yoga' },
@@ -311,250 +316,204 @@ const EXERCISES = {
   ],
   kb: [
     { id:'k1', name:'Kettlebell Swings', muscles:'Glutes, hamstrings, core, shoulders', sets:'3', reps:'15', rest:30, tips:'Hip hinge, snap hips forward. Arms guide—don\'t lift with shoulders. Breathe out at top. Moderate weight (25-35 lb).', category:'kb' },
-    { id:'k2', name:'Kettlebell Chest Press', muscles:'Chest, triceps', sets:'3', reps:'15', rest:30, tips:'Floor press. Lower with control, elbows at 45°. Press straight up, squeeze chest at top. Can use dumbbell substitute.', category:'kb' },
+    { id:'k2', name:'Kettlebell Chest Press', muscles:'Chest, triceps', sets:'1', reps:'15', rest:30, tips:'Floor press. Lower with control, elbows at 45°. Press straight up, squeeze chest at top. Can use dumbbell substitute.', category:'kb' },
     { id:'k3', name:'Kettlebell Rotational Swings', muscles:'Obliques, core, shoulders', sets:'3', reps:'15/side', rest:30, tips:'Swing bell side to side in front of body. Rotate from hips and core, not arms. Control the momentum. ⚠️ PKD: use moderate weight, avoid straining.', category:'kb' },
   ]
 };
 
-// ===== P45x 9-WEEK CYCLE LOGIC =====
+// ===== P45X 9-WEEK CYCLE LOGIC =====
 const CYCLE_START = new Date(2026, 1, 3); // Feb 3, 2026 (Monday)
-function getCycleWeek() {
+
+function getCycleInfo() {
   const now = new Date();
   const daysSinceStart = Math.floor((now - CYCLE_START) / (1000*60*60*24));
-  if (daysSinceStart < 0) return { weekNum: 0, phase: 1, weekInPhase: 1, isRecovery: false, label: 'Phase 1 — Week 1 of 3 — INTENSITY 🔥' };
+  // Before program starts
+  if (daysSinceStart < 0) {
+    return { weekNum: 0, phase: 1, weekInPhase: 1, isRecovery: false, label: 'P45x — Phase 1, Week 1 — INTENSITY 🔥' };
+  }
   const weekNum = Math.floor(daysSinceStart / 7) % 9; // 0-8
   const phase = weekNum < 3 ? 1 : weekNum < 6 ? 2 : 3;
   const weekInPhase = (weekNum % 3) + 1;
   const isRecovery = weekInPhase === 3;
-  const label = isRecovery
-    ? `Phase ${phase} — Week 3 of 3 — RECOVERY 🧘`
-    : `Phase ${phase} — Week ${weekInPhase} of 3 — INTENSITY 🔥`;
+  const label = `P45x — Phase ${phase}, Week ${weekInPhase} — ${isRecovery ? 'RECOVERY 🧘' : 'INTENSITY 🔥'}`;
   return { weekNum, phase, weekInPhase, isRecovery, label };
 }
 
-// ===== ANCHORED YOGA THURSDAY (all 9 weeks) =====
-const YOGA_THURSDAY = {
-  title: 'Thursday — Yoga + Flexibility', subtitle: '🧘 Deep Stretching & Breathing (Anchored)', est: '~45 min',
-  sections: [
-    { name: '🐻 Full Animal Flow Session', time: '15 min', exercises: EXERCISES.flow, isFlow: true },
-    { name: '🧘 All 10 Hip Stretches', time: '15 min', exercises: EXERCISES.stretch, isStretch: true },
-    { name: '🧘‍♀️ Yoga Poses', time: '15 min', exercises: EXERCISES.yoga, isStretch: true },
-  ]
-};
+// ===== SCHEDULES FOR ALL 9 WEEKS (indexed 0-8) =====
+// Helper refs
+const E = EXERCISES;
 
-// ===== RECOVERY WEEK (same for weeks 3, 6, 9) =====
-const SCHEDULE_RECOVERY = {
-  1: {
-    title: 'Monday — Yoga + Light Movement', subtitle: '🧘 Recovery Week', est: '~45 min',
+const WEEK_SCHEDULES = [];
+
+// --- PHASE 1: Weeks 0,1 (Intensity), Week 2 (Recovery) ---
+// Phase 1 Intensity (weeks 0 & 1)
+const P1_INTENSE = {
+  1: { title: 'Monday — Chest + Back', subtitle: '💪 Push & Pull Supersets', est: '~45 min',
     sections: [
-      { name: '🐻 Full Animal Flow Session', time: '15 min', exercises: EXERCISES.flow, isFlow: true },
-      { name: '🧘 Deep Stretching', time: '20 min', exercises: EXERCISES.stretch, isStretch: true },
-      { name: '🧘‍♀️ Yoga Poses', time: '10 min', exercises: EXERCISES.yoga, isStretch: true },
+      { name: '🐻 Animal Flow Warmup', time: '8 min', exercises: E.flow.slice(0,5), isFlow: true },
+      { name: '🏋️ Chest + Back', time: '25 min', exercises: [E.push[0], E.bodyweight[0], E.pull[1], E.bodyweight[3], E.push[2], E.bodyweight[1], E.pull[0]] },
+      { name: '🧘 Hip Stretching', time: '5 min', exercises: [E.stretch[0], E.stretch[1], E.stretch[3], E.stretch[9]], isStretch: true },
     ]
   },
-  2: {
-    title: 'Tuesday — Light Cardio + Stretch', subtitle: '🧘 Recovery Week', est: '~45 min',
+  2: { title: 'Tuesday — Cardio Circuit', subtitle: '🔥 45s work / 15s rest, 2 rounds', est: '~45 min',
     sections: [
-      { name: '🐻 Easy Animal Flow', time: '15 min', exercises: EXERCISES.flow, isFlow: true },
-      { name: '🔔 Light Kettlebell (swings only)', time: '15 min', exercises: [EXERCISES.kb[0]] },
-      { name: '🧘 Stretching', time: '15 min', exercises: EXERCISES.stretch, isStretch: true },
+      { name: '🐻 Animal Flow Warmup', time: '8 min', exercises: E.flow.slice(0,5), isFlow: true },
+      { name: '🔥 Cardio Circuit', time: '30 min', exercises: [E.kb[0], E.flow[2], E.flow[0], E.flow[1], E.bodyweight[4], E.bodyweight[5], E.bodyweight[6], E.kb[2], E.flow[4], E.bodyweight[7]] },
+      { name: '🧘 Stretch Cooldown', time: '5 min', exercises: [E.stretch[0], E.stretch[4], E.stretch[9]], isStretch: true },
     ]
   },
-  3: {
-    title: 'Wednesday — Full Yoga Session', subtitle: '🧘 Recovery — Meditation Focus', est: '~45 min',
+  3: { title: 'Wednesday — Arms + Shoulders', subtitle: '💪 Biceps, Triceps, Delts', est: '~45 min',
     sections: [
-      { name: '🧘 All Stretches', time: '25 min', exercises: EXERCISES.stretch, isStretch: true },
-      { name: '🧘‍♀️ Yoga Poses + Deep Breathing', time: '20 min', exercises: EXERCISES.yoga, isStretch: true },
+      { name: '🐻 Animal Flow Warmup', time: '8 min', exercises: E.flow.slice(0,5), isFlow: true },
+      { name: '🏋️ Arms + Shoulders', time: '25 min', exercises: [E.pull[4], E.push[4], E.pull[5], E.push[3], E.push[5], E.bodyweight[2], E.push[6], E.push[7]] },
+      { name: '🧘 Stretch Cooldown', time: '5 min', exercises: [E.stretch[0], E.stretch[5], E.stretch[9]], isStretch: true },
     ]
   },
-  4: YOGA_THURSDAY,
-  5: {
-    title: 'Friday — Active Recovery', subtitle: '🧘 Recovery — Creative Movement', est: '~45 min',
+  4: { title: 'Thursday — Yoga + Flexibility', subtitle: '🧘 Deep Stretching & Breathing', est: '~45 min',
     sections: [
-      { name: '🐻 Animal Flow (creative, playful)', time: '20 min', exercises: EXERCISES.flow, isFlow: true },
-      { name: '🧘 Deep Stretching + Breathing', time: '25 min', exercises: [...EXERCISES.stretch, ...EXERCISES.yoga], isStretch: true },
+      { name: '🐻 Full Animal Flow Session', time: '15 min', exercises: E.flow, isFlow: true },
+      { name: '🧘 All 10 Hip Stretches', time: '15 min', exercises: E.stretch, isStretch: true },
+      { name: '🧘‍♀️ Yoga Poses', time: '15 min', exercises: E.yoga, isStretch: true },
+    ]
+  },
+  5: { title: 'Friday — Legs + Back', subtitle: '🦵 Lower Body + Pull', est: '~45 min',
+    sections: [
+      { name: '🐻 Animal Flow Warmup', time: '8 min', exercises: E.flow.slice(0,5), isFlow: true },
+      { name: '🏋️ Legs + Back', time: '25 min', exercises: [E.legs[1], E.bodyweight[3], E.legs[0], E.pull[1], E.legs[2], E.legs[3], E.kb[0]] },
+      { name: '🧘 Stretch Cooldown', time: '5 min', exercises: [E.stretch[0], E.stretch[1], E.stretch[3], E.stretch[8], E.stretch[9]], isStretch: true },
     ]
   }
 };
 
-// ===== PHASE 1 — Weeks 1-2 =====
-const SCHEDULE_P1 = {
-  1: { // Mon: Chest + Back
-    title: 'Monday — Chest + Back', subtitle: '💪 Push & Pull Supersets', est: '~45 min',
+// Recovery week template (used for weeks 2, 5, 8)
+const RECOVERY_WEEK = {
+  1: { title: 'Monday — Yoga + Light Movement', subtitle: '🧘 Recovery Week', est: '~45 min',
     sections: [
-      { name: '🐻 Animal Flow Warmup', time: '8 min', exercises: EXERCISES.flow.slice(0,5), isFlow: true },
-      { name: '🏋️ Chest + Back', time: '30 min', exercises: [
-        EXERCISES.push[0], EXERCISES.bodyweight[0], EXERCISES.pull[1],
-        EXERCISES.bodyweight[3], EXERCISES.push[2], EXERCISES.bodyweight[1], EXERCISES.pull[0],
-      ]},
-      { name: '🧘 Stretch Cooldown', time: '5 min', exercises: [EXERCISES.stretch[0], EXERCISES.stretch[1], EXERCISES.stretch[3], EXERCISES.stretch[9]], isStretch: true },
+      { name: '🐻 Full Animal Flow Session', time: '15 min', exercises: E.flow, isFlow: true },
+      { name: '🧘 Deep Stretching', time: '20 min', exercises: E.stretch, isStretch: true },
+      { name: '🧘‍♀️ Yoga Poses', time: '10 min', exercises: E.yoga, isStretch: true },
     ]
   },
-  2: { // Tue: Cardio + Continuous Movement
-    title: 'Tuesday — Cardio + Continuous Movement', subtitle: '🔥 Circuit: 45s work / 15s rest, 2-3 rounds', est: '~45 min',
+  2: { title: 'Tuesday — Light Cardio + Stretch', subtitle: '🧘 Recovery Week', est: '~45 min',
     sections: [
-      { name: '🐻 Animal Flow Warmup', time: '8 min', exercises: EXERCISES.flow.slice(0,5), isFlow: true },
-      { name: '🔥 Cardio Circuit', time: '30 min', exercises: [
-        EXERCISES.kb[0], EXERCISES.flow[2], EXERCISES.flow[0], EXERCISES.flow[1],
-        EXERCISES.bodyweight[4], EXERCISES.bodyweight[5], EXERCISES.bodyweight[6],
-        EXERCISES.kb[2], EXERCISES.flow[4], EXERCISES.flow[5], EXERCISES.bodyweight[7],
-      ]},
-      { name: '🧘 Stretch Cooldown', time: '5 min', exercises: [EXERCISES.stretch[0], EXERCISES.stretch[4], EXERCISES.stretch[9]], isStretch: true },
+      { name: '🐻 Easy Animal Flow', time: '15 min', exercises: E.flow, isFlow: true },
+      { name: '🔔 Light Kettlebell (swings only)', time: '15 min', exercises: [E.kb[0]] },
+      { name: '🧘 Stretching', time: '15 min', exercises: E.stretch, isStretch: true },
     ]
   },
-  3: { // Wed: Arms + Shoulders
-    title: 'Wednesday — Arms + Shoulders', subtitle: '💪 Biceps, Triceps, Delts', est: '~45 min',
+  3: { title: 'Wednesday — Full Yoga Session', subtitle: '🧘 Recovery Week — Meditation Focus', est: '~45 min',
     sections: [
-      { name: '🐻 Animal Flow Warmup', time: '8 min', exercises: EXERCISES.flow.slice(0,5), isFlow: true },
-      { name: '🏋️ Arms + Shoulders', time: '30 min', exercises: [
-        EXERCISES.pull[4], EXERCISES.push[4], EXERCISES.pull[5],
-        EXERCISES.push[3], EXERCISES.push[5], EXERCISES.bodyweight[2],
-        EXERCISES.push[6], EXERCISES.push[7],
-      ]},
-      { name: '🧘 Stretch Cooldown', time: '5 min', exercises: [EXERCISES.stretch[0], EXERCISES.stretch[5], EXERCISES.stretch[9]], isStretch: true },
+      { name: '🧘 All Stretches', time: '25 min', exercises: E.stretch, isStretch: true },
+      { name: '🧘‍♀️ Yoga Poses + Deep Breathing', time: '20 min', exercises: E.yoga, isStretch: true },
     ]
   },
-  4: YOGA_THURSDAY,
-  5: { // Fri: Legs + Back
-    title: 'Friday — Legs + Back', subtitle: '🦵 Lower Body + Pull', est: '~45 min',
+  4: { title: 'Thursday — Yoga + Flexibility', subtitle: '🧘 Recovery Week — ANCHORED', est: '~45 min',
     sections: [
-      { name: '🐻 Animal Flow Warmup', time: '8 min', exercises: EXERCISES.flow.slice(0,5), isFlow: true },
-      { name: '🏋️ Legs + Back', time: '30 min', exercises: [
-        EXERCISES.legs[1], EXERCISES.bodyweight[3], EXERCISES.legs[0],
-        EXERCISES.pull[1], EXERCISES.legs[2], EXERCISES.legs[3], EXERCISES.kb[0],
-      ]},
-      { name: '🧘 Stretch Cooldown', time: '5 min', exercises: [EXERCISES.stretch[0], EXERCISES.stretch[1], EXERCISES.stretch[3], EXERCISES.stretch[8], EXERCISES.stretch[9]], isStretch: true },
+      { name: '🐻 Full Animal Flow Session', time: '15 min', exercises: E.flow, isFlow: true },
+      { name: '🧘 All 10 Hip Stretches', time: '15 min', exercises: E.stretch, isStretch: true },
+      { name: '🧘‍♀️ Yoga Poses', time: '15 min', exercises: E.yoga, isStretch: true },
+    ]
+  },
+  5: { title: 'Friday — Active Recovery', subtitle: '🧘 Recovery Week — Creative Movement', est: '~45 min',
+    sections: [
+      { name: '🐻 Animal Flow (creative, playful)', time: '20 min', exercises: E.flow, isFlow: true },
+      { name: '🧘 Deep Stretching + Breathing', time: '25 min', exercises: [...E.stretch, ...E.yoga], isStretch: true },
     ]
   }
 };
 
-// ===== PHASE 2 — Weeks 4-5 (rotated days, new movements) =====
-const SCHEDULE_P2 = {
-  1: { // Mon: Legs + Shoulders
-    title: 'Monday — Legs + Shoulders', subtitle: '🦵💪 Lower Body + Delts', est: '~45 min',
+// Phase 2 Intensity (weeks 3 & 4)
+const P2_INTENSE = {
+  1: { title: 'Monday — Legs + Shoulders', subtitle: '🦵💪 Lower Body + Delts', est: '~45 min',
     sections: [
-      { name: '🐻 Animal Flow Warmup', time: '8 min', exercises: EXERCISES.flow.slice(0,5), isFlow: true },
-      { name: '🏋️ Legs + Shoulders', time: '30 min', exercises: [
-        EXERCISES.legs[1], EXERCISES.legs[2], EXERCISES.legs[4], // Goblet, Lunges, Sumo
-        EXERCISES.push[3], EXERCISES.push[5], EXERCISES.push[7], // OHP, Lat Raises, Front Raises
-        EXERCISES.kb[0], // KB Swings
-      ]},
-      { name: '🧘 Stretch Cooldown', time: '5 min', exercises: [EXERCISES.stretch[0], EXERCISES.stretch[3], EXERCISES.stretch[8], EXERCISES.stretch[9]], isStretch: true },
+      { name: '🐻 Animal Flow Warmup', time: '8 min', exercises: E.flow.slice(0,5), isFlow: true },
+      { name: '🏋️ Legs + Shoulders', time: '25 min', exercises: [E.legs[1], E.legs[4], E.legs[2], E.push[3], E.push[5], E.push[7], E.kb[0]] },
+      { name: '🧘 Stretch Cooldown', time: '5 min', exercises: [E.stretch[0], E.stretch[3], E.stretch[9]], isStretch: true },
     ]
   },
-  2: { // Tue: Chest + Triceps + Push-ups
-    title: 'Tuesday — Chest + Triceps', subtitle: '💪 Push Focus + Bodyweight', est: '~45 min',
+  2: { title: 'Tuesday — Chest + Triceps', subtitle: '💪 Push Focus', est: '~45 min',
     sections: [
-      { name: '🐻 Animal Flow Warmup', time: '8 min', exercises: EXERCISES.flow.slice(0,5), isFlow: true },
-      { name: '🏋️ Chest + Triceps', time: '30 min', exercises: [
-        EXERCISES.push[0], EXERCISES.push[2], // Incline Press, Flys
-        EXERCISES.bodyweight[1], EXERCISES.bodyweight[2], // Diamond, Close Grip
-        EXERCISES.push[4], EXERCISES.push[9], // Tricep Ext, Pike Push-ups
-        EXERCISES.kb[1], // KB Chest Press
-      ]},
-      { name: '🧘 Stretch Cooldown', time: '5 min', exercises: [EXERCISES.stretch[0], EXERCISES.stretch[1], EXERCISES.stretch[9]], isStretch: true },
+      { name: '🐻 Animal Flow Warmup', time: '8 min', exercises: E.flow.slice(0,5), isFlow: true },
+      { name: '🏋️ Chest + Triceps', time: '25 min', exercises: [E.push[0], E.push[1], E.push[2], E.bodyweight[1], E.bodyweight[2], E.push[4], E.bodyweight[12]] },
+      { name: '🧘 Stretch Cooldown', time: '5 min', exercises: [E.stretch[0], E.stretch[5], E.stretch[9]], isStretch: true },
     ]
   },
-  3: { // Wed: Back + Biceps + Pull-ups
-    title: 'Wednesday — Back + Biceps', subtitle: '🔙 Pull Focus + Bodyweight', est: '~45 min',
+  3: { title: 'Wednesday — Back + Biceps', subtitle: '🔙 Pull Focus', est: '~45 min',
     sections: [
-      { name: '🐻 Animal Flow Warmup', time: '8 min', exercises: EXERCISES.flow.slice(0,5), isFlow: true },
-      { name: '🏋️ Back + Biceps', time: '30 min', exercises: [
-        EXERCISES.pull[0], EXERCISES.pull[1], EXERCISES.pull[6], // Incline Row, SA Row, Renegade Rows
-        EXERCISES.bodyweight[3], // Pull-ups
-        EXERCISES.pull[4], EXERCISES.pull[5], // Curls, Hammer Curls
-        EXERCISES.pull[3], EXERCISES.pull[2], // Shrugs, Rear Delt Raises
-      ]},
-      { name: '🧘 Stretch Cooldown', time: '5 min', exercises: [EXERCISES.stretch[2], EXERCISES.stretch[4], EXERCISES.stretch[9]], isStretch: true },
+      { name: '🐻 Animal Flow Warmup', time: '8 min', exercises: E.flow.slice(0,5), isFlow: true },
+      { name: '🏋️ Back + Biceps', time: '25 min', exercises: [E.pull[0], E.pull[1], E.bodyweight[3], E.pull[2], E.pull[3], E.pull[4], E.pull[5]] },
+      { name: '🧘 Stretch Cooldown', time: '5 min', exercises: [E.stretch[0], E.stretch[4], E.stretch[9]], isStretch: true },
     ]
   },
-  4: YOGA_THURSDAY,
-  5: { // Fri: Full Body Cardio Circuit
-    title: 'Friday — Full Body Cardio Circuit', subtitle: '🔥 Mix Everything, High Intensity', est: '~45 min',
+  4: { title: 'Thursday — Yoga + Flexibility', subtitle: '🧘 ANCHORED — Deep Stretching & Breathing', est: '~45 min',
     sections: [
-      { name: '🐻 Animal Flow Warmup', time: '8 min', exercises: EXERCISES.flow.slice(0,5), isFlow: true },
-      { name: '🔥 Full Body Circuit', time: '30 min', exercises: [
-        EXERCISES.kb[0], EXERCISES.push[8], // KB Swings, Thrusters
-        EXERCISES.bodyweight[4], EXERCISES.bodyweight[5], // Mt Climbers, Burpees
-        EXERCISES.bodyweight[8], EXERCISES.bodyweight[9], // Plank Hold, Side Plank
-        EXERCISES.flow[0], EXERCISES.flow[1], // Bear Crawls, Crab Walks
-        EXERCISES.bodyweight[7], EXERCISES.kb[2], // Jump Squats, KB Rotational
-        EXERCISES.bodyweight[6], // High Knees
-      ]},
-      { name: '🧘 Stretch Cooldown', time: '5 min', exercises: [EXERCISES.stretch[0], EXERCISES.stretch[4], EXERCISES.stretch[6], EXERCISES.stretch[9]], isStretch: true },
+      { name: '🐻 Full Animal Flow Session', time: '15 min', exercises: E.flow, isFlow: true },
+      { name: '🧘 All 10 Hip Stretches', time: '15 min', exercises: E.stretch, isStretch: true },
+      { name: '🧘‍♀️ Yoga Poses', time: '15 min', exercises: E.yoga, isStretch: true },
+    ]
+  },
+  5: { title: 'Friday — Full Body Cardio Circuit', subtitle: '🔥 Total Body Blitz', est: '~45 min',
+    sections: [
+      { name: '🐻 Animal Flow Warmup', time: '8 min', exercises: E.flow.slice(0,5), isFlow: true },
+      { name: '🔥 Full Body Circuit', time: '30 min', exercises: [E.bodyweight[8], E.compound[0], E.bodyweight[9], E.bodyweight[10], E.kb[0], E.bodyweight[4], E.bodyweight[5], E.bodyweight[11]] },
+      { name: '🧘 Stretch Cooldown', time: '5 min', exercises: [E.stretch[0], E.stretch[4], E.stretch[9]], isStretch: true },
     ]
   }
 };
 
-// ===== PHASE 3 — Weeks 7-8 (rotated again, more new movements) =====
-const SCHEDULE_P3 = {
-  1: { // Mon: Push Power
-    title: 'Monday — Push Power', subtitle: '💪 Heavy Push + Bodyweight', est: '~45 min',
+// Phase 3 Intensity (weeks 6 & 7)
+const P3_INTENSE = {
+  1: { title: 'Monday — Push Power', subtitle: '💪 Heavy Push Day', est: '~45 min',
     sections: [
-      { name: '🐻 Animal Flow Warmup', time: '8 min', exercises: EXERCISES.flow.slice(0,5), isFlow: true },
-      { name: '🏋️ Push Power', time: '30 min', exercises: [
-        EXERCISES.push[0], EXERCISES.push[3], // Incline Press, OHP
-        EXERCISES.bodyweight[0], EXERCISES.push[9], // Wide Push-ups, Pike Push-ups
-        EXERCISES.push[4], EXERCISES.kb[1], // Tricep Ext, KB Chest Press
-        EXERCISES.push[10], EXERCISES.push[11], // Clean & Press, Pullover
-      ]},
-      { name: '🧘 Stretch Cooldown', time: '5 min', exercises: [EXERCISES.stretch[0], EXERCISES.stretch[1], EXERCISES.stretch[9]], isStretch: true },
+      { name: '🐻 Animal Flow Warmup', time: '8 min', exercises: E.flow.slice(0,5), isFlow: true },
+      { name: '🏋️ Push Power', time: '25 min', exercises: [E.push[1], E.push[0], E.push[3], E.bodyweight[11], E.bodyweight[0], E.push[4], E.kb[1]] },
+      { name: '🧘 Stretch Cooldown', time: '5 min', exercises: [E.stretch[0], E.stretch[5], E.stretch[9]], isStretch: true },
     ]
   },
-  2: { // Tue: Legs + Core
-    title: 'Tuesday — Legs + Core', subtitle: '🦵 Lower Body + Core Stability', est: '~45 min',
+  2: { title: 'Tuesday — Legs + Core', subtitle: '🦵 Lower Body + Core Blast', est: '~45 min',
     sections: [
-      { name: '🐻 Animal Flow Warmup', time: '8 min', exercises: EXERCISES.flow.slice(0,5), isFlow: true },
-      { name: '🏋️ Legs + Core', time: '30 min', exercises: [
-        EXERCISES.legs[1], EXERCISES.legs[2], EXERCISES.legs[0], // Goblet, Lunges, Split Squat
-        EXERCISES.legs[3], EXERCISES.legs[5], // RDL, Curtsy Lunges
-        EXERCISES.bodyweight[8], EXERCISES.bodyweight[4], // Plank Hold, Mt Climbers
-        EXERCISES.kb[0], // KB Swings
-      ]},
-      { name: '🧘 Stretch Cooldown', time: '5 min', exercises: [EXERCISES.stretch[0], EXERCISES.stretch[3], EXERCISES.stretch[8], EXERCISES.stretch[9]], isStretch: true },
+      { name: '🐻 Animal Flow Warmup', time: '8 min', exercises: E.flow.slice(0,5), isFlow: true },
+      { name: '🏋️ Legs + Core', time: '30 min', exercises: [E.legs[0], E.legs[1], E.legs[5], E.legs[3], E.bodyweight[9], E.bodyweight[13], E.bodyweight[4], E.kb[0]] },
+      { name: '🧘 Stretch Cooldown', time: '5 min', exercises: [E.stretch[0], E.stretch[1], E.stretch[3], E.stretch[9]], isStretch: true },
     ]
   },
-  3: { // Wed: Pull + Cardio
-    title: 'Wednesday — Pull + Cardio', subtitle: '🔙🔥 Rows, Pull-ups + Flow Circuits', est: '~45 min',
+  3: { title: 'Wednesday — Pull + Cardio', subtitle: '🔙🔥 Back + Conditioning', est: '~45 min',
     sections: [
-      { name: '🐻 Animal Flow Warmup', time: '8 min', exercises: EXERCISES.flow.slice(0,5), isFlow: true },
-      { name: '🏋️ Pull + Cardio Mix', time: '30 min', exercises: [
-        EXERCISES.pull[0], EXERCISES.bodyweight[3], EXERCISES.pull[4], // Rows, Pull-ups, Curls
-        EXERCISES.pull[6], // Renegade Rows
-        EXERCISES.flow[0], EXERCISES.flow[1], EXERCISES.flow[4], // Bear, Crab, Ape circuits
-        EXERCISES.kb[2], EXERCISES.bodyweight[11], // KB Rotational, Superman Hold
-      ]},
-      { name: '🧘 Stretch Cooldown', time: '5 min', exercises: [EXERCISES.stretch[2], EXERCISES.stretch[4], EXERCISES.stretch[7], EXERCISES.stretch[9]], isStretch: true },
+      { name: '🐻 Animal Flow Warmup', time: '8 min', exercises: E.flow.slice(0,5), isFlow: true },
+      { name: '🏋️ Pull + Cardio', time: '30 min', exercises: [E.bodyweight[3], E.pull[1], E.pull[0], E.pull[4], E.compound[2], E.flow[0], E.kb[2], E.bodyweight[6]] },
+      { name: '🧘 Stretch Cooldown', time: '5 min', exercises: [E.stretch[0], E.stretch[4], E.stretch[9]], isStretch: true },
     ]
   },
-  4: YOGA_THURSDAY,
-  5: { // Fri: Total Body Burnout
-    title: 'Friday — Total Body Burnout', subtitle: '🔥 1 from each group, 3 rounds, minimal rest', est: '~45 min',
+  4: { title: 'Thursday — Yoga + Flexibility', subtitle: '🧘 ANCHORED — Deep Stretching & Breathing', est: '~45 min',
     sections: [
-      { name: '🐻 Animal Flow Warmup', time: '8 min', exercises: EXERCISES.flow.slice(0,5), isFlow: true },
-      { name: '🔥 Total Body Burnout (3 rounds)', time: '30 min', exercises: [
-        EXERCISES.push[0], // Chest: Incline Press
-        EXERCISES.pull[1], // Back: SA Row
-        EXERCISES.legs[1], // Legs: Goblet Squat
-        EXERCISES.push[3], // Shoulders: OHP
-        EXERCISES.pull[4], // Biceps: Curls
-        EXERCISES.push[4], // Triceps: Extensions
-        EXERCISES.bodyweight[10], // Core: Commando Plank
-        EXERCISES.bodyweight[12], // Core: Plank to Push-up
-        EXERCISES.kb[0], // Finisher: KB Swings
-      ]},
-      { name: '🧘 Stretch Cooldown', time: '5 min', exercises: [EXERCISES.stretch[0], EXERCISES.stretch[2], EXERCISES.stretch[4], EXERCISES.stretch[6], EXERCISES.stretch[9]], isStretch: true },
+      { name: '🐻 Full Animal Flow Session', time: '15 min', exercises: E.flow, isFlow: true },
+      { name: '🧘 All 10 Hip Stretches', time: '15 min', exercises: E.stretch, isStretch: true },
+      { name: '🧘‍♀️ Yoga Poses', time: '15 min', exercises: E.yoga, isStretch: true },
+    ]
+  },
+  5: { title: 'Friday — Total Body Burnout', subtitle: '🔥 Circuit: 3 rounds, 30s rest', est: '~45 min',
+    sections: [
+      { name: '🐻 Animal Flow Warmup', time: '8 min', exercises: E.flow.slice(0,5), isFlow: true },
+      { name: '🔥 Total Body Burnout (3 rounds)', time: '30 min', exercises: [E.push[0], E.bodyweight[3], E.legs[1], E.push[3], E.pull[4], E.kb[0], E.bodyweight[9]] },
+      { name: '🧘 Stretch Cooldown', time: '5 min', exercises: [E.stretch[0], E.stretch[1], E.stretch[9]], isStretch: true },
     ]
   }
 };
 
-// Get schedule for current cycle position
+// Build WEEK_SCHEDULES array (index 0-8)
+WEEK_SCHEDULES[0] = P1_INTENSE; // Phase 1, Week 1
+WEEK_SCHEDULES[1] = P1_INTENSE; // Phase 1, Week 2
+WEEK_SCHEDULES[2] = RECOVERY_WEEK; // Phase 1, Week 3 (Recovery)
+WEEK_SCHEDULES[3] = P2_INTENSE; // Phase 2, Week 1
+WEEK_SCHEDULES[4] = P2_INTENSE; // Phase 2, Week 2
+WEEK_SCHEDULES[5] = RECOVERY_WEEK; // Phase 2, Week 3 (Recovery)
+WEEK_SCHEDULES[6] = P3_INTENSE; // Phase 3, Week 1
+WEEK_SCHEDULES[7] = P3_INTENSE; // Phase 3, Week 2
+WEEK_SCHEDULES[8] = RECOVERY_WEEK; // Phase 3, Week 3 (Recovery)
+
 function getCurrentSchedule() {
-  const cycle = getCycleWeek();
-  if (cycle.isRecovery) return SCHEDULE_RECOVERY;
-  if (cycle.phase === 1) return SCHEDULE_P1;
-  if (cycle.phase === 2) return SCHEDULE_P2;
-  return SCHEDULE_P3;
+  const info = getCycleInfo();
+  return WEEK_SCHEDULES[info.weekNum];
 }
 
 // ===== STATE =====
@@ -603,8 +562,21 @@ function showPage(page) {
   if (page === 'progress') renderProgress();
 }
 
+// ===== PHASE BANNER =====
+function renderBanner() {
+  const info = getCycleInfo();
+  const banner = document.getElementById('phase-banner');
+  if (info.isRecovery) {
+    banner.className = 'mt-2 rounded-xl p-2 text-center font-bold text-sm bg-purple-900/40 border border-purple-700/50 text-purple-300';
+  } else {
+    banner.className = 'mt-2 rounded-xl p-2 text-center font-bold text-sm bg-fire-500/20 border border-fire-500/40 text-fire-400';
+  }
+  banner.textContent = info.label;
+}
+
 // ===== TODAY =====
 function renderToday() {
+  renderBanner();
   const day = new Date().getDay(); // 0=Sun
   document.getElementById('header-date').textContent = new Date().toLocaleDateString('en-US',{weekday:'long',month:'short',day:'numeric'});
 
@@ -616,11 +588,11 @@ function renderToday() {
   document.getElementById('today-rest-day').classList.add('hide');
   document.getElementById('today-content').classList.remove('hide');
 
-  const cycle = getCycleWeek();
-  const currentSchedule = getCurrentSchedule();
-  const sched = currentSchedule[day];
+  const info = getCycleInfo();
+  const schedule = getCurrentSchedule();
+  const sched = schedule[day];
   document.getElementById('today-title').textContent = sched.title;
-  document.getElementById('today-subtitle').textContent = cycle.label + ' • ' + sched.subtitle;
+  document.getElementById('today-subtitle').textContent = info.label + ' • ' + sched.subtitle;
   document.getElementById('today-est-time').textContent = sched.est;
 
   // Load today's completed
@@ -632,7 +604,6 @@ function renderToday() {
   const completedCount = todayCompleted.size;
   document.getElementById('today-progress-text').textContent = `${completedCount}/${totalExercises} done`;
 
-  // Show complete button if all done
   const btn = document.getElementById('complete-workout-btn');
   if (completedCount >= totalExercises && !data[tk]?.workoutDone) {
     btn.classList.remove('hide');
@@ -644,7 +615,7 @@ function renderToday() {
   container.innerHTML = '';
   let exIndex = 0;
 
-  sched.sections.forEach((sec, si) => {
+  sched.sections.forEach((sec) => {
     const secEl = document.createElement('div');
     secEl.className = 'mb-6';
     secEl.innerHTML = `
@@ -654,10 +625,9 @@ function renderToday() {
       </div>
     `;
 
-    sec.exercises.forEach((ex, ei) => {
+    sec.exercises.forEach((ex) => {
       exIndex++;
       const done = todayCompleted.has(ex.id);
-      // Show hydration every 3rd exercise
       if (exIndex % 3 === 0 && exIndex > 0 && !hydrationDismissed) {
         const hydDiv = document.createElement('div');
         hydDiv.className = 'bg-cyan-900/20 border border-cyan-800/30 rounded-lg p-2 mb-2 text-center text-sm text-cyan-400';
@@ -791,20 +761,20 @@ function startRest(seconds) {
   }, 1000);
 }
 
-// ===== EXERCISES =====
+// ===== EXERCISES PAGE =====
 function renderExercises() {
   const search = (document.getElementById('exercise-search')?.value || '').toLowerCase();
   const container = document.getElementById('exercise-list');
   container.innerHTML = '';
 
-  const allExercises = [...EXERCISES.flow, ...EXERCISES.push, ...EXERCISES.pull, ...EXERCISES.legs, ...EXERCISES.bodyweight, ...EXERCISES.yoga, ...EXERCISES.stretch, ...EXERCISES.kb];
+  const allExercises = [...E.flow, ...E.push, ...E.pull, ...E.legs, ...E.bodyweight, ...E.compound, ...E.yoga, ...E.stretch, ...E.kb];
   const filtered = allExercises.filter(ex => {
     if (activeCat !== 'all' && ex.category !== activeCat) return false;
     if (search && !ex.name.toLowerCase().includes(search) && !ex.muscles.toLowerCase().includes(search)) return false;
     return true;
   });
 
-  const catLabels = { flow:'🐻 Animal Flow', push:'💪 Push', pull:'🔙 Pull', legs:'🦵 Legs', bodyweight:'🏃 Bodyweight', yoga:'🧘‍♀️ Yoga', stretch:'🧘 Stretch', kb:'🔔 Kettlebell' };
+  const catLabels = { flow:'🐻 Animal Flow', push:'💪 Push', pull:'🔙 Pull', legs:'🦵 Legs', bodyweight:'🏃 Bodyweight', compound:'🔥 Compound', yoga:'🧘‍♀️ Yoga', stretch:'🧘 Stretch', kb:'🔔 Kettlebell' };
   let lastCat = '';
 
   filtered.forEach(ex => {
@@ -851,40 +821,33 @@ function renderWeek() {
   container.innerHTML = '';
   const today = new Date().getDay();
   const data = loadData();
-  const cycle = getCycleWeek();
-  const currentSchedule = getCurrentSchedule();
+  const info = getCycleInfo();
+  const schedule = getCurrentSchedule();
 
-  // Cycle week banner
+  // Phase banner
   const banner = document.createElement('div');
-  banner.className = `rounded-xl p-3 mb-4 text-center font-bold ${cycle.isRecovery ? 'bg-purple-900/40 border border-purple-700/50 text-purple-300' : 'bg-fire-500/20 border border-fire-500/40 text-fire-400'}`;
-  banner.textContent = cycle.label;
+  banner.className = `rounded-xl p-3 mb-4 text-center font-bold ${info.isRecovery ? 'bg-purple-900/40 border border-purple-700/50 text-purple-300' : 'bg-fire-500/20 border border-fire-500/40 text-fire-400'}`;
+  banner.textContent = info.label;
   container.appendChild(banner);
 
-  const days = [1,2,3,4,5].map(d => ({
-    day: d,
-    label: currentSchedule[d].title.split(' — ')[0],
-    desc: currentSchedule[d].subtitle,
-  }));
-
-  // Calculate dates for this week
   const now = new Date();
   const mondayOffset = (now.getDay() === 0 ? -6 : 1) - now.getDay();
 
-  days.forEach(d => {
+  [1,2,3,4,5].forEach(d => {
     const date = new Date(now);
-    date.setDate(now.getDate() + mondayOffset + d.day - 1);
+    date.setDate(now.getDate() + mondayOffset + d - 1);
     const dk = date.toISOString().slice(0,10);
     const done = data[dk]?.workoutDone;
-    const isToday = d.day === today;
+    const isToday = d === today;
 
     const el = document.createElement('div');
     el.className = `bg-navy-800 rounded-xl p-4 cursor-pointer active:scale-[0.98] transition ${isToday ? 'ring-2 ring-fire-500' : ''} ${done ? 'opacity-70' : ''}`;
-    el.onclick = () => { showPage('today'); /* Could navigate to specific day */ };
+    el.onclick = () => { showPage('today'); };
     el.innerHTML = `
       <div class="flex items-center justify-between">
         <div>
-          <div class="font-bold ${isToday ? 'text-fire-500' : ''}">${d.label} ${isToday ? '← Today' : ''}</div>
-          <div class="text-sm text-slate-400">${d.desc}</div>
+          <div class="font-bold ${isToday ? 'text-fire-500' : ''}">${schedule[d].title.split(' — ')[0]} ${isToday ? '← Today' : ''}</div>
+          <div class="text-sm text-slate-400">${schedule[d].subtitle}</div>
         </div>
         <div class="text-2xl">${done ? '✅' : isToday ? '🔥' : '⬜'}</div>
       </div>
@@ -892,7 +855,6 @@ function renderWeek() {
     container.appendChild(el);
   });
 
-  // Weekend
   const we = document.createElement('div');
   we.className = 'bg-navy-800/50 rounded-xl p-4';
   we.innerHTML = `<div class="text-slate-500 text-center">🛋 <strong>Weekend</strong> — Rest or light walking</div>`;
@@ -904,21 +866,18 @@ function renderProgress() {
   const data = loadData();
   const tk = todayKey();
 
-  // Streak
   let streak = 0;
   const d = new Date();
-  // If today is done, start counting from today, else from yesterday
   while(true) {
     const key = d.toISOString().slice(0,10);
     const dow = d.getDay();
-    if (dow === 0 || dow === 6) { d.setDate(d.getDate()-1); continue; } // skip weekends
+    if (dow === 0 || dow === 6) { d.setDate(d.getDate()-1); continue; }
     if (data[key]?.workoutDone) { streak++; d.setDate(d.getDate()-1); }
-    else if (key === tk) { d.setDate(d.getDate()-1); } // today not done yet, check yesterday
+    else if (key === tk) { d.setDate(d.getDate()-1); }
     else break;
   }
   document.getElementById('stat-streak').textContent = streak;
 
-  // This week
   const now = new Date();
   const mondayOffset = (now.getDay() === 0 ? -6 : 1) - now.getDay();
   let weekDone = 0;
@@ -929,14 +888,11 @@ function renderProgress() {
   }
   document.getElementById('stat-week').textContent = Math.round(weekDone/5*100) + '%';
 
-  // Total
   const total = Object.values(data).filter(v => v?.workoutDone).length;
   document.getElementById('stat-total').textContent = total;
 
-  // Water
   renderWater();
 
-  // Heatmap (last 90 days)
   const heatmap = document.getElementById('heatmap');
   heatmap.innerHTML = '';
   for (let i = 89; i >= 0; i--) {
@@ -950,10 +906,9 @@ function renderProgress() {
     heatmap.appendChild(cell);
   }
 
-  // Weight exercise dropdown
   const sel = document.getElementById('weight-exercise');
   if (sel.options.length === 0) {
-    const weighted = [...EXERCISES.push, ...EXERCISES.pull, ...EXERCISES.legs, ...EXERCISES.bodyweight, ...EXERCISES.kb];
+    const weighted = [...E.push, ...E.pull, ...E.legs, ...E.bodyweight, ...E.compound, ...E.kb];
     weighted.forEach(ex => {
       const opt = document.createElement('option');
       opt.value = ex.id; opt.textContent = ex.name;
@@ -961,7 +916,6 @@ function renderProgress() {
     });
   }
 
-  // Weight history
   renderWeightHistory();
 }
 
@@ -1014,7 +968,7 @@ function renderWeightHistory() {
   const data = loadData();
   const container = document.getElementById('weight-history');
   const weights = (data.weights || []).slice(-20).reverse();
-  const allEx = [...EXERCISES.push, ...EXERCISES.pull, ...EXERCISES.legs, ...EXERCISES.bodyweight, ...EXERCISES.kb];
+  const allEx = [...E.push, ...E.pull, ...E.legs, ...E.bodyweight, ...E.compound, ...E.kb];
   const nameMap = Object.fromEntries(allEx.map(e => [e.id, e.name]));
   container.innerHTML = weights.length ? weights.map(w =>
     `<div class="flex justify-between"><span>${nameMap[w.exercise]||w.exercise}</span><span class="text-fire-400">${w.weight} lbs</span><span class="text-slate-500">${w.date}</span></div>`
@@ -1026,7 +980,7 @@ function exportData() {
   const blob = new Blob([JSON.stringify(data, null, 2)], {type:'application/json'});
   const a = document.createElement('a');
   a.href = URL.createObjectURL(blob);
-  a.download = 'pkd-exercise-data.json';
+  a.download = 'p45x-data.json';
   a.click();
 }
 
