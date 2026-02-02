@@ -293,49 +293,49 @@ const EXERCISES = {
 
 const SCHEDULE = {
   1: { // Monday
-    title: 'Monday — Push Day', subtitle: '💪 Chest, Shoulders, Triceps', est: '~65 min',
+    title: 'Monday — Push Day', subtitle: '💪 Chest, Shoulders, Triceps', est: '~45 min',
     sections: [
-      { name: '🐻 Free Movement Warmup', time: '12 min', exercises: EXERCISES.flow, isFlow: true },
-      { name: '🏋️ Push Day', time: '35-40 min', exercises: EXERCISES.push },
+      { name: '🐻 Free Movement Warmup', time: '8 min', exercises: EXERCISES.flow.slice(0,5), isFlow: true },
+      { name: '🏋️ Push Day', time: '25 min', exercises: [EXERCISES.push[0], EXERCISES.push[1], EXERCISES.push[3], EXERCISES.push[4]] },
       { name: '🔥 Kettlebell Finisher', time: '5 min', exercises: EXERCISES.kb },
-      { name: '🧘 Hip Stretching', time: '15 min', exercises: EXERCISES.stretch, isStretch: true },
+      { name: '🧘 Hip Stretching', time: '7 min', exercises: [EXERCISES.stretch[0], EXERCISES.stretch[1], EXERCISES.stretch[3], EXERCISES.stretch[5], EXERCISES.stretch[9]], isStretch: true },
     ]
   },
   2: { // Tuesday
-    title: 'Tuesday — Pull Day', subtitle: '🔙 Back, Biceps, Rear Delts', est: '~65 min',
+    title: 'Tuesday — Pull Day', subtitle: '🔙 Back, Biceps, Rear Delts', est: '~45 min',
     sections: [
-      { name: '🐻 Free Movement Warmup', time: '12 min', exercises: EXERCISES.flow, isFlow: true },
-      { name: '🏋️ Pull Day', time: '35-40 min', exercises: EXERCISES.pull },
+      { name: '🐻 Free Movement Warmup', time: '8 min', exercises: EXERCISES.flow.slice(0,5), isFlow: true },
+      { name: '🏋️ Pull Day', time: '25 min', exercises: [EXERCISES.pull[0], EXERCISES.pull[1], EXERCISES.pull[4], EXERCISES.pull[5]] },
       { name: '🔥 Kettlebell Finisher', time: '5 min', exercises: EXERCISES.kb },
-      { name: '🧘 Hip Stretching', time: '15 min', exercises: EXERCISES.stretch, isStretch: true },
+      { name: '🧘 Hip Stretching', time: '7 min', exercises: [EXERCISES.stretch[2], EXERCISES.stretch[4], EXERCISES.stretch[6], EXERCISES.stretch[7], EXERCISES.stretch[9]], isStretch: true },
     ]
   },
   3: { // Wednesday
-    title: 'Wednesday — Active Recovery', subtitle: '🧘 Movement + Deep Stretching', est: '~55 min',
+    title: 'Wednesday — Active Recovery', subtitle: '🧘 Movement + Deep Stretching', est: '~45 min',
     sections: [
-      { name: '🐻 Free Movement Full Session', time: '25 min', exercises: EXERCISES.flow, isFlow: true },
+      { name: '🐻 Free Movement Full Session', time: '15 min', exercises: EXERCISES.flow, isFlow: true },
       { name: '🧘 Deep Yoga/Stretching', time: '30 min', exercises: EXERCISES.stretch },
     ]
   },
   4: { // Thursday
-    title: 'Thursday — Leg Day', subtitle: '🦵 Quads, Glutes, Hamstrings', est: '~65 min',
+    title: 'Thursday — Leg Day', subtitle: '🦵 Quads, Glutes, Hamstrings', est: '~45 min',
     sections: [
-      { name: '🐻 Free Movement Warmup', time: '12 min', exercises: EXERCISES.flow, isFlow: true },
-      { name: '🏋️ Leg Day', time: '35-40 min', exercises: EXERCISES.legs },
+      { name: '🐻 Free Movement Warmup', time: '8 min', exercises: EXERCISES.flow.slice(0,5), isFlow: true },
+      { name: '🏋️ Leg Day', time: '25 min', exercises: [EXERCISES.legs[0], EXERCISES.legs[1], EXERCISES.legs[2], EXERCISES.legs[3]] },
       { name: '🔥 Kettlebell Finisher', time: '5 min', exercises: EXERCISES.kb },
-      { name: '🧘 Hip Stretching', time: '15 min', exercises: EXERCISES.stretch, isStretch: true },
+      { name: '🧘 Hip Stretching', time: '7 min', exercises: [EXERCISES.stretch[0], EXERCISES.stretch[1], EXERCISES.stretch[3], EXERCISES.stretch[8], EXERCISES.stretch[9]], isStretch: true },
     ]
   },
   5: { // Friday
-    title: 'Friday — Full Body', subtitle: '💥 Best of Each Day', est: '~55 min',
+    title: 'Friday — Full Body', subtitle: '💥 Best of Each Day', est: '~45 min',
     sections: [
-      { name: '🐻 Free Movement Warmup', time: '12 min', exercises: EXERCISES.flow, isFlow: true },
-      { name: '🏋️ Full Body Mix', time: '30 min', exercises: [
+      { name: '🐻 Free Movement Warmup', time: '8 min', exercises: EXERCISES.flow.slice(0,5), isFlow: true },
+      { name: '🏋️ Full Body Mix', time: '25 min', exercises: [
         EXERCISES.push[0], EXERCISES.push[3], // Incline Press, OHP
         EXERCISES.pull[0], EXERCISES.pull[4], // Incline Row, Curls
         EXERCISES.legs[1], EXERCISES.legs[3], // Goblet Squat, RDL
       ]},
-      { name: '🧘 Hip Stretching', time: '15 min', exercises: EXERCISES.stretch, isStretch: true },
+      { name: '🧘 Hip Stretching', time: '7 min', exercises: [EXERCISES.stretch[0], EXERCISES.stretch[2], EXERCISES.stretch[4], EXERCISES.stretch[6], EXERCISES.stretch[9]], isStretch: true },
     ]
   }
 };
