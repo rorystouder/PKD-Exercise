@@ -6,7 +6,7 @@
 <meta name="apple-mobile-web-app-capable" content="yes">
 <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
 <meta name="theme-color" content="#0f172a">
-<title>P45x — 9-Week Muscle Confusion</title>
+<title>Flow45 — 9-Week Muscle Confusion</title>
 <link rel="manifest" href="data:application/json;base64,eyJuYW1lIjoiUDQ1eCIsInNob3J0X25hbWUiOiJQNDV4Iiwic3RhcnRfdXJsIjoiLiIsImRpc3BsYXkiOiJzdGFuZGFsb25lIiwiYmFja2dyb3VuZF9jb2xvciI6IiMwZjE3MmEiLCJ0aGVtZV9jb2xvciI6IiMwZjE3MmEifQ==">
 <script src="https://cdn.tailwindcss.com"></script>
 <script>
@@ -43,7 +43,7 @@ body { font-family: 'Inter', sans-serif; -webkit-tap-highlight-color: transparen
   <!-- Header -->
   <header class="sticky top-0 z-40 bg-navy-950/95 backdrop-blur px-4 pt-3 pb-2 border-b border-slate-800">
     <div class="flex items-center justify-between">
-      <h1 class="text-xl font-extrabold text-fire-500">🏋️ P45x</h1>
+      <h1 class="text-xl font-extrabold text-fire-500">🏋️ Flow45</h1>
       <div id="header-timer" class="text-sm text-slate-400 hide">
         <span id="header-timer-display">00:00</span>
       </div>
@@ -252,14 +252,14 @@ const EXERCISES = {
     { id:'p3', name:'Dumbbell Flys', muscles:'Chest, front delts', sets:'3', reps:'12', rest:60, tips:'Wrist toward body, arms slightly bent, lower to just above chest, dumbbells touch at top.', category:'push', video:'https://www.youtube.com/watch?v=moafref0Jeg' },
     { id:'p4', name:'Dumbbell Overhead Press', muscles:'Shoulders, triceps', sets:'3', reps:'10', rest:90, tips:'Start at shoulder height, press straight overhead, avoid arching back, lower with control.', category:'push', video:'https://www.youtube.com/watch?v=k6tzKisR3NY' },
     { id:'p5', name:'Overhead Tricep Extension', muscles:'Triceps', sets:'3', reps:'12', rest:60, tips:'Over head not on head, only move forearm, fully extend, pause at extension.', category:'push', video:'https://www.youtube.com/watch?v=ECNgaxkXjGQ' },
-    { id:'p6', name:'Side Lateral Raises', muscles:'Side delts', sets:'3', reps:'15', rest:60, tips:'Arms at sides, raise to parallel, slight elbow bend, lower slowly.', category:'push', video:'https://www.youtube.com/watch?v=WerS-MuWM-o' },
-    { id:'p7', name:'Rear Delt Raises', muscles:'Rear delts, upper back', sets:'3', reps:'15', rest:60, tips:'Hinge at hips, raise arms to sides until parallel, slight elbow bend, lower slowly.', category:'push', video:'https://www.youtube.com/watch?v=WerS-MuWM-o' },
+    { id:'p6', name:'Side Lateral Raises', muscles:'Side delts', sets:'3', reps:'15', rest:60, tips:'Arms at sides, raise to parallel, slight elbow bend, lower slowly.', category:'push', video:'https://www.youtube.com/watch?v=PzsMitRdI_8' },
+    { id:'p7', name:'Rear Delt Raises', muscles:'Rear delts, upper back', sets:'3', reps:'15', rest:60, tips:'Hinge at hips, raise arms to sides until parallel, slight elbow bend, lower slowly.', category:'push', video:'https://www.youtube.com/watch?v=lPt0GqwaqEw' },
     { id:'p8', name:'Front Raises', muscles:'Front delts', sets:'3', reps:'12', rest:60, tips:'Hold in front of thighs, raise to shoulder height, slight elbow bend, lower slowly.', category:'push', video:'https://www.youtube.com/watch?v=h9xfpTrAvkE' },
   ],
   pull: [
-    { id:'r1', name:'Incline Dumbbell Row', muscles:'Upper back, lats', sets:'3', reps:'10', rest:90, tips:'Start fully extended, pull toward hips not straight up, sweeping motion, hold at top.', category:'pull', video:'https://www.youtube.com/watch?v=WerS-MuWM-o' },
+    { id:'r1', name:'Incline Dumbbell Row', muscles:'Upper back, lats', sets:'3', reps:'10', rest:90, tips:'Start fully extended, pull toward hips not straight up, sweeping motion, hold at top.', category:'pull', video:'https://www.youtube.com/watch?v=tZUYS7X50so' },
     { id:'r2', name:'Single Arm Dumbbell Row', muscles:'Lats, rhomboids', sets:'3', reps:'10/side', rest:60, tips:'One arm/knee on bench, pull toward hips, sweeping motion, hold at top.', category:'pull', video:'https://www.youtube.com/watch?v=gfUg6qWohTk' },
-    { id:'r3', name:'Rear Delt Raises', muscles:'Rear delts, upper back', sets:'3', reps:'12-15', rest:60, tips:'Hinge at hips, raise arms to sides until parallel, slight elbow bend, lower slowly.', category:'pull', video:'https://www.youtube.com/watch?v=WerS-MuWM-o' },
+    { id:'r3', name:'Rear Delt Raises', muscles:'Rear delts, upper back', sets:'3', reps:'12-15', rest:60, tips:'Hinge at hips, raise arms to sides until parallel, slight elbow bend, lower slowly.', category:'pull', video:'https://www.youtube.com/watch?v=lPt0GqwaqEw' },
     { id:'r4', name:'Dumbbell Shrugs', muscles:'Traps', sets:'3', reps:'10-12', rest:60, tips:'Hold at sides, shrug as high as possible, straight up/down not rolling, hold at top.', category:'pull', video:'https://www.youtube.com/watch?v=rFsSeClGnNA' },
     { id:'r5', name:'Bicep Curls', muscles:'Biceps', sets:'3', reps:'12', rest:60, tips:"Don't swing, only move forearms, squeeze at top, go slow.", category:'pull', video:'https://www.youtube.com/watch?v=iui51E31sX8' },
     { id:'r6', name:'Hammer Curls', muscles:'Biceps, brachialis', sets:'3', reps:'12', rest:60, tips:"Don't swing, only forearms, stable wrist, arms in front of body.", category:'pull', video:'https://www.youtube.com/watch?v=tYeMmwiwoMQ' },
@@ -267,7 +267,7 @@ const EXERCISES = {
   legs: [
     { id:'l1', name:'Bulgarian Split Squat', muscles:'Quads, glutes', sets:'3', reps:'10/leg', rest:90, tips:'One foot on bench behind, lower to 90°, stay upright, push through front heel.', category:'legs', video:'https://www.youtube.com/watch?v=9p5e2BSvoLs' },
     { id:'l2', name:'Goblet Squat', muscles:'Quads, glutes, core', sets:'3', reps:'12', rest:90, tips:'Hold dumbbell at chest, feet shoulder-width, squat to parallel, chest up, push through heels.', category:'legs', video:'https://www.youtube.com/watch?v=Pa9kbI4WB6Y' },
-    { id:'l3', name:'Walking Lunges', muscles:'Quads, glutes, hamstrings', sets:'3', reps:'10/leg', rest:90, tips:'Hold at sides, step forward to 90°, push through front heel, torso upright.', category:'legs', video:'https://www.youtube.com/watch?v=JbUXUCoWvQ4' },
+    { id:'l3', name:'Walking Lunges', muscles:'Quads, glutes, hamstrings', sets:'3', reps:'10/leg', rest:90, tips:'Hold at sides, step forward to 90°, push through front heel, torso upright.', category:'legs', video:'https://www.youtube.com/watch?v=L8fvypPrzzs' },
     { id:'l4', name:'Romanian Deadlift', muscles:'Hamstrings, glutes, lower back', sets:'3', reps:'10', rest:90, tips:'Hold in front, hinge hips, keep back straight, lower until hamstring stretch, drive through heels.', category:'legs', video:'https://www.youtube.com/watch?v=hQgFixeXdZo' },
     { id:'l5', name:'Sumo Squats', muscles:'Inner thighs, quads, glutes', sets:'3', reps:'12', rest:90, tips:'Wide stance, toes pointed out, hold DB at center. Squat deep, knees track toes.', category:'legs', video:'https://www.youtube.com/watch?v=c44X65gbyHQ' },
     { id:'l6', name:'Curtsy Lunges', muscles:'Glutes, inner thighs', sets:'3', reps:'10/leg', rest:90, tips:'Step one leg behind and across, lower into lunge. Targets glutes and inner thighs.', category:'legs', video:'https://www.youtube.com/watch?v=0f-njCiEIFM' },
@@ -281,7 +281,7 @@ const EXERCISES = {
     { id:'bw6', name:'Burpees (PKD-safe)', muscles:'Full body cardio', sets:'45s', reps:'continuous', tips:'Squat down, step back to plank (no jump back), step forward, stand. Skip the push-up to reduce strain.', category:'bodyweight', video:'https://www.youtube.com/watch?v=gYiE_2BtSTg' },
     { id:'bw7', name:'High Knees', muscles:'Cardio, hip flexors', sets:'45s', reps:'continuous', tips:'Run in place, drive knees above hip height, pump arms.', category:'bodyweight', video:'https://www.youtube.com/watch?v=0X0Q8wKLEfo' },
     { id:'bw8', name:'Jump Squats', muscles:'Quads, glutes, cardio', sets:'45s', reps:'continuous', tips:'Bodyweight squat, explode up, land soft. ⚠️ PKD: skip if uncomfortable, sub regular squats.', category:'bodyweight', video:'https://www.youtube.com/watch?v=XOTO2qWRy9U' },
-    { id:'bw9', name:'Renegade Rows', muscles:'Back, core, arms', sets:'3', reps:'8/side', rest:60, tips:'Plank position, row one DB at a time. Core tight, don\'t rotate hips.', category:'bodyweight', video:'https://www.youtube.com/watch?v=JbUXUCoWvQ4' },
+    { id:'bw9', name:'Renegade Rows', muscles:'Back, core, arms', sets:'3', reps:'8/side', rest:60, tips:'Plank position, row one DB at a time. Core tight, don\'t rotate hips.', category:'bodyweight', video:'https://www.youtube.com/watch?v=Ek5xHUVSsAM' },
     { id:'bw10', name:'Plank Hold', muscles:'Core, shoulders', sets:'1', reps:'60s hold', tips:'Forearms on ground, straight line head to heels. Squeeze core, breathe steadily.', category:'bodyweight', video:'https://www.youtube.com/watch?v=O83fmDwTYpg' },
     { id:'bw11', name:'Side Plank', muscles:'Obliques, core', sets:'1', reps:'30s/side', tips:'On one forearm, stack feet, hips high. 30s each side.', category:'bodyweight', video:'https://www.youtube.com/watch?v=N_s9em1xTqU' },
     { id:'bw12', name:'Pike Push-ups', muscles:'Shoulders, triceps', sets:'3', reps:'8', rest:60, tips:'Feet elevated or hips high in inverted V. Press head toward floor. Targets shoulders.', category:'bodyweight', video:'https://www.youtube.com/watch?v=_wYRaVHVr6g' },
@@ -303,10 +303,10 @@ const EXERCISES = {
     { id:'y5', name:'Chair Pose', muscles:'Quads, glutes, core', sets:'30-60s', reps:'hold', tips:'Feet together, sit back like sitting in chair, arms overhead. Weight in heels.', category:'yoga', video:'https://www.youtube.com/watch?v=_GIKyB_n1TA' },
   ],
   stretch: [
-    { id:'s1', name:'90/90 Hip Stretch', muscles:'Hip rotators', sets:'30-60s', reps:'each side', tips:'Front leg 90°, back leg 90°. Sit tall, lean forward gently. Breathe deeply.', category:'stretch', video:'https://www.youtube.com/watch?v=63-ofNUgKCk' },
+    { id:'s1', name:'90/90 Hip Stretch', muscles:'Hip rotators', sets:'30-60s', reps:'each side', tips:'Front leg 90°, back leg 90°. Sit tall, lean forward gently. Breathe deeply.', category:'stretch', video:'https://www.youtube.com/watch?v=VYvMMw8z3rE' },
     { id:'s2', name:'Pigeon Pose', muscles:'Hip flexors, glutes', sets:'30-60s', reps:'each side', tips:'Front shin across mat, back leg extended. Square hips. Fold forward for deeper stretch.', category:'stretch', video:'https://www.youtube.com/watch?v=op-eDU9eNqM' },
     { id:'s3', name:'Deep Squat Hold (Malasana)', muscles:'Hips, ankles, inner thighs', sets:'60s', reps:'hold', tips:'Feet wider than hips, toes out. Elbows press knees out. Spine long.', category:'stretch', video:'https://www.youtube.com/watch?v=d-YleDG6Xu4' },
-    { id:'s4', name:'Hip Flexor Lunge Stretch', muscles:'Hip flexors, psoas', sets:'30-60s', reps:'each side', tips:'Low lunge, back knee down. Push hips forward. Reach arm overhead for deeper stretch.', category:'stretch', video:'https://www.youtube.com/watch?v=63-ofNUgKCk' },
+    { id:'s4', name:'Hip Flexor Lunge Stretch', muscles:'Hip flexors, psoas', sets:'30-60s', reps:'each side', tips:'Low lunge, back knee down. Push hips forward. Reach arm overhead for deeper stretch.', category:'stretch', video:'https://www.youtube.com/watch?v=NVzs5gy11wQ' },
     { id:'s5', name:'Figure-4 Stretch', muscles:'Piriformis, glutes', sets:'30-60s', reps:'each side', tips:'On back, ankle on opposite knee. Pull bottom leg toward chest. Keep head down.', category:'stretch', video:'https://www.youtube.com/watch?v=Xb5gHdYtHnk' },
     { id:'s6', name:'Butterfly Stretch', muscles:'Inner thighs, hips', sets:'60s', reps:'hold', tips:'Soles together, knees out. Hold feet, gently press knees down. Sit tall.', category:'stretch', video:'https://www.youtube.com/watch?v=4J7kbCmPScQ' },
     { id:'s7', name:'Happy Baby Pose', muscles:'Inner thighs, hips, lower back', sets:'60s', reps:'hold', tips:'On back, grab outside of feet. Pull knees toward armpits. Rock gently.', category:'stretch', video:'https://www.youtube.com/watch?v=mrPIRr0cwcg' },
@@ -321,7 +321,7 @@ const EXERCISES = {
   ]
 };
 
-// ===== P45X 9-WEEK CYCLE LOGIC =====
+// ===== Flow45 9-WEEK CYCLE LOGIC =====
 const CYCLE_START = new Date(2026, 1, 3); // Feb 3, 2026 (Monday)
 
 function getCycleInfo() {
@@ -329,13 +329,13 @@ function getCycleInfo() {
   const daysSinceStart = Math.floor((now - CYCLE_START) / (1000*60*60*24));
   // Before program starts
   if (daysSinceStart < 0) {
-    return { weekNum: 0, phase: 1, weekInPhase: 1, isRecovery: false, label: 'P45x — Phase 1, Week 1 — INTENSITY 🔥' };
+    return { weekNum: 0, phase: 1, weekInPhase: 1, isRecovery: false, label: 'Flow45 — Phase 1, Week 1 — INTENSITY 🔥' };
   }
   const weekNum = Math.floor(daysSinceStart / 7) % 9; // 0-8
   const phase = weekNum < 3 ? 1 : weekNum < 6 ? 2 : 3;
   const weekInPhase = (weekNum % 3) + 1;
   const isRecovery = weekInPhase === 3;
-  const label = `P45x — Phase ${phase}, Week ${weekInPhase} — ${isRecovery ? 'RECOVERY 🧘' : 'INTENSITY 🔥'}`;
+  const label = `Flow45 — Phase ${phase}, Week ${weekInPhase} — ${isRecovery ? 'RECOVERY 🧘' : 'INTENSITY 🔥'}`;
   return { weekNum, phase, weekInPhase, isRecovery, label };
 }
 
@@ -1094,7 +1094,7 @@ function exportData() {
   const blob = new Blob([JSON.stringify(data, null, 2)], {type:'application/json'});
   const a = document.createElement('a');
   a.href = URL.createObjectURL(blob);
-  a.download = 'p45x-data.json';
+  a.download = 'flow45-data.json';
   a.click();
 }
 
