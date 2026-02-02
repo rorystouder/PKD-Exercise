@@ -1,0 +1,802 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+<meta name="theme-color" content="#0f172a">
+<title>PKD Exercise Routine</title>
+<link rel="manifest" href="data:application/json;base64,eyJuYW1lIjoiUEtEIEV4ZXJjaXNlIiwic2hvcnRfbmFtZSI6IlBLRCBGaXQiLCJzdGFydF91cmwiOiIuIiwiZGlzcGxheSI6InN0YW5kYWxvbmUiLCJiYWNrZ3JvdW5kX2NvbG9yIjoiIzBmMTcyYSIsInRoZW1lX2NvbG9yIjoiIzBmMTcyYSJ9">
+<script src="https://cdn.tailwindcss.com"></script>
+<script>
+tailwind.config = {
+  theme: {
+    extend: {
+      colors: {
+        navy: { 800: '#1e293b', 900: '#0f172a', 950: '#020617' },
+        fire: { 400: '#fb923c', 500: '#f97316', 600: '#ea580c' }
+      }
+    }
+  }
+}
+</script>
+<style>
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700;800&display=swap');
+body { font-family: 'Inter', sans-serif; -webkit-tap-highlight-color: transparent; }
+.tab-active { color: #f97316; }
+.hide { display: none !important; }
+::-webkit-scrollbar { width: 4px; }
+::-webkit-scrollbar-thumb { background: #334155; border-radius: 4px; }
+.exercise-card { transition: all 0.2s; }
+.exercise-card.completed { opacity: 0.5; }
+.heatmap-cell { width: 14px; height: 14px; border-radius: 2px; }
+@keyframes pulse-orange { 0%,100% { box-shadow: 0 0 0 0 rgba(249,115,22,0.4); } 50% { box-shadow: 0 0 0 12px rgba(249,115,22,0); } }
+.timer-active { animation: pulse-orange 1.5s infinite; }
+.water-drop { animation: wobble 0.5s; }
+@keyframes wobble { 0%,100% { transform: scale(1); } 50% { transform: scale(1.3); } }
+</style>
+</head>
+<body class="bg-navy-950 text-gray-100 min-h-screen pb-24 select-none">
+
+<div id="app">
+  <!-- Header -->
+  <header class="sticky top-0 z-40 bg-navy-950/95 backdrop-blur px-4 pt-3 pb-2 border-b border-slate-800">
+    <div class="flex items-center justify-between">
+      <h1 class="text-xl font-extrabold text-fire-500">🏋️ PKD Fit</h1>
+      <div id="header-timer" class="text-sm text-slate-400 hide">
+        <span id="header-timer-display">00:00</span>
+      </div>
+      <div class="text-xs text-slate-500" id="header-date"></div>
+    </div>
+  </header>
+
+  <!-- Pages -->
+  <main class="px-4 py-4 max-w-lg mx-auto">
+    <!-- TODAY PAGE -->
+    <div id="page-today" class="page">
+      <div id="today-rest-day" class="hide text-center py-16">
+        <div class="text-6xl mb-4">😴</div>
+        <h2 class="text-2xl font-bold mb-2">Rest Day</h2>
+        <p class="text-slate-400">Light walking or full rest. You earned it!</p>
+        <p class="text-slate-500 mt-4 text-sm">💧 Still drink your water!</p>
+      </div>
+      <div id="today-content">
+        <div class="flex items-center justify-between mb-4">
+          <div>
+            <h2 class="text-lg font-bold" id="today-title"></h2>
+            <p class="text-sm text-slate-400" id="today-subtitle"></p>
+          </div>
+          <div class="text-right">
+            <div class="text-xs text-slate-500" id="today-est-time"></div>
+            <div class="text-xs text-fire-400" id="today-progress-text"></div>
+          </div>
+        </div>
+
+        <!-- PKD Notice -->
+        <div class="bg-blue-900/30 border border-blue-800/50 rounded-xl p-3 mb-4 text-sm">
+          <p class="text-blue-300">⚠️ <strong>PKD Reminder:</strong> Moderate weight, perfect form. Avoid heavy straining & valsalva. Breathe through every rep.</p>
+        </div>
+
+        <!-- Workout Timer -->
+        <div id="workout-timer-section" class="bg-navy-800 rounded-2xl p-4 mb-4">
+          <div class="flex items-center justify-between">
+            <div>
+              <div class="text-3xl font-mono font-bold" id="timer-display">00:00</div>
+              <div class="text-xs text-slate-400" id="timer-label">Workout Timer</div>
+            </div>
+            <div class="flex gap-2">
+              <button onclick="toggleTimer()" id="timer-btn" class="bg-fire-500 hover:bg-fire-600 text-white font-bold px-6 py-3 rounded-xl text-lg active:scale-95 transition">▶️</button>
+              <button onclick="resetTimer()" class="bg-slate-700 hover:bg-slate-600 text-white px-4 py-3 rounded-xl active:scale-95 transition">↺</button>
+            </div>
+          </div>
+          <!-- Rest Timer -->
+          <div id="rest-timer-section" class="hide mt-3 pt-3 border-t border-slate-700">
+            <div class="flex items-center justify-between">
+              <span class="text-sm text-fire-400">Rest Timer</span>
+              <div class="flex gap-2">
+                <button onclick="startRest(30)" class="bg-slate-700 px-3 py-1 rounded text-sm">30s</button>
+                <button onclick="startRest(60)" class="bg-slate-700 px-3 py-1 rounded text-sm">60s</button>
+                <button onclick="startRest(90)" class="bg-slate-700 px-3 py-1 rounded text-sm">90s</button>
+              </div>
+            </div>
+            <div class="text-center text-2xl font-mono font-bold mt-2 text-fire-400" id="rest-display">--</div>
+          </div>
+        </div>
+
+        <!-- Hydration Reminder -->
+        <div id="hydration-reminder" class="hide bg-cyan-900/30 border border-cyan-700/40 rounded-xl p-3 mb-4 text-center">
+          <span class="text-2xl water-drop inline-block">💧</span>
+          <span class="text-cyan-300 font-semibold ml-2">Time for water! Stay hydrated.</span>
+          <button onclick="dismissHydration()" class="ml-2 text-cyan-500 underline text-sm">Got it</button>
+        </div>
+
+        <!-- Exercise Sections -->
+        <div id="today-sections"></div>
+
+        <!-- Complete Workout -->
+        <button id="complete-workout-btn" onclick="completeWorkout()" class="hide w-full bg-green-600 hover:bg-green-500 text-white font-bold py-4 rounded-2xl text-lg mt-4 active:scale-95 transition">
+          ✅ Complete Workout
+        </button>
+      </div>
+    </div>
+
+    <!-- EXERCISES PAGE -->
+    <div id="page-exercises" class="page hide">
+      <div class="mb-4">
+        <input type="search" id="exercise-search" placeholder="Search exercises..." oninput="filterExercises()" class="w-full bg-navy-800 border border-slate-700 rounded-xl px-4 py-3 text-sm focus:outline-none focus:border-fire-500">
+      </div>
+      <div class="flex gap-2 mb-4 overflow-x-auto pb-1" id="category-filters">
+        <button onclick="filterCategory('all')" class="cat-btn bg-fire-500 text-white px-3 py-1.5 rounded-lg text-sm whitespace-nowrap font-semibold" data-cat="all">All</button>
+        <button onclick="filterCategory('flow')" class="cat-btn bg-slate-700 text-slate-300 px-3 py-1.5 rounded-lg text-sm whitespace-nowrap" data-cat="flow">🐻 Animal Flow</button>
+        <button onclick="filterCategory('push')" class="cat-btn bg-slate-700 text-slate-300 px-3 py-1.5 rounded-lg text-sm whitespace-nowrap" data-cat="push">💪 Push</button>
+        <button onclick="filterCategory('pull')" class="cat-btn bg-slate-700 text-slate-300 px-3 py-1.5 rounded-lg text-sm whitespace-nowrap" data-cat="pull">🔙 Pull</button>
+        <button onclick="filterCategory('legs')" class="cat-btn bg-slate-700 text-slate-300 px-3 py-1.5 rounded-lg text-sm whitespace-nowrap" data-cat="legs">🦵 Legs</button>
+        <button onclick="filterCategory('stretch')" class="cat-btn bg-slate-700 text-slate-300 px-3 py-1.5 rounded-lg text-sm whitespace-nowrap" data-cat="stretch">🧘 Stretch</button>
+      </div>
+      <div id="exercise-list"></div>
+    </div>
+
+    <!-- WEEK PAGE -->
+    <div id="page-week" class="page hide">
+      <h2 class="text-lg font-bold mb-4">📅 This Week</h2>
+      <div id="week-grid" class="space-y-3"></div>
+    </div>
+
+    <!-- PROGRESS PAGE -->
+    <div id="page-progress" class="page hide">
+      <h2 class="text-lg font-bold mb-4">📊 Progress</h2>
+
+      <!-- Stats -->
+      <div class="grid grid-cols-3 gap-3 mb-6">
+        <div class="bg-navy-800 rounded-xl p-3 text-center">
+          <div class="text-2xl font-bold text-fire-500" id="stat-streak">0</div>
+          <div class="text-xs text-slate-400">Day Streak</div>
+        </div>
+        <div class="bg-navy-800 rounded-xl p-3 text-center">
+          <div class="text-2xl font-bold text-fire-500" id="stat-week">0%</div>
+          <div class="text-xs text-slate-400">This Week</div>
+        </div>
+        <div class="bg-navy-800 rounded-xl p-3 text-center">
+          <div class="text-2xl font-bold text-fire-500" id="stat-total">0</div>
+          <div class="text-xs text-slate-400">Total</div>
+        </div>
+      </div>
+
+      <!-- Water Tracker -->
+      <div class="bg-navy-800 rounded-xl p-4 mb-6">
+        <h3 class="font-bold mb-3">💧 Water Intake Today</h3>
+        <div class="flex items-center gap-3">
+          <div class="flex gap-1" id="water-glasses"></div>
+          <span class="text-sm text-slate-400" id="water-count">0/8</span>
+        </div>
+        <div class="flex gap-2 mt-3">
+          <button onclick="addWater()" class="bg-cyan-700 hover:bg-cyan-600 px-4 py-2 rounded-lg text-sm font-semibold active:scale-95 transition">+ Glass</button>
+          <button onclick="resetWater()" class="bg-slate-700 px-3 py-2 rounded-lg text-sm active:scale-95 transition">Reset</button>
+        </div>
+      </div>
+
+      <!-- Calendar Heatmap -->
+      <div class="bg-navy-800 rounded-xl p-4 mb-6">
+        <h3 class="font-bold mb-3">Workout Calendar</h3>
+        <div id="heatmap" class="flex flex-wrap gap-1"></div>
+        <div class="flex gap-3 mt-2 text-xs text-slate-500">
+          <span class="flex items-center gap-1"><span class="heatmap-cell bg-slate-700 inline-block"></span> No workout</span>
+          <span class="flex items-center gap-1"><span class="heatmap-cell bg-fire-500 inline-block"></span> Completed</span>
+        </div>
+      </div>
+
+      <!-- Weight Log -->
+      <div class="bg-navy-800 rounded-xl p-4 mb-6">
+        <h3 class="font-bold mb-3">🏋️ Weight Log</h3>
+        <div class="flex gap-2 mb-3">
+          <select id="weight-exercise" class="bg-slate-700 rounded-lg px-3 py-2 text-sm flex-1">
+          </select>
+          <input type="number" id="weight-value" placeholder="lbs" class="bg-slate-700 rounded-lg px-3 py-2 text-sm w-20">
+          <button onclick="logWeight()" class="bg-fire-500 px-3 py-2 rounded-lg text-sm font-semibold active:scale-95">Log</button>
+        </div>
+        <div id="weight-history" class="text-sm text-slate-400 max-h-40 overflow-y-auto space-y-1"></div>
+      </div>
+
+      <!-- Data Management -->
+      <div class="bg-navy-800 rounded-xl p-4">
+        <h3 class="font-bold mb-3">⚙️ Data</h3>
+        <div class="flex gap-2">
+          <button onclick="exportData()" class="bg-slate-700 px-4 py-2 rounded-lg text-sm">Export</button>
+          <button onclick="if(confirm('Reset all data?'))resetAllData()" class="bg-red-900/50 text-red-400 px-4 py-2 rounded-lg text-sm">Reset All</button>
+        </div>
+      </div>
+    </div>
+  </main>
+</div>
+
+<!-- Bottom Nav -->
+<nav class="fixed bottom-0 left-0 right-0 bg-navy-900/95 backdrop-blur border-t border-slate-800 z-50">
+  <div class="flex justify-around max-w-lg mx-auto">
+    <button onclick="showPage('today')" class="nav-btn flex flex-col items-center py-3 px-4 tab-active" data-page="today">
+      <span class="text-xl">💪</span><span class="text-[10px] mt-0.5">Today</span>
+    </button>
+    <button onclick="showPage('exercises')" class="nav-btn flex flex-col items-center py-3 px-4 text-slate-500" data-page="exercises">
+      <span class="text-xl">📚</span><span class="text-[10px] mt-0.5">Exercises</span>
+    </button>
+    <button onclick="showPage('week')" class="nav-btn flex flex-col items-center py-3 px-4 text-slate-500" data-page="week">
+      <span class="text-xl">📅</span><span class="text-[10px] mt-0.5">Week</span>
+    </button>
+    <button onclick="showPage('progress')" class="nav-btn flex flex-col items-center py-3 px-4 text-slate-500" data-page="progress">
+      <span class="text-xl">📊</span><span class="text-[10px] mt-0.5">Progress</span>
+    </button>
+  </div>
+</nav>
+
+<script>
+// ===== DATA =====
+const EXERCISES = {
+  flow: [
+    { id:'f1', name:'Bear Crawls', muscles:'Full body, shoulders, core', sets:'30-40s', reps:'continuous', tips:'Stay low, opposite hand/foot move together. Keep hips level.', category:'flow' },
+    { id:'f2', name:'Crab Walks', muscles:'Triceps, glutes, core', sets:'30-40s', reps:'continuous', tips:'Hips high, fingers pointing back. Move smoothly.', category:'flow' },
+    { id:'f3', name:'Frog Squats', muscles:'Hips, quads, glutes', sets:'30-40s', reps:'continuous', tips:'Deep squat position, hands touch ground, explosive up.', category:'flow' },
+    { id:'f4', name:'Scorpion Reaches', muscles:'Hip flexors, thoracic spine', sets:'30-40s', reps:'alternating', tips:'Face down, reach foot to opposite side. Control the rotation.', category:'flow' },
+    { id:'f5', name:'Ape Movements', muscles:'Hips, quads, shoulders', sets:'30-40s', reps:'continuous', tips:'Lateral shuffles in deep squat, hands touch ground between steps.', category:'flow' },
+    { id:'f6', name:'Beast to Crab Transitions', muscles:'Full body, coordination', sets:'30-40s', reps:'continuous', tips:'Flow from beast (belly down) to crab (belly up). Smooth rotation.', category:'flow' },
+    { id:'f7', name:'Ground-to-Standing Flows', muscles:'Full body, mobility', sets:'30-40s', reps:'continuous', tips:'Find creative ways from ground to standing. No hands if possible.', category:'flow' },
+    { id:'f8', name:'Hip Circles / Openers', muscles:'Hip flexors, glutes', sets:'30-40s', reps:'each direction', tips:'Large controlled circles. Open hips fully on each rep.', category:'flow' },
+  ],
+  push: [
+    { id:'p1', name:'Incline Dumbbell Press', muscles:'Upper chest, shoulders, triceps', sets:'3', reps:'8-12', rest:90, tips:'Go heavy, slightly arch lower back, lower to chest, forearms point to ceiling, fully extend.', category:'push' },
+    { id:'p2', name:'Flat Dumbbell Press', muscles:'Chest, shoulders, triceps', sets:'3', reps:'8-12', rest:90, tips:'Go heavy, slightly arch lower back, lower to chest, forearms straight, fully extend.', category:'push' },
+    { id:'p3', name:'Dumbbell Flys', muscles:'Chest, front delts', sets:'3', reps:'10-12', rest:60, tips:'Wrist toward body, arms slightly bent, lower to just above chest, dumbbells touch at top.', category:'push' },
+    { id:'p4', name:'Dumbbell Overhead Press', muscles:'Shoulders, triceps', sets:'3', reps:'8-12', rest:90, tips:'Start at shoulder height, press straight overhead, avoid arching back, lower with control.', category:'push' },
+    { id:'p5', name:'Overhead Tricep Extension', muscles:'Triceps', sets:'3', reps:'10-12', rest:60, tips:'Over head not on head, only move forearm, fully extend, pause at extension.', category:'push' },
+    { id:'p6', name:'Side Lateral Raises', muscles:'Side delts', sets:'3', reps:'12-15', rest:60, tips:'Arms at sides, raise to parallel, slight elbow bend, lower slowly.', category:'push' },
+  ],
+  pull: [
+    { id:'r1', name:'Incline Dumbbell Row', muscles:'Upper back, lats', sets:'3', reps:'8-12', rest:90, tips:'Start fully extended, pull toward hips not straight up, sweeping motion, hold at top.', category:'pull' },
+    { id:'r2', name:'Single Arm Dumbbell Row', muscles:'Lats, rhomboids', sets:'3', reps:'8-12/side', rest:60, tips:'One arm/knee on bench, pull toward hips, sweeping motion, hold at top.', category:'pull' },
+    { id:'r3', name:'Rear Delt Raises', muscles:'Rear delts, upper back', sets:'3', reps:'12-15', rest:60, tips:'Hinge at hips, raise arms to sides until parallel, slight elbow bend, lower slowly.', category:'pull' },
+    { id:'r4', name:'Dumbbell Shrugs', muscles:'Traps', sets:'3', reps:'10-12', rest:60, tips:'Hold at sides, shrug as high as possible, straight up/down not rolling, hold at top.', category:'pull' },
+    { id:'r5', name:'Bicep Curls', muscles:'Biceps', sets:'3', reps:'10-12', rest:60, tips:"Don't swing, only move forearms, squeeze at top, go slow.", category:'pull' },
+    { id:'r6', name:'Hammer Curls', muscles:'Biceps, brachialis', sets:'3', reps:'10-12', rest:60, tips:"Don't swing, only forearms, stable wrist, arms in front of body.", category:'pull' },
+  ],
+  legs: [
+    { id:'l1', name:'Bulgarian Split Squat', muscles:'Quads, glutes', sets:'3', reps:'10-12/leg', rest:90, tips:'One foot on bench behind, lower to 90°, stay upright, push through front heel.', category:'legs' },
+    { id:'l2', name:'Goblet Squat', muscles:'Quads, glutes, core', sets:'3', reps:'10-12', rest:90, tips:'Hold dumbbell at chest, feet shoulder-width, squat to parallel, chest up, push through heels.', category:'legs' },
+    { id:'l3', name:'Walking Lunges', muscles:'Quads, glutes, hamstrings', sets:'3', reps:'10-12/leg', rest:90, tips:'Hold at sides, step forward to 90°, push through front heel, torso upright.', category:'legs' },
+    { id:'l4', name:'Romanian Deadlift', muscles:'Hamstrings, glutes, lower back', sets:'3', reps:'8-12', rest:90, tips:'Hold in front, hinge hips, keep back straight, lower until hamstring stretch, drive through heels.', category:'legs' },
+    { id:'l5', name:'Side Lateral Raises', muscles:'Side delts', sets:'3', reps:'12-15', rest:60, tips:'Arms at sides, raise to parallel, slight elbow bend, lower slowly.', category:'legs' },
+    { id:'l6', name:'Front Raises', muscles:'Front delts', sets:'3', reps:'12-15', rest:60, tips:'Hold in front of thighs, raise to shoulder height, slight elbow bend, lower slowly.', category:'legs' },
+  ],
+  stretch: [
+    { id:'s1', name:'90/90 Hip Stretch', muscles:'Hip rotators', sets:'30-60s', reps:'each side', tips:'Front leg 90°, back leg 90°. Sit tall, lean forward gently. Breathe deeply.', category:'stretch' },
+    { id:'s2', name:'Pigeon Pose', muscles:'Hip flexors, glutes', sets:'30-60s', reps:'each side', tips:'Front shin across mat, back leg extended. Square hips. Fold forward for deeper stretch.', category:'stretch' },
+    { id:'s3', name:'Deep Squat Hold (Malasana)', muscles:'Hips, ankles, inner thighs', sets:'60s', reps:'hold', tips:'Feet wider than hips, toes out. Elbows press knees out. Spine long.', category:'stretch' },
+    { id:'s4', name:'Hip Flexor Lunge Stretch', muscles:'Hip flexors, psoas', sets:'30-60s', reps:'each side', tips:'Low lunge, back knee down. Push hips forward. Reach arm overhead for deeper stretch.', category:'stretch' },
+    { id:'s5', name:'Figure-4 Stretch', muscles:'Piriformis, glutes', sets:'30-60s', reps:'each side', tips:'On back, ankle on opposite knee. Pull bottom leg toward chest. Keep head down.', category:'stretch' },
+    { id:'s6', name:'Butterfly Stretch', muscles:'Inner thighs, hips', sets:'60s', reps:'hold', tips:'Soles together, knees out. Hold feet, gently press knees down. Sit tall.', category:'stretch' },
+    { id:'s7', name:'Happy Baby Pose', muscles:'Inner thighs, hips, lower back', sets:'60s', reps:'hold', tips:'On back, grab outside of feet. Pull knees toward armpits. Rock gently.', category:'stretch' },
+    { id:'s8', name:'Frog Stretch', muscles:'Inner thighs, groin', sets:'30-60s', reps:'hold', tips:'Knees wide on all fours, push hips back. Go only as far as comfortable.', category:'stretch' },
+    { id:'s9', name:'Lizard Pose', muscles:'Hip flexors, hamstrings', sets:'30-60s', reps:'each side', tips:'Low lunge, both hands inside front foot. Drop to forearms for depth.', category:'stretch' },
+    { id:'s10', name:'Reclined Twist', muscles:'Spine, obliques, hips', sets:'30-60s', reps:'each side', tips:'On back, knees to one side, arms out. Look opposite direction. Let gravity do the work.', category:'stretch' },
+  ]
+};
+
+const SCHEDULE = {
+  1: { // Monday
+    title: 'Monday — Push Day', subtitle: '💪 Chest, Shoulders, Triceps', est: '~60 min',
+    sections: [
+      { name: '🐻 Free Movement Warmup', time: '12 min', exercises: EXERCISES.flow, isFlow: true },
+      { name: '🏋️ Push Day', time: '35-40 min', exercises: EXERCISES.push },
+      { name: '🧘 Hip Stretching', time: '15 min', exercises: EXERCISES.stretch, isStretch: true },
+    ]
+  },
+  2: { // Tuesday
+    title: 'Tuesday — Pull Day', subtitle: '🔙 Back, Biceps, Rear Delts', est: '~60 min',
+    sections: [
+      { name: '🐻 Free Movement Warmup', time: '12 min', exercises: EXERCISES.flow, isFlow: true },
+      { name: '🏋️ Pull Day', time: '35-40 min', exercises: EXERCISES.pull },
+      { name: '🧘 Hip Stretching', time: '15 min', exercises: EXERCISES.stretch, isStretch: true },
+    ]
+  },
+  3: { // Wednesday
+    title: 'Wednesday — Active Recovery', subtitle: '🧘 Movement + Deep Stretching', est: '~55 min',
+    sections: [
+      { name: '🐻 Free Movement Full Session', time: '25 min', exercises: EXERCISES.flow, isFlow: true },
+      { name: '🧘 Deep Yoga/Stretching', time: '30 min', exercises: EXERCISES.stretch },
+    ]
+  },
+  4: { // Thursday
+    title: 'Thursday — Leg Day', subtitle: '🦵 Quads, Glutes, Hamstrings', est: '~60 min',
+    sections: [
+      { name: '🐻 Free Movement Warmup', time: '12 min', exercises: EXERCISES.flow, isFlow: true },
+      { name: '🏋️ Leg Day', time: '35-40 min', exercises: EXERCISES.legs },
+      { name: '🧘 Hip Stretching', time: '15 min', exercises: EXERCISES.stretch, isStretch: true },
+    ]
+  },
+  5: { // Friday
+    title: 'Friday — Full Body', subtitle: '💥 Best of Each Day', est: '~55 min',
+    sections: [
+      { name: '🐻 Free Movement Warmup', time: '12 min', exercises: EXERCISES.flow, isFlow: true },
+      { name: '🏋️ Full Body Mix', time: '30 min', exercises: [
+        EXERCISES.push[0], EXERCISES.push[3], // Incline Press, OHP
+        EXERCISES.pull[0], EXERCISES.pull[4], // Incline Row, Curls
+        EXERCISES.legs[1], EXERCISES.legs[3], // Goblet Squat, RDL
+      ]},
+      { name: '🧘 Hip Stretching', time: '15 min', exercises: EXERCISES.stretch, isStretch: true },
+    ]
+  }
+};
+
+// ===== STATE =====
+let currentPage = 'today';
+let timerRunning = false;
+let timerSeconds = 0;
+let timerInterval = null;
+let restInterval = null;
+let todayCompleted = new Set();
+let hydrationDismissed = false;
+let activeCat = 'all';
+let audioCtx = null;
+
+// ===== STORAGE =====
+const STORE_KEY = 'pkd-exercise';
+function loadData() {
+  try { return JSON.parse(localStorage.getItem(STORE_KEY)) || {}; } catch { return {}; }
+}
+function saveData(d) { localStorage.setItem(STORE_KEY, JSON.stringify(d)); }
+function todayKey() { return new Date().toISOString().slice(0,10); }
+
+// ===== AUDIO =====
+function beep(freq=880, dur=150) {
+  if (!audioCtx) audioCtx = new (window.AudioContext||window.webkitAudioContext)();
+  const o = audioCtx.createOscillator(), g = audioCtx.createGain();
+  o.connect(g); g.connect(audioCtx.destination);
+  o.frequency.value = freq; o.type = 'sine';
+  g.gain.setValueAtTime(0.3, audioCtx.currentTime);
+  g.gain.exponentialRampToValueAtTime(0.01, audioCtx.currentTime + dur/1000);
+  o.start(); o.stop(audioCtx.currentTime + dur/1000);
+}
+function tripleBeep() { beep(880); setTimeout(()=>beep(880),200); setTimeout(()=>beep(1320,300),400); }
+
+// ===== NAVIGATION =====
+function showPage(page) {
+  currentPage = page;
+  document.querySelectorAll('.page').forEach(p => p.classList.add('hide'));
+  document.getElementById('page-'+page).classList.remove('hide');
+  document.querySelectorAll('.nav-btn').forEach(b => {
+    b.classList.toggle('tab-active', b.dataset.page === page);
+    b.classList.toggle('text-slate-500', b.dataset.page !== page);
+  });
+  if (page === 'today') renderToday();
+  if (page === 'exercises') renderExercises();
+  if (page === 'week') renderWeek();
+  if (page === 'progress') renderProgress();
+}
+
+// ===== TODAY =====
+function renderToday() {
+  const day = new Date().getDay(); // 0=Sun
+  document.getElementById('header-date').textContent = new Date().toLocaleDateString('en-US',{weekday:'long',month:'short',day:'numeric'});
+
+  if (day === 0 || day === 6) {
+    document.getElementById('today-rest-day').classList.remove('hide');
+    document.getElementById('today-content').classList.add('hide');
+    return;
+  }
+  document.getElementById('today-rest-day').classList.add('hide');
+  document.getElementById('today-content').classList.remove('hide');
+
+  const sched = SCHEDULE[day];
+  document.getElementById('today-title').textContent = sched.title;
+  document.getElementById('today-subtitle').textContent = sched.subtitle;
+  document.getElementById('today-est-time').textContent = sched.est;
+
+  // Load today's completed
+  const data = loadData();
+  const tk = todayKey();
+  todayCompleted = new Set(data[tk]?.completed || []);
+
+  const totalExercises = sched.sections.reduce((s,sec) => s + sec.exercises.length, 0);
+  const completedCount = todayCompleted.size;
+  document.getElementById('today-progress-text').textContent = `${completedCount}/${totalExercises} done`;
+
+  // Show complete button if all done
+  const btn = document.getElementById('complete-workout-btn');
+  if (completedCount >= totalExercises && !data[tk]?.workoutDone) {
+    btn.classList.remove('hide');
+  } else {
+    btn.classList.add('hide');
+  }
+
+  const container = document.getElementById('today-sections');
+  container.innerHTML = '';
+  let exIndex = 0;
+
+  sched.sections.forEach((sec, si) => {
+    const secEl = document.createElement('div');
+    secEl.className = 'mb-6';
+    secEl.innerHTML = `
+      <div class="flex items-center justify-between mb-2">
+        <h3 class="font-bold text-fire-400">${sec.name}</h3>
+        <span class="text-xs text-slate-500">${sec.time}</span>
+      </div>
+    `;
+
+    sec.exercises.forEach((ex, ei) => {
+      exIndex++;
+      const done = todayCompleted.has(ex.id);
+      // Show hydration every 3rd exercise
+      if (exIndex % 3 === 0 && exIndex > 0 && !hydrationDismissed) {
+        const hydDiv = document.createElement('div');
+        hydDiv.className = 'bg-cyan-900/20 border border-cyan-800/30 rounded-lg p-2 mb-2 text-center text-sm text-cyan-400';
+        hydDiv.textContent = '💧 Drink some water!';
+        secEl.appendChild(hydDiv);
+      }
+
+      const card = document.createElement('div');
+      card.className = `exercise-card bg-navy-800 rounded-xl p-4 mb-2 ${done ? 'completed' : ''}`;
+      const isWeighted = !sec.isFlow && !sec.isStretch && ex.rest;
+      card.innerHTML = `
+        <div class="flex items-start justify-between">
+          <div class="flex-1 mr-3">
+            <div class="font-semibold ${done ? 'line-through text-slate-500' : ''}">${ex.name}</div>
+            <div class="text-xs text-slate-400 mt-0.5">${ex.muscles}</div>
+            <div class="text-sm text-fire-400 mt-1">${isWeighted ? ex.sets+'×'+ex.reps : ex.sets+' '+ex.reps}</div>
+            <details class="mt-2"><summary class="text-xs text-slate-500 cursor-pointer">Form Tips</summary>
+              <p class="text-xs text-slate-400 mt-1">${ex.tips}</p>
+            </details>
+          </div>
+          <button onclick="toggleExercise('${ex.id}', this)" class="min-w-[48px] min-h-[48px] flex items-center justify-center rounded-xl text-2xl ${done ? 'bg-green-700' : 'bg-slate-700'} active:scale-90 transition">
+            ${done ? '✅' : '⬜'}
+          </button>
+        </div>
+        ${isWeighted ? `<div class="mt-2 flex gap-2">
+          <button onclick="startRest(${ex.rest||60})" class="text-xs bg-slate-700 px-3 py-1.5 rounded-lg active:scale-95">⏱ Rest ${ex.rest||60}s</button>
+        </div>` : ''}
+      `;
+      secEl.appendChild(card);
+    });
+    container.appendChild(secEl);
+  });
+}
+
+function toggleExercise(id, btn) {
+  beep(660, 80);
+  const data = loadData();
+  const tk = todayKey();
+  if (!data[tk]) data[tk] = { completed: [] };
+
+  if (todayCompleted.has(id)) {
+    todayCompleted.delete(id);
+    data[tk].completed = data[tk].completed.filter(x => x !== id);
+  } else {
+    todayCompleted.add(id);
+    if (!data[tk].completed.includes(id)) data[tk].completed.push(id);
+  }
+  saveData(data);
+  renderToday();
+}
+
+function completeWorkout() {
+  tripleBeep();
+  const data = loadData();
+  const tk = todayKey();
+  if (!data[tk]) data[tk] = {};
+  data[tk].workoutDone = true;
+  saveData(data);
+  document.getElementById('complete-workout-btn').classList.add('hide');
+  alert('🎉 Workout complete! Great job!');
+}
+
+function dismissHydration() {
+  hydrationDismissed = true;
+  document.getElementById('hydration-reminder').classList.add('hide');
+}
+
+// ===== TIMER =====
+function toggleTimer() {
+  if (timerRunning) {
+    clearInterval(timerInterval);
+    timerRunning = false;
+    document.getElementById('timer-btn').textContent = '▶️';
+    document.getElementById('timer-btn').classList.remove('timer-active');
+    document.getElementById('rest-timer-section').classList.add('hide');
+  } else {
+    timerRunning = true;
+    document.getElementById('timer-btn').textContent = '⏸';
+    document.getElementById('timer-btn').classList.add('timer-active');
+    document.getElementById('rest-timer-section').classList.remove('hide');
+    document.getElementById('header-timer').classList.remove('hide');
+    timerInterval = setInterval(() => {
+      timerSeconds++;
+      updateTimerDisplay();
+    }, 1000);
+  }
+}
+
+function resetTimer() {
+  clearInterval(timerInterval);
+  timerRunning = false;
+  timerSeconds = 0;
+  updateTimerDisplay();
+  document.getElementById('timer-btn').textContent = '▶️';
+  document.getElementById('timer-btn').classList.remove('timer-active');
+  document.getElementById('rest-timer-section').classList.add('hide');
+  document.getElementById('header-timer').classList.add('hide');
+}
+
+function updateTimerDisplay() {
+  const m = Math.floor(timerSeconds/60).toString().padStart(2,'0');
+  const s = (timerSeconds%60).toString().padStart(2,'0');
+  document.getElementById('timer-display').textContent = `${m}:${s}`;
+  document.getElementById('header-timer-display').textContent = `${m}:${s}`;
+}
+
+function startRest(seconds) {
+  beep(440, 100);
+  clearInterval(restInterval);
+  let remaining = seconds;
+  const display = document.getElementById('rest-display');
+  document.getElementById('rest-timer-section').classList.remove('hide');
+  display.textContent = remaining + 's';
+  display.classList.add('text-fire-400');
+  restInterval = setInterval(() => {
+    remaining--;
+    display.textContent = remaining + 's';
+    if (remaining <= 3 && remaining > 0) beep(660, 80);
+    if (remaining <= 0) {
+      clearInterval(restInterval);
+      tripleBeep();
+      display.textContent = 'GO!';
+      display.classList.remove('text-fire-400');
+      display.classList.add('text-green-400');
+      setTimeout(() => {
+        display.textContent = '--';
+        display.classList.remove('text-green-400');
+        display.classList.add('text-fire-400');
+      }, 2000);
+    }
+  }, 1000);
+}
+
+// ===== EXERCISES =====
+function renderExercises() {
+  const search = (document.getElementById('exercise-search')?.value || '').toLowerCase();
+  const container = document.getElementById('exercise-list');
+  container.innerHTML = '';
+
+  const allExercises = [...EXERCISES.flow, ...EXERCISES.push, ...EXERCISES.pull, ...EXERCISES.legs, ...EXERCISES.stretch];
+  const filtered = allExercises.filter(ex => {
+    if (activeCat !== 'all' && ex.category !== activeCat) return false;
+    if (search && !ex.name.toLowerCase().includes(search) && !ex.muscles.toLowerCase().includes(search)) return false;
+    return true;
+  });
+
+  const catLabels = { flow:'🐻 Animal Flow', push:'💪 Push', pull:'🔙 Pull', legs:'🦵 Legs', stretch:'🧘 Stretch' };
+  let lastCat = '';
+
+  filtered.forEach(ex => {
+    if (ex.category !== lastCat) {
+      lastCat = ex.category;
+      if (activeCat === 'all') {
+        const h = document.createElement('h3');
+        h.className = 'font-bold text-fire-400 mt-4 mb-2';
+        h.textContent = catLabels[ex.category] || ex.category;
+        container.appendChild(h);
+      }
+    }
+    const card = document.createElement('div');
+    card.className = 'bg-navy-800 rounded-xl p-4 mb-2';
+    const isWeighted = ex.rest;
+    card.innerHTML = `
+      <div class="font-semibold">${ex.name}</div>
+      <div class="text-xs text-slate-400">${ex.muscles}</div>
+      <div class="text-sm text-fire-400 mt-1">${isWeighted ? ex.sets+'×'+ex.reps : ex.sets+' '+ex.reps}${ex.rest ? ' • Rest '+ex.rest+'s' : ''}</div>
+      <p class="text-xs text-slate-400 mt-2">${ex.tips}</p>
+    `;
+    container.appendChild(card);
+  });
+
+  if (filtered.length === 0) {
+    container.innerHTML = '<p class="text-slate-500 text-center py-8">No exercises found</p>';
+  }
+}
+
+function filterExercises() { renderExercises(); }
+function filterCategory(cat) {
+  activeCat = cat;
+  document.querySelectorAll('.cat-btn').forEach(b => {
+    b.className = b.dataset.cat === cat
+      ? 'cat-btn bg-fire-500 text-white px-3 py-1.5 rounded-lg text-sm whitespace-nowrap font-semibold'
+      : 'cat-btn bg-slate-700 text-slate-300 px-3 py-1.5 rounded-lg text-sm whitespace-nowrap';
+  });
+  renderExercises();
+}
+
+// ===== WEEK =====
+function renderWeek() {
+  const container = document.getElementById('week-grid');
+  container.innerHTML = '';
+  const today = new Date().getDay();
+  const data = loadData();
+
+  const days = [
+    { day: 1, label: 'Monday', desc: 'Push Day — Chest, Shoulders, Triceps' },
+    { day: 2, label: 'Tuesday', desc: 'Pull Day — Back, Biceps, Rear Delts' },
+    { day: 3, label: 'Wednesday', desc: 'Active Recovery — Movement + Stretching' },
+    { day: 4, label: 'Thursday', desc: 'Leg Day — Quads, Glutes, Hamstrings' },
+    { day: 5, label: 'Friday', desc: 'Full Body — Best of Each Day' },
+  ];
+
+  // Calculate dates for this week
+  const now = new Date();
+  const mondayOffset = (now.getDay() === 0 ? -6 : 1) - now.getDay();
+
+  days.forEach(d => {
+    const date = new Date(now);
+    date.setDate(now.getDate() + mondayOffset + d.day - 1);
+    const dk = date.toISOString().slice(0,10);
+    const done = data[dk]?.workoutDone;
+    const isToday = d.day === today;
+
+    const el = document.createElement('div');
+    el.className = `bg-navy-800 rounded-xl p-4 cursor-pointer active:scale-[0.98] transition ${isToday ? 'ring-2 ring-fire-500' : ''} ${done ? 'opacity-70' : ''}`;
+    el.onclick = () => { showPage('today'); /* Could navigate to specific day */ };
+    el.innerHTML = `
+      <div class="flex items-center justify-between">
+        <div>
+          <div class="font-bold ${isToday ? 'text-fire-500' : ''}">${d.label} ${isToday ? '← Today' : ''}</div>
+          <div class="text-sm text-slate-400">${d.desc}</div>
+        </div>
+        <div class="text-2xl">${done ? '✅' : isToday ? '🔥' : '⬜'}</div>
+      </div>
+    `;
+    container.appendChild(el);
+  });
+
+  // Weekend
+  const we = document.createElement('div');
+  we.className = 'bg-navy-800/50 rounded-xl p-4';
+  we.innerHTML = `<div class="text-slate-500 text-center">🛋 <strong>Weekend</strong> — Rest or light walking</div>`;
+  container.appendChild(we);
+}
+
+// ===== PROGRESS =====
+function renderProgress() {
+  const data = loadData();
+  const tk = todayKey();
+
+  // Streak
+  let streak = 0;
+  const d = new Date();
+  // If today is done, start counting from today, else from yesterday
+  while(true) {
+    const key = d.toISOString().slice(0,10);
+    const dow = d.getDay();
+    if (dow === 0 || dow === 6) { d.setDate(d.getDate()-1); continue; } // skip weekends
+    if (data[key]?.workoutDone) { streak++; d.setDate(d.getDate()-1); }
+    else if (key === tk) { d.setDate(d.getDate()-1); } // today not done yet, check yesterday
+    else break;
+  }
+  document.getElementById('stat-streak').textContent = streak;
+
+  // This week
+  const now = new Date();
+  const mondayOffset = (now.getDay() === 0 ? -6 : 1) - now.getDay();
+  let weekDone = 0;
+  for (let i = 0; i < 5; i++) {
+    const wd = new Date(now);
+    wd.setDate(now.getDate() + mondayOffset + i);
+    if (data[wd.toISOString().slice(0,10)]?.workoutDone) weekDone++;
+  }
+  document.getElementById('stat-week').textContent = Math.round(weekDone/5*100) + '%';
+
+  // Total
+  const total = Object.values(data).filter(v => v?.workoutDone).length;
+  document.getElementById('stat-total').textContent = total;
+
+  // Water
+  renderWater();
+
+  // Heatmap (last 90 days)
+  const heatmap = document.getElementById('heatmap');
+  heatmap.innerHTML = '';
+  for (let i = 89; i >= 0; i--) {
+    const hd = new Date();
+    hd.setDate(hd.getDate() - i);
+    const hk = hd.toISOString().slice(0,10);
+    const done = data[hk]?.workoutDone;
+    const cell = document.createElement('div');
+    cell.className = `heatmap-cell ${done ? 'bg-fire-500' : 'bg-slate-800'}`;
+    cell.title = hk + (done ? ' ✅' : '');
+    heatmap.appendChild(cell);
+  }
+
+  // Weight exercise dropdown
+  const sel = document.getElementById('weight-exercise');
+  if (sel.options.length === 0) {
+    const weighted = [...EXERCISES.push, ...EXERCISES.pull, ...EXERCISES.legs];
+    weighted.forEach(ex => {
+      const opt = document.createElement('option');
+      opt.value = ex.id; opt.textContent = ex.name;
+      sel.appendChild(opt);
+    });
+  }
+
+  // Weight history
+  renderWeightHistory();
+}
+
+function renderWater() {
+  const data = loadData();
+  const tk = todayKey();
+  const glasses = data[tk]?.water || 0;
+  const container = document.getElementById('water-glasses');
+  container.innerHTML = '';
+  for (let i = 0; i < 8; i++) {
+    const g = document.createElement('div');
+    g.className = `w-6 h-8 rounded-sm ${i < glasses ? 'bg-cyan-500' : 'bg-slate-700'}`;
+    container.appendChild(g);
+  }
+  document.getElementById('water-count').textContent = `${glasses}/8`;
+}
+
+function addWater() {
+  const data = loadData();
+  const tk = todayKey();
+  if (!data[tk]) data[tk] = {};
+  data[tk].water = Math.min((data[tk].water || 0) + 1, 8);
+  saveData(data);
+  beep(520, 80);
+  renderWater();
+}
+
+function resetWater() {
+  const data = loadData();
+  const tk = todayKey();
+  if (data[tk]) data[tk].water = 0;
+  saveData(data);
+  renderWater();
+}
+
+function logWeight() {
+  const exId = document.getElementById('weight-exercise').value;
+  const val = parseFloat(document.getElementById('weight-value').value);
+  if (!exId || !val) return;
+  const data = loadData();
+  if (!data.weights) data.weights = [];
+  data.weights.push({ date: todayKey(), exercise: exId, weight: val });
+  saveData(data);
+  document.getElementById('weight-value').value = '';
+  beep(660, 80);
+  renderWeightHistory();
+}
+
+function renderWeightHistory() {
+  const data = loadData();
+  const container = document.getElementById('weight-history');
+  const weights = (data.weights || []).slice(-20).reverse();
+  const allEx = [...EXERCISES.push, ...EXERCISES.pull, ...EXERCISES.legs];
+  const nameMap = Object.fromEntries(allEx.map(e => [e.id, e.name]));
+  container.innerHTML = weights.length ? weights.map(w =>
+    `<div class="flex justify-between"><span>${nameMap[w.exercise]||w.exercise}</span><span class="text-fire-400">${w.weight} lbs</span><span class="text-slate-500">${w.date}</span></div>`
+  ).join('') : '<p class="text-slate-500">No weights logged yet</p>';
+}
+
+function exportData() {
+  const data = loadData();
+  const blob = new Blob([JSON.stringify(data, null, 2)], {type:'application/json'});
+  const a = document.createElement('a');
+  a.href = URL.createObjectURL(blob);
+  a.download = 'pkd-exercise-data.json';
+  a.click();
+}
+
+function resetAllData() {
+  localStorage.removeItem(STORE_KEY);
+  renderProgress();
+}
+
+// ===== INIT =====
+showPage('today');
+</script>
+</body>
+</html>
