@@ -133,6 +133,7 @@ body { font-family: 'Inter', sans-serif; -webkit-tap-highlight-color: transparen
         <button onclick="filterCategory('pull')" class="cat-btn bg-slate-700 text-slate-300 px-3 py-1.5 rounded-lg text-sm whitespace-nowrap" data-cat="pull">🔙 Pull</button>
         <button onclick="filterCategory('legs')" class="cat-btn bg-slate-700 text-slate-300 px-3 py-1.5 rounded-lg text-sm whitespace-nowrap" data-cat="legs">🦵 Legs</button>
         <button onclick="filterCategory('stretch')" class="cat-btn bg-slate-700 text-slate-300 px-3 py-1.5 rounded-lg text-sm whitespace-nowrap" data-cat="stretch">🧘 Stretch</button>
+        <button onclick="filterCategory('kb')" class="cat-btn bg-slate-700 text-slate-300 px-3 py-1.5 rounded-lg text-sm whitespace-nowrap" data-cat="kb">🔔 Kettlebell</button>
       </div>
       <div id="exercise-list"></div>
     </div>
@@ -292,20 +293,20 @@ const EXERCISES = {
 
 const SCHEDULE = {
   1: { // Monday
-    title: 'Monday — Push Day', subtitle: '💪 Chest, Shoulders, Triceps', est: '~60 min',
+    title: 'Monday — Push Day', subtitle: '💪 Chest, Shoulders, Triceps', est: '~65 min',
     sections: [
       { name: '🐻 Free Movement Warmup', time: '12 min', exercises: EXERCISES.flow, isFlow: true },
       { name: '🏋️ Push Day', time: '35-40 min', exercises: EXERCISES.push },
-      { name: '🔥 Kettlebell Finisher', time: '5 min', exercises: EXERCISES.kettlebell },
+      { name: '🔥 Kettlebell Finisher', time: '5 min', exercises: EXERCISES.kb },
       { name: '🧘 Hip Stretching', time: '15 min', exercises: EXERCISES.stretch, isStretch: true },
     ]
   },
   2: { // Tuesday
-    title: 'Tuesday — Pull Day', subtitle: '🔙 Back, Biceps, Rear Delts', est: '~60 min',
+    title: 'Tuesday — Pull Day', subtitle: '🔙 Back, Biceps, Rear Delts', est: '~65 min',
     sections: [
       { name: '🐻 Free Movement Warmup', time: '12 min', exercises: EXERCISES.flow, isFlow: true },
       { name: '🏋️ Pull Day', time: '35-40 min', exercises: EXERCISES.pull },
-      { name: '🔥 Kettlebell Finisher', time: '5 min', exercises: EXERCISES.kettlebell },
+      { name: '🔥 Kettlebell Finisher', time: '5 min', exercises: EXERCISES.kb },
       { name: '🧘 Hip Stretching', time: '15 min', exercises: EXERCISES.stretch, isStretch: true },
     ]
   },
@@ -317,11 +318,11 @@ const SCHEDULE = {
     ]
   },
   4: { // Thursday
-    title: 'Thursday — Leg Day', subtitle: '🦵 Quads, Glutes, Hamstrings', est: '~60 min',
+    title: 'Thursday — Leg Day', subtitle: '🦵 Quads, Glutes, Hamstrings', est: '~65 min',
     sections: [
       { name: '🐻 Free Movement Warmup', time: '12 min', exercises: EXERCISES.flow, isFlow: true },
       { name: '🏋️ Leg Day', time: '35-40 min', exercises: EXERCISES.legs },
-      { name: '🔥 Kettlebell Finisher', time: '5 min', exercises: EXERCISES.kettlebell },
+      { name: '🔥 Kettlebell Finisher', time: '5 min', exercises: EXERCISES.kb },
       { name: '🧘 Hip Stretching', time: '15 min', exercises: EXERCISES.stretch, isStretch: true },
     ]
   },
@@ -577,14 +578,14 @@ function renderExercises() {
   const container = document.getElementById('exercise-list');
   container.innerHTML = '';
 
-  const allExercises = [...EXERCISES.flow, ...EXERCISES.push, ...EXERCISES.pull, ...EXERCISES.legs, ...EXERCISES.stretch];
+  const allExercises = [...EXERCISES.flow, ...EXERCISES.push, ...EXERCISES.pull, ...EXERCISES.legs, ...EXERCISES.stretch, ...EXERCISES.kb];
   const filtered = allExercises.filter(ex => {
     if (activeCat !== 'all' && ex.category !== activeCat) return false;
     if (search && !ex.name.toLowerCase().includes(search) && !ex.muscles.toLowerCase().includes(search)) return false;
     return true;
   });
 
-  const catLabels = { flow:'🐻 Animal Flow', push:'💪 Push', pull:'🔙 Pull', legs:'🦵 Legs', stretch:'🧘 Stretch' };
+  const catLabels = { flow:'🐻 Animal Flow', push:'💪 Push', pull:'🔙 Pull', legs:'🦵 Legs', stretch:'🧘 Stretch', kb:'🔔 Kettlebell' };
   let lastCat = '';
 
   filtered.forEach(ex => {
@@ -727,7 +728,7 @@ function renderProgress() {
   // Weight exercise dropdown
   const sel = document.getElementById('weight-exercise');
   if (sel.options.length === 0) {
-    const weighted = [...EXERCISES.push, ...EXERCISES.pull, ...EXERCISES.legs];
+    const weighted = [...EXERCISES.push, ...EXERCISES.pull, ...EXERCISES.legs, ...EXERCISES.kb];
     weighted.forEach(ex => {
       const opt = document.createElement('option');
       opt.value = ex.id; opt.textContent = ex.name;
