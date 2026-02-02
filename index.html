@@ -39,15 +39,48 @@ body { font-family: 'Inter', sans-serif; -webkit-tap-highlight-color: transparen
 </head>
 <body class="bg-navy-950 text-gray-100 min-h-screen pb-24 select-none">
 
+<!-- Profile Setup Overlay -->
+<div id="profile-overlay" class="fixed inset-0 z-[100] bg-navy-950 flex items-center justify-center hide">
+  <div class="max-w-sm w-full mx-4 text-center">
+    <div class="text-5xl mb-4">🏋️</div>
+    <h1 class="text-3xl font-extrabold text-fire-500 mb-2">Flow45</h1>
+    <p class="text-slate-400 mb-8">Set up your profile to personalize your workouts.</p>
+
+    <div class="mb-6">
+      <label class="block text-sm font-bold text-slate-300 mb-3">I am a…</label>
+      <div class="flex gap-3 justify-center">
+        <button onclick="selectProfileGender('man')" id="pg-man" class="profile-gender-btn bg-slate-700 hover:bg-slate-600 px-6 py-3 rounded-xl font-bold text-lg active:scale-95 transition">🙋‍♂️ Man</button>
+        <button onclick="selectProfileGender('woman')" id="pg-woman" class="profile-gender-btn bg-slate-700 hover:bg-slate-600 px-6 py-3 rounded-xl font-bold text-lg active:scale-95 transition">🙋‍♀️ Woman</button>
+      </div>
+    </div>
+
+    <div class="mb-8">
+      <label class="block text-sm font-bold text-slate-300 mb-3">Age Group</label>
+      <div class="flex gap-3 justify-center">
+        <button onclick="selectProfileAge('young')" id="pa-young" class="profile-age-btn bg-slate-700 hover:bg-slate-600 px-4 py-3 rounded-xl font-bold active:scale-95 transition">⚡ Young<br><span class="text-xs font-normal text-slate-400">18-30</span></button>
+        <button onclick="selectProfileAge('adult')" id="pa-adult" class="profile-age-btn bg-slate-700 hover:bg-slate-600 px-4 py-3 rounded-xl font-bold active:scale-95 transition">🎯 Adult<br><span class="text-xs font-normal text-slate-400">30-55</span></button>
+        <button onclick="selectProfileAge('senior')" id="pa-senior" class="profile-age-btn bg-slate-700 hover:bg-slate-600 px-4 py-3 rounded-xl font-bold active:scale-95 transition">🌿 Senior<br><span class="text-xs font-normal text-slate-400">55+</span></button>
+      </div>
+    </div>
+
+    <button onclick="confirmProfile()" id="profile-confirm-btn" class="w-full bg-fire-500 hover:bg-fire-600 text-white font-bold py-4 rounded-2xl text-lg active:scale-95 transition opacity-30 pointer-events-none" disabled>
+      Let's Go 🔥
+    </button>
+  </div>
+</div>
+
 <div id="app">
   <!-- Header -->
   <header class="sticky top-0 z-40 bg-navy-950/95 backdrop-blur px-4 pt-3 pb-2 border-b border-slate-800">
     <div class="flex items-center justify-between">
       <h1 class="text-xl font-extrabold text-fire-500">🏋️ Flow45</h1>
-      <div id="header-timer" class="text-sm text-slate-400 hide">
-        <span id="header-timer-display">00:00</span>
+      <div class="flex items-center gap-3">
+        <div id="header-timer" class="text-sm text-slate-400 hide">
+          <span id="header-timer-display">00:00</span>
+        </div>
+        <span id="header-profile-badge" class="text-xs text-slate-500 bg-slate-800 px-2 py-1 rounded-lg cursor-pointer" onclick="openProfileSettings()" title="Change profile"></span>
+        <div class="text-xs text-slate-500" id="header-date"></div>
       </div>
-      <div class="text-xs text-slate-500" id="header-date"></div>
     </div>
     <!-- Phase Banner -->
     <div id="phase-banner" class="mt-2 rounded-xl p-2 text-center font-bold text-sm"></div>
@@ -139,6 +172,7 @@ body { font-family: 'Inter', sans-serif; -webkit-tap-highlight-color: transparen
         <button onclick="filterCategory('stretch')" class="cat-btn bg-slate-700 text-slate-300 px-3 py-1.5 rounded-lg text-sm whitespace-nowrap" data-cat="stretch">🧘 Stretch</button>
         <button onclick="filterCategory('yoga')" class="cat-btn bg-slate-700 text-slate-300 px-3 py-1.5 rounded-lg text-sm whitespace-nowrap" data-cat="yoga">🧘‍♀️ Yoga</button>
         <button onclick="filterCategory('kb')" class="cat-btn bg-slate-700 text-slate-300 px-3 py-1.5 rounded-lg text-sm whitespace-nowrap" data-cat="kb">🔔 Kettlebell</button>
+        <button onclick="filterCategory('glute')" class="cat-btn bg-slate-700 text-slate-300 px-3 py-1.5 rounded-lg text-sm whitespace-nowrap" data-cat="glute">🍑 Glute/Hip</button>
       </div>
       <div id="exercise-list"></div>
     </div>
@@ -318,6 +352,14 @@ const EXERCISES = {
     { id:'k1', name:'Kettlebell Swings', muscles:'Glutes, hamstrings, core, shoulders', sets:'3', reps:'15', rest:30, tips:'Hip hinge, snap hips forward. Arms guide—don\'t lift with shoulders. Breathe out at top. Moderate weight (25-35 lb).', category:'kb', video:'https://www.youtube.com/watch?v=cY38L70lxro' },
     { id:'k2', name:'Kettlebell Chest Press', muscles:'Chest, triceps', sets:'1', reps:'15', rest:30, tips:'Floor press. Lower with control, elbows at 45°. Press straight up, squeeze chest at top. Can use dumbbell substitute.', category:'kb', video:'https://www.youtube.com/watch?v=4ULa6AJcjr8' },
     { id:'k3', name:'Kettlebell Rotational Swings', muscles:'Obliques, core, shoulders', sets:'3', reps:'15/side', rest:30, tips:'Swing bell side to side in front of body. Rotate from hips and core, not arms. Control the momentum. ⚠️ PKD: use moderate weight, avoid straining.', category:'kb', video:'https://www.youtube.com/watch?v=gxmlcxiSpTA' },
+  ],
+  glute: [
+    { id:'g1', name:'Glute Bridges', muscles:'Glutes, hamstrings', sets:'3', reps:'15', rest:60, tips:'Feet flat, drive hips up squeezing glutes at top. Hold 1-2s. Lower with control.', category:'glute', video:'https://www.youtube.com/watch?v=OUgsJ8-Vi0E' },
+    { id:'g2', name:'Hip Thrusts (BW/DB)', muscles:'Glutes, hamstrings', sets:'3', reps:'12', rest:60, tips:'Upper back on bench, feet flat. Drive hips up to full extension. Squeeze glutes hard at top. Add DB on hips for resistance.', category:'glute', video:'https://www.youtube.com/watch?v=SEdqd1n0cvg' },
+    { id:'g3', name:'Banded Lateral Walks', muscles:'Glute medius, hip abductors', sets:'3', reps:'12/side', rest:45, tips:'Band above knees, quarter squat. Step sideways keeping tension. Stay low, don\'t let knees cave.', category:'glute', video:'https://www.youtube.com/watch?v=iMfhj85F8OA' },
+    { id:'g4', name:'Single-Leg Deadlift', muscles:'Hamstrings, glutes, balance', sets:'3', reps:'10/leg', rest:60, tips:'Hinge at hip on one leg, back leg extends behind. Keep back flat, slight knee bend. DB in opposite hand.', category:'glute', video:'https://www.youtube.com/watch?v=iDKmW_fH45Q' },
+    { id:'g5', name:'Donkey Kicks', muscles:'Glutes', sets:'3', reps:'15/leg', rest:30, tips:'On all fours, drive one heel toward ceiling. Squeeze glute at top. Don\'t arch lower back.', category:'glute', video:'https://www.youtube.com/watch?v=IExuMOhSu68' },
+    { id:'g6', name:'Fire Hydrants', muscles:'Glute medius, hip abductors', sets:'3', reps:'15/leg', rest:30, tips:'On all fours, lift knee out to side keeping 90° bend. Control the movement. Squeeze at top.', category:'glute', video:'https://www.youtube.com/watch?v=La3xYBMpNbE' },
   ]
 };
 
@@ -501,19 +543,207 @@ const P3_INTENSE = {
 };
 
 // Build WEEK_SCHEDULES array (index 0-8)
-WEEK_SCHEDULES[0] = P1_INTENSE; // Phase 1, Week 1
-WEEK_SCHEDULES[1] = P1_INTENSE; // Phase 1, Week 2
-WEEK_SCHEDULES[2] = RECOVERY_WEEK; // Phase 1, Week 3 (Recovery)
-WEEK_SCHEDULES[3] = P2_INTENSE; // Phase 2, Week 1
-WEEK_SCHEDULES[4] = P2_INTENSE; // Phase 2, Week 2
-WEEK_SCHEDULES[5] = RECOVERY_WEEK; // Phase 2, Week 3 (Recovery)
-WEEK_SCHEDULES[6] = P3_INTENSE; // Phase 3, Week 1
-WEEK_SCHEDULES[7] = P3_INTENSE; // Phase 3, Week 2
-WEEK_SCHEDULES[8] = RECOVERY_WEEK; // Phase 3, Week 3 (Recovery)
+// Men's schedules (original)
+const WEEK_SCHEDULES_M = [];
+WEEK_SCHEDULES_M[0] = P1_INTENSE;
+WEEK_SCHEDULES_M[1] = P1_INTENSE;
+WEEK_SCHEDULES_M[2] = RECOVERY_WEEK;
+WEEK_SCHEDULES_M[3] = P2_INTENSE;
+WEEK_SCHEDULES_M[4] = P2_INTENSE;
+WEEK_SCHEDULES_M[5] = RECOVERY_WEEK;
+WEEK_SCHEDULES_M[6] = P3_INTENSE;
+WEEK_SCHEDULES_M[7] = P3_INTENSE;
+WEEK_SCHEDULES_M[8] = RECOVERY_WEEK;
+
+// Also keep WEEK_SCHEDULES as alias (backward compat)
+WEEK_SCHEDULES[0] = P1_INTENSE;
+WEEK_SCHEDULES[1] = P1_INTENSE;
+WEEK_SCHEDULES[2] = RECOVERY_WEEK;
+WEEK_SCHEDULES[3] = P2_INTENSE;
+WEEK_SCHEDULES[4] = P2_INTENSE;
+WEEK_SCHEDULES[5] = RECOVERY_WEEK;
+WEEK_SCHEDULES[6] = P3_INTENSE;
+WEEK_SCHEDULES[7] = P3_INTENSE;
+WEEK_SCHEDULES[8] = RECOVERY_WEEK;
+
+// ===== WOMEN'S SCHEDULES =====
+// Phase 1 Women's Intensity — more glute/hip focus, lighter push, lower-body cardio emphasis
+const P1W_INTENSE = {
+  1: { title: 'Monday — Glutes + Back', subtitle: '🍑 Lower Body Pull Focus', est: '~45 min',
+    sections: [
+      { name: '🐻 Animal Flow Warmup', time: '8 min', exercises: E.flow.slice(0,5), isFlow: true },
+      { name: '🏋️ Glutes + Back', time: '25 min', exercises: [E.glute[0], E.glute[1], E.pull[1], E.glute[3], E.pull[0], E.glute[2], E.bodyweight[3]] },
+      { name: '🧘 Hip Stretching', time: '5 min', exercises: [E.stretch[0], E.stretch[1], E.stretch[3], E.stretch[9]], isStretch: true },
+    ]
+  },
+  2: { title: 'Tuesday — Cardio Circuit', subtitle: '🔥 Lower-Body Emphasis, 45s/15s, 2 rounds', est: '~45 min',
+    sections: [
+      { name: '🐻 Animal Flow Warmup', time: '8 min', exercises: E.flow.slice(0,5), isFlow: true },
+      { name: '🔥 Cardio Circuit', time: '30 min', exercises: [E.kb[0], E.flow[2], E.glute[0], E.flow[0], E.bodyweight[4], E.glute[4], E.glute[5], E.legs[4], E.flow[4], E.legs[5]] },
+      { name: '🧘 Stretch Cooldown', time: '5 min', exercises: [E.stretch[0], E.stretch[4], E.stretch[9]], isStretch: true },
+    ]
+  },
+  3: { title: 'Wednesday — Arms + Shoulders', subtitle: '💪 Higher Rep, Lighter Weight', est: '~45 min',
+    sections: [
+      { name: '🐻 Animal Flow Warmup', time: '8 min', exercises: E.flow.slice(0,5), isFlow: true },
+      { name: '🏋️ Arms + Shoulders', time: '25 min', exercises: [E.pull[4], E.push[4], E.pull[5], E.push[3], E.push[5], E.push[6], E.push[7], E.glute[2]] },
+      { name: '🧘 Stretch Cooldown', time: '5 min', exercises: [E.stretch[0], E.stretch[5], E.stretch[9]], isStretch: true },
+    ]
+  },
+  4: { title: 'Thursday — Yoga + Flexibility', subtitle: '🧘 Deep Stretching & Breathing', est: '~45 min',
+    sections: [
+      { name: '🐻 Full Animal Flow Session', time: '15 min', exercises: E.flow, isFlow: true },
+      { name: '🧘 All 10 Hip Stretches', time: '15 min', exercises: E.stretch, isStretch: true },
+      { name: '🧘‍♀️ Yoga Poses', time: '15 min', exercises: E.yoga, isStretch: true },
+    ]
+  },
+  5: { title: 'Friday — Legs + Glutes', subtitle: '🦵🍑 Lower Body Power', est: '~45 min',
+    sections: [
+      { name: '🐻 Animal Flow Warmup', time: '8 min', exercises: E.flow.slice(0,5), isFlow: true },
+      { name: '🏋️ Legs + Glutes', time: '25 min', exercises: [E.legs[1], E.glute[1], E.legs[0], E.glute[3], E.legs[5], E.legs[3], E.glute[0], E.kb[0]] },
+      { name: '🧘 Stretch Cooldown', time: '5 min', exercises: [E.stretch[0], E.stretch[1], E.stretch[3], E.stretch[8], E.stretch[9]], isStretch: true },
+    ]
+  }
+};
+
+const P2W_INTENSE = {
+  1: { title: 'Monday — Legs + Shoulders', subtitle: '🦵💪 Lower Body + Delts', est: '~45 min',
+    sections: [
+      { name: '🐻 Animal Flow Warmup', time: '8 min', exercises: E.flow.slice(0,5), isFlow: true },
+      { name: '🏋️ Legs + Shoulders', time: '25 min', exercises: [E.legs[1], E.legs[4], E.glute[1], E.push[3], E.push[5], E.glute[2], E.kb[0]] },
+      { name: '🧘 Stretch Cooldown', time: '5 min', exercises: [E.stretch[0], E.stretch[3], E.stretch[9]], isStretch: true },
+    ]
+  },
+  2: { title: 'Tuesday — Chest + Triceps', subtitle: '💪 Higher Rep Push', est: '~45 min',
+    sections: [
+      { name: '🐻 Animal Flow Warmup', time: '8 min', exercises: E.flow.slice(0,5), isFlow: true },
+      { name: '🏋️ Chest + Triceps', time: '25 min', exercises: [E.push[0], E.push[2], E.bodyweight[0], E.bodyweight[2], E.push[4], E.glute[0], E.bodyweight[12]] },
+      { name: '🧘 Stretch Cooldown', time: '5 min', exercises: [E.stretch[0], E.stretch[5], E.stretch[9]], isStretch: true },
+    ]
+  },
+  3: { title: 'Wednesday — Back + Glutes', subtitle: '🔙🍑 Pull + Lower Body', est: '~45 min',
+    sections: [
+      { name: '🐻 Animal Flow Warmup', time: '8 min', exercises: E.flow.slice(0,5), isFlow: true },
+      { name: '🏋️ Back + Glutes', time: '25 min', exercises: [E.pull[0], E.pull[1], E.glute[1], E.pull[2], E.glute[3], E.pull[4], E.pull[5]] },
+      { name: '🧘 Stretch Cooldown', time: '5 min', exercises: [E.stretch[0], E.stretch[4], E.stretch[9]], isStretch: true },
+    ]
+  },
+  4: { title: 'Thursday — Yoga + Flexibility', subtitle: '🧘 ANCHORED — Deep Stretching & Breathing', est: '~45 min',
+    sections: [
+      { name: '🐻 Full Animal Flow Session', time: '15 min', exercises: E.flow, isFlow: true },
+      { name: '🧘 All 10 Hip Stretches', time: '15 min', exercises: E.stretch, isStretch: true },
+      { name: '🧘‍♀️ Yoga Poses', time: '15 min', exercises: E.yoga, isStretch: true },
+    ]
+  },
+  5: { title: 'Friday — Full Body Cardio Circuit', subtitle: '🔥 Lower-Body Emphasis Blitz', est: '~45 min',
+    sections: [
+      { name: '🐻 Animal Flow Warmup', time: '8 min', exercises: E.flow.slice(0,5), isFlow: true },
+      { name: '🔥 Full Body Circuit', time: '30 min', exercises: [E.glute[0], E.compound[0], E.bodyweight[9], E.glute[4], E.kb[0], E.bodyweight[4], E.glute[5], E.legs[5]] },
+      { name: '🧘 Stretch Cooldown', time: '5 min', exercises: [E.stretch[0], E.stretch[4], E.stretch[9]], isStretch: true },
+    ]
+  }
+};
+
+const P3W_INTENSE = {
+  1: { title: 'Monday — Push + Glutes', subtitle: '💪🍑 Upper + Lower', est: '~45 min',
+    sections: [
+      { name: '🐻 Animal Flow Warmup', time: '8 min', exercises: E.flow.slice(0,5), isFlow: true },
+      { name: '🏋️ Push + Glutes', time: '25 min', exercises: [E.push[1], E.push[0], E.glute[1], E.bodyweight[0], E.glute[2], E.push[4], E.glute[0]] },
+      { name: '🧘 Stretch Cooldown', time: '5 min', exercises: [E.stretch[0], E.stretch[5], E.stretch[9]], isStretch: true },
+    ]
+  },
+  2: { title: 'Tuesday — Legs + Core', subtitle: '🦵 Lower Body + Core Blast', est: '~45 min',
+    sections: [
+      { name: '🐻 Animal Flow Warmup', time: '8 min', exercises: E.flow.slice(0,5), isFlow: true },
+      { name: '🏋️ Legs + Core', time: '30 min', exercises: [E.legs[0], E.glute[1], E.legs[5], E.glute[3], E.bodyweight[9], E.bodyweight[13], E.glute[4], E.kb[0]] },
+      { name: '🧘 Stretch Cooldown', time: '5 min', exercises: [E.stretch[0], E.stretch[1], E.stretch[3], E.stretch[9]], isStretch: true },
+    ]
+  },
+  3: { title: 'Wednesday — Pull + Cardio', subtitle: '🔙🔥 Back + Conditioning', est: '~45 min',
+    sections: [
+      { name: '🐻 Animal Flow Warmup', time: '8 min', exercises: E.flow.slice(0,5), isFlow: true },
+      { name: '🏋️ Pull + Cardio', time: '30 min', exercises: [E.bodyweight[3], E.pull[1], E.pull[0], E.pull[4], E.glute[2], E.flow[0], E.kb[0], E.glute[5]] },
+      { name: '🧘 Stretch Cooldown', time: '5 min', exercises: [E.stretch[0], E.stretch[4], E.stretch[9]], isStretch: true },
+    ]
+  },
+  4: { title: 'Thursday — Yoga + Flexibility', subtitle: '🧘 ANCHORED — Deep Stretching & Breathing', est: '~45 min',
+    sections: [
+      { name: '🐻 Full Animal Flow Session', time: '15 min', exercises: E.flow, isFlow: true },
+      { name: '🧘 All 10 Hip Stretches', time: '15 min', exercises: E.stretch, isStretch: true },
+      { name: '🧘‍♀️ Yoga Poses', time: '15 min', exercises: E.yoga, isStretch: true },
+    ]
+  },
+  5: { title: 'Friday — Total Body Burnout', subtitle: '🔥 Circuit: 3 rounds, 30s rest', est: '~45 min',
+    sections: [
+      { name: '🐻 Animal Flow Warmup', time: '8 min', exercises: E.flow.slice(0,5), isFlow: true },
+      { name: '🔥 Total Body Burnout (3 rounds)', time: '30 min', exercises: [E.glute[1], E.bodyweight[3], E.legs[1], E.push[3], E.glute[3], E.kb[0], E.bodyweight[9]] },
+      { name: '🧘 Stretch Cooldown', time: '5 min', exercises: [E.stretch[0], E.stretch[1], E.stretch[9]], isStretch: true },
+    ]
+  }
+};
+
+const WEEK_SCHEDULES_W = [];
+WEEK_SCHEDULES_W[0] = P1W_INTENSE;
+WEEK_SCHEDULES_W[1] = P1W_INTENSE;
+WEEK_SCHEDULES_W[2] = RECOVERY_WEEK;
+WEEK_SCHEDULES_W[3] = P2W_INTENSE;
+WEEK_SCHEDULES_W[4] = P2W_INTENSE;
+WEEK_SCHEDULES_W[5] = RECOVERY_WEEK;
+WEEK_SCHEDULES_W[6] = P3W_INTENSE;
+WEEK_SCHEDULES_W[7] = P3W_INTENSE;
+WEEK_SCHEDULES_W[8] = RECOVERY_WEEK;
+
+// ===== AGE TIER MODIFIERS =====
+const AGE_MODIFIERS = {
+  young:  { setsMult: 1.3, repsMult: 1.3, restMult: 0.8, holdMult: 1.3, label: '💪 Young — Extended Sets' },
+  adult:  { setsMult: 1.0, repsMult: 1.0, restMult: 1.0, holdMult: 1.0, label: '🎯 Adult — Standard' },
+  senior: { setsMult: 0.7, repsMult: 0.7, restMult: 1.4, holdMult: 0.6, label: '🌿 Senior — Low Impact' }
+};
+
+// Senior exercise substitutions (no jumping, chair-assisted options)
+const SENIOR_SUBS = {
+  'bw6': '⚠️ Sub: Step-back burpees only, no jump. Or skip entirely.',
+  'bw7': '⚠️ Sub: Marching in place (no high knees).',
+  'bw8': '⚠️ Sub: Regular bodyweight squats (no jump).',
+};
+
+function applyAgeMod(text, field) {
+  const profile = getProfile();
+  if (!profile || profile.age === 'adult') return text;
+  const mod = AGE_MODIFIERS[profile.age];
+  const mult = field === 'rest' ? mod.restMult : (field === 'hold' ? mod.holdMult : mod.repsMult);
+  // Try to modify numeric values
+  return text.replace(/(\d+)/g, (m) => {
+    const n = parseInt(m);
+    return Math.round(n * mult);
+  });
+}
+
+function getAgeLabel() {
+  const profile = getProfile();
+  if (!profile) return '';
+  return AGE_MODIFIERS[profile.age]?.label || '';
+}
+
+// ===== PROFILE SYSTEM =====
+function getProfile() {
+  const data = loadData();
+  return data.profile || null;
+}
+
+function setProfile(gender, age) {
+  const data = loadData();
+  data.profile = { gender, age };
+  saveData(data);
+}
 
 function getCurrentSchedule() {
   const info = getCycleInfo();
-  return WEEK_SCHEDULES[info.weekNum];
+  const profile = getProfile();
+  if (profile && profile.gender === 'woman') {
+    return WEEK_SCHEDULES_W[info.weekNum];
+  }
+  return WEEK_SCHEDULES_M[info.weekNum];
 }
 
 // ===== STATE =====
@@ -571,12 +801,14 @@ function renderBanner() {
   } else {
     banner.className = 'mt-2 rounded-xl p-2 text-center font-bold text-sm bg-fire-500/20 border border-fire-500/40 text-fire-400';
   }
-  banner.textContent = info.label;
+  const ageInfo = getAgeLabel();
+  banner.textContent = info.label + (ageInfo ? ' • ' + ageInfo : '');
 }
 
 // ===== TODAY =====
 function renderToday() {
   renderBanner();
+  updateProfileBadge();
   const day = new Date().getDay(); // 0=Sun
   document.getElementById('header-date').textContent = new Date().toLocaleDateString('en-US',{weekday:'long',month:'short',day:'numeric'});
 
@@ -643,10 +875,9 @@ function renderToday() {
           <div class="flex-1 mr-3">
             <div class="font-semibold ${done ? 'line-through text-slate-500' : ''}">${ex.name} ${ex.video ? '<a href="'+ex.video+'" target="_blank" class="text-xs text-cyan-400 font-normal ml-1">🎥 Demo</a>' : ''}</div>
             <div class="text-xs text-slate-400 mt-0.5">${ex.muscles}</div>
-            <div class="text-sm text-fire-400 mt-1">${isWeighted ? ex.sets+'×'+ex.reps : ex.sets+' '+ex.reps}</div>
-            <details class="mt-2"><summary class="text-xs text-slate-500 cursor-pointer">Form Tips</summary>
-              <p class="text-xs text-slate-400 mt-1">${ex.tips}</p>
-            </details>
+            <div class="text-sm text-fire-400 mt-1">${isWeighted ? applyAgeMod(ex.sets,'sets')+'×'+applyAgeMod(ex.reps,'reps') : applyAgeMod(ex.sets,'hold')+' '+applyAgeMod(ex.reps,'reps')}</div>
+            ${SENIOR_SUBS[ex.id] && getProfile()?.age === 'senior' ? '<div class="text-xs text-yellow-400 mt-1">'+SENIOR_SUBS[ex.id]+'</div>' : ''}
+            ${getProfile()?.age === 'adult' ? '<details class="mt-2"><summary class="text-xs text-cyan-500 cursor-pointer">💡 Form Tips (prioritized)</summary><p class="text-xs text-cyan-300 mt-1">⚠️ Focus on controlled form over speed. '+ex.tips+'</p></details>' : '<details class="mt-2"><summary class="text-xs text-slate-500 cursor-pointer">Form Tips</summary><p class="text-xs text-slate-400 mt-1">'+ex.tips+'</p></details>'}
           </div>
           <button onclick="toggleExercise('${ex.id}', this)" class="min-w-[48px] min-h-[48px] flex items-center justify-center rounded-xl text-2xl ${done ? 'bg-green-700' : 'bg-slate-700'} active:scale-90 transition">
             ${done ? '✅' : '⬜'}
@@ -773,14 +1004,14 @@ function renderExercises() {
   const container = document.getElementById('exercise-list');
   container.innerHTML = '';
 
-  const allExercises = [...E.flow, ...E.push, ...E.pull, ...E.legs, ...E.bodyweight, ...E.compound, ...E.yoga, ...E.stretch, ...E.kb];
+  const allExercises = [...E.flow, ...E.push, ...E.pull, ...E.legs, ...E.bodyweight, ...E.compound, ...E.yoga, ...E.stretch, ...E.kb, ...E.glute];
   const filtered = allExercises.filter(ex => {
     if (activeCat !== 'all' && ex.category !== activeCat) return false;
     if (search && !ex.name.toLowerCase().includes(search) && !ex.muscles.toLowerCase().includes(search)) return false;
     return true;
   });
 
-  const catLabels = { flow:'🐻 Animal Flow', push:'💪 Push', pull:'🔙 Pull', legs:'🦵 Legs', bodyweight:'🏃 Bodyweight', compound:'🔥 Compound', yoga:'🧘‍♀️ Yoga', stretch:'🧘 Stretch', kb:'🔔 Kettlebell' };
+  const catLabels = { flow:'🐻 Animal Flow', push:'💪 Push', pull:'🔙 Pull', legs:'🦵 Legs', bodyweight:'🏃 Bodyweight', compound:'🔥 Compound', yoga:'🧘‍♀️ Yoga', stretch:'🧘 Stretch', kb:'🔔 Kettlebell', glute:'🍑 Glute/Hip' };
   let lastCat = '';
 
   filtered.forEach(ex => {
@@ -973,7 +1204,7 @@ function renderProgress() {
 
   const sel = document.getElementById('weight-exercise');
   if (sel.options.length === 0) {
-    const weighted = [...E.push, ...E.pull, ...E.legs, ...E.bodyweight, ...E.compound, ...E.kb];
+    const weighted = [...E.push, ...E.pull, ...E.legs, ...E.bodyweight, ...E.compound, ...E.kb, ...E.glute];
     weighted.forEach(ex => {
       const opt = document.createElement('option');
       opt.value = ex.id; opt.textContent = ex.name;
@@ -1068,7 +1299,7 @@ function logWeight() {
 function renderWeightHistory() {
   const data = loadData();
   const container = document.getElementById('weight-history');
-  const allEx = [...E.push, ...E.pull, ...E.legs, ...E.bodyweight, ...E.compound, ...E.kb];
+  const allEx = [...E.push, ...E.pull, ...E.legs, ...E.bodyweight, ...E.compound, ...E.kb, ...E.glute];
   const nameMap = Object.fromEntries(allEx.map(e => [e.id, e.name]));
   // Combine old weight log and new set log
   const setLogs = (data.setLog || []).slice(-30).reverse();
@@ -1100,11 +1331,85 @@ function exportData() {
 
 function resetAllData() {
   localStorage.removeItem(STORE_KEY);
-  renderProgress();
+  document.getElementById('profile-overlay').classList.remove('hide');
+}
+
+// ===== PROFILE UI =====
+let _profileGender = null;
+let _profileAge = null;
+
+function selectProfileGender(g) {
+  _profileGender = g;
+  document.querySelectorAll('.profile-gender-btn').forEach(b => b.className = 'profile-gender-btn bg-slate-700 hover:bg-slate-600 px-6 py-3 rounded-xl font-bold text-lg active:scale-95 transition');
+  document.getElementById('pg-' + g).className = 'profile-gender-btn bg-fire-500 text-white px-6 py-3 rounded-xl font-bold text-lg active:scale-95 transition ring-2 ring-fire-400';
+  checkProfileReady();
+}
+
+function selectProfileAge(a) {
+  _profileAge = a;
+  document.querySelectorAll('.profile-age-btn').forEach(b => b.className = 'profile-age-btn bg-slate-700 hover:bg-slate-600 px-4 py-3 rounded-xl font-bold active:scale-95 transition');
+  document.getElementById('pa-' + a).className = 'profile-age-btn bg-fire-500 text-white px-4 py-3 rounded-xl font-bold active:scale-95 transition ring-2 ring-fire-400';
+  checkProfileReady();
+}
+
+function checkProfileReady() {
+  const btn = document.getElementById('profile-confirm-btn');
+  if (_profileGender && _profileAge) {
+    btn.disabled = false;
+    btn.classList.remove('opacity-30', 'pointer-events-none');
+  }
+}
+
+function confirmProfile() {
+  if (!_profileGender || !_profileAge) return;
+  setProfile(_profileGender, _profileAge);
+  document.getElementById('profile-overlay').classList.add('hide');
+  initApp();
+}
+
+function openProfileSettings() {
+  const profile = getProfile();
+  if (profile) {
+    _profileGender = profile.gender;
+    _profileAge = profile.age;
+  }
+  const overlay = document.getElementById('profile-overlay');
+  overlay.classList.remove('hide');
+  // Highlight current selections
+  if (_profileGender) {
+    document.querySelectorAll('.profile-gender-btn').forEach(b => b.className = 'profile-gender-btn bg-slate-700 hover:bg-slate-600 px-6 py-3 rounded-xl font-bold text-lg active:scale-95 transition');
+    document.getElementById('pg-' + _profileGender).className = 'profile-gender-btn bg-fire-500 text-white px-6 py-3 rounded-xl font-bold text-lg active:scale-95 transition ring-2 ring-fire-400';
+  }
+  if (_profileAge) {
+    document.querySelectorAll('.profile-age-btn').forEach(b => b.className = 'profile-age-btn bg-slate-700 hover:bg-slate-600 px-4 py-3 rounded-xl font-bold active:scale-95 transition');
+    document.getElementById('pa-' + _profileAge).className = 'profile-age-btn bg-fire-500 text-white px-4 py-3 rounded-xl font-bold active:scale-95 transition ring-2 ring-fire-400';
+  }
+  checkProfileReady();
+}
+
+function updateProfileBadge() {
+  const profile = getProfile();
+  const badge = document.getElementById('header-profile-badge');
+  if (!profile) { badge.textContent = ''; return; }
+  const gIcon = profile.gender === 'woman' ? '♀' : '♂';
+  const aIcon = { young: '⚡', adult: '🎯', senior: '🌿' }[profile.age] || '';
+  badge.textContent = `${gIcon} ${aIcon}`;
+}
+
+function initApp() {
+  updateProfileBadge();
+  showPage('today');
 }
 
 // ===== INIT =====
-showPage('today');
+(function() {
+  const profile = getProfile();
+  if (!profile) {
+    document.getElementById('profile-overlay').classList.remove('hide');
+  } else {
+    initApp();
+  }
+})();
 </script>
 </body>
 </html>
