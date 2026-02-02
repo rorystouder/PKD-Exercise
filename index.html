@@ -173,6 +173,7 @@ body { font-family: 'Inter', sans-serif; -webkit-tap-highlight-color: transparen
         <button onclick="filterCategory('yoga')" class="cat-btn bg-slate-700 text-slate-300 px-3 py-1.5 rounded-lg text-sm whitespace-nowrap" data-cat="yoga">🧘‍♀️ Yoga</button>
         <button onclick="filterCategory('kb')" class="cat-btn bg-slate-700 text-slate-300 px-3 py-1.5 rounded-lg text-sm whitespace-nowrap" data-cat="kb">🔔 Kettlebell</button>
         <button onclick="filterCategory('glute')" class="cat-btn bg-slate-700 text-slate-300 px-3 py-1.5 rounded-lg text-sm whitespace-nowrap" data-cat="glute">🍑 Glute/Hip</button>
+        <button onclick="filterCategory('abs')" class="cat-btn bg-slate-700 text-slate-300 px-3 py-1.5 rounded-lg text-sm whitespace-nowrap" data-cat="abs">🎯 Abs</button>
         <button onclick="filterCategory('senior')" class="cat-btn bg-slate-700 text-slate-300 px-3 py-1.5 rounded-lg text-sm whitespace-nowrap" data-cat="senior">🌿 Senior</button>
       </div>
       <div id="exercise-list"></div>
@@ -362,6 +363,16 @@ const EXERCISES = {
     { id:'g5', name:'Donkey Kicks', muscles:'Glutes', sets:'3', reps:'15/leg', rest:30, tips:'On all fours, drive one heel toward ceiling. Squeeze glute at top. Don\'t arch lower back.', category:'glute', video:'https://www.youtube.com/watch?v=IExuMOhSu68' },
     { id:'g6', name:'Fire Hydrants', muscles:'Glute medius, hip abductors', sets:'3', reps:'15/leg', rest:30, tips:'On all fours, lift knee out to side keeping 90° bend. Control the movement. Squeeze at top.', category:'glute', video:'https://www.youtube.com/watch?v=La3xYBMpNbE' },
   ],
+  abs: [
+    { id:'ab1', name:'Dead Bug', muscles:'Deep core, transverse abdominis', sets:'3', reps:'10/side', rest:30, tips:'On back, arms up, opposite arm/leg extend. Lower back stays flat on floor. Slow and controlled. ⚠️ PKD: great core exercise — no straining.', category:'abs', video:'https://www.youtube.com/watch?v=I5xbsA71v1A' },
+    { id:'ab2', name:'Bicycle Crunches', muscles:'Obliques, rectus abdominis', sets:'3', reps:'15/side', rest:30, tips:'Hands behind head, elbow to opposite knee. Slow and deliberate — don\'t yank your neck. Breathe out on each twist.', category:'abs', video:'https://www.youtube.com/watch?v=9FGilxCbdz8' },
+    { id:'ab3', name:'Leg Raises', muscles:'Lower abs, hip flexors', sets:'3', reps:'12', rest:30, tips:'Lie flat, hands under hips for support. Raise legs to 90°, lower slowly without touching floor. ⚠️ PKD: stop if lower back lifts.', category:'abs', video:'https://www.youtube.com/watch?v=JB2oyawG9KI' },
+    { id:'ab4', name:'Flutter Kicks', muscles:'Lower abs, hip flexors', sets:'3', reps:'30s', rest:30, tips:'Lie flat, lift legs 6 inches, alternate small kicks. Keep lower back pressed to floor. Breathe steadily.', category:'abs', video:'https://www.youtube.com/watch?v=eEG9uXSMreA' },
+    { id:'ab5', name:'Russian Twists', muscles:'Obliques, core', sets:'3', reps:'15/side', rest:30, tips:'Seated, lean back slightly, feet off floor. Rotate torso side to side. Hold light DB for extra challenge. ⚠️ PKD: bodyweight only, no heavy weight.', category:'abs', video:'https://www.youtube.com/watch?v=wkD8rjkodUI' },
+    { id:'ab6', name:'Hollow Body Hold', muscles:'Deep core, rectus abdominis', sets:'3', reps:'20-30s hold', rest:30, tips:'On back, arms overhead, legs straight and lifted. Press lower back into floor. Hold position. Scale by bending knees.', category:'abs', video:'https://www.youtube.com/watch?v=1M2jnp2RFbg' },
+    { id:'ab7', name:'Reverse Crunches', muscles:'Lower abs', sets:'3', reps:'12', rest:30, tips:'On back, knees bent 90°. Curl hips off floor bringing knees toward chest. Lower with control. Don\'t use momentum.', category:'abs', video:'https://www.youtube.com/watch?v=hyv14e2QDq0' },
+    { id:'ab8', name:'V-Ups', muscles:'Upper & lower abs', sets:'3', reps:'10', rest:30, tips:'Lie flat, simultaneously lift legs and torso to form a V. Touch toes at top. Lower with control. ⚠️ PKD: skip if too intense on core pressure.', category:'abs', video:'https://www.youtube.com/watch?v=iP2fjvG0g3w' },
+  ],
   senior: [
     { id:'sr1', name:'Gentle Walking', muscles:'Cardio, legs, endurance', sets:'1', reps:'10-15 min', tips:'Walk at a comfortable pace. Focus on good posture — head up, shoulders back, arms swinging naturally. Breathe steadily.', category:'senior', video:'https://www.youtube.com/watch?v=n8_FZ7bORVw' },
     { id:'sr2', name:'Chair Squats', muscles:'Quads, glutes', sets:'2', reps:'8-10', rest:60, tips:'Stand in front of a sturdy chair. Sit back slowly until you lightly touch the seat, then stand back up. Use armrests if needed.', category:'senior', video:'https://www.youtube.com/watch?v=MVU1j4l0rMU' },
@@ -409,10 +420,11 @@ const WEEK_SCHEDULES = [];
 // --- PHASE 1: Weeks 0,1 (Intensity), Week 2 (Recovery) ---
 // Phase 1 Intensity (weeks 0 & 1)
 const P1_INTENSE = {
-  1: { title: 'Monday — Chest + Back', subtitle: '💪 Push & Pull Supersets', est: '~45 min',
+  1: { title: 'Monday — Chest + Back + Abs', subtitle: '💪 Push & Pull Supersets + Core', est: '~45 min',
     sections: [
       { name: '🐻 Animal Flow Warmup', time: '8 min', exercises: E.flow.slice(0,5), isFlow: true },
-      { name: '🏋️ Chest + Back', time: '25 min', exercises: [E.push[0], E.bodyweight[0], E.pull[1], E.bodyweight[3], E.push[2], E.bodyweight[1], E.pull[0]] },
+      { name: '🏋️ Chest + Back', time: '20 min', exercises: [E.push[0], E.bodyweight[0], E.pull[1], E.bodyweight[3], E.push[2], E.bodyweight[1], E.pull[0]] },
+      { name: '🎯 Ab Finisher', time: '7 min', exercises: [E.abs[0], E.abs[1], E.abs[3], E.bodyweight[9]] },
       { name: '🧘 Hip Stretching', time: '5 min', exercises: [E.stretch[0], E.stretch[1], E.stretch[3], E.stretch[9]], isStretch: true },
     ]
   },
@@ -423,10 +435,11 @@ const P1_INTENSE = {
       { name: '🧘 Stretch Cooldown', time: '5 min', exercises: [E.stretch[0], E.stretch[4], E.stretch[9]], isStretch: true },
     ]
   },
-  3: { title: 'Wednesday — Arms + Shoulders', subtitle: '💪 Biceps, Triceps, Delts', est: '~45 min',
+  3: { title: 'Wednesday — Arms + Shoulders + Abs', subtitle: '💪 Biceps, Triceps, Delts + Core', est: '~45 min',
     sections: [
       { name: '🐻 Animal Flow Warmup', time: '8 min', exercises: E.flow.slice(0,5), isFlow: true },
-      { name: '🏋️ Arms + Shoulders', time: '25 min', exercises: [E.pull[4], E.push[4], E.pull[5], E.push[3], E.push[5], E.bodyweight[2], E.push[6], E.push[7]] },
+      { name: '🏋️ Arms + Shoulders', time: '20 min', exercises: [E.pull[4], E.push[4], E.pull[5], E.push[3], E.push[5], E.bodyweight[2], E.push[6], E.push[7]] },
+      { name: '🎯 Ab Finisher', time: '7 min', exercises: [E.abs[2], E.abs[4], E.abs[6], E.bodyweight[10]] },
       { name: '🧘 Stretch Cooldown', time: '5 min', exercises: [E.stretch[0], E.stretch[5], E.stretch[9]], isStretch: true },
     ]
   },
@@ -437,10 +450,11 @@ const P1_INTENSE = {
       { name: '🧘‍♀️ Yoga Poses', time: '15 min', exercises: E.yoga, isStretch: true },
     ]
   },
-  5: { title: 'Friday — Legs + Back', subtitle: '🦵 Lower Body + Pull', est: '~45 min',
+  5: { title: 'Friday — Legs + Back + Abs', subtitle: '🦵 Lower Body + Pull + Core', est: '~45 min',
     sections: [
       { name: '🐻 Animal Flow Warmup', time: '8 min', exercises: E.flow.slice(0,5), isFlow: true },
-      { name: '🏋️ Legs + Back', time: '25 min', exercises: [E.legs[1], E.bodyweight[3], E.legs[0], E.pull[1], E.legs[2], E.legs[3], E.kb[0]] },
+      { name: '🏋️ Legs + Back', time: '20 min', exercises: [E.legs[1], E.bodyweight[3], E.legs[0], E.pull[1], E.legs[2], E.legs[3], E.kb[0]] },
+      { name: '🎯 Ab Finisher', time: '7 min', exercises: [E.abs[5], E.abs[7], E.abs[1], E.bodyweight[14]] },
       { name: '🧘 Stretch Cooldown', time: '5 min', exercises: [E.stretch[0], E.stretch[1], E.stretch[3], E.stretch[8], E.stretch[9]], isStretch: true },
     ]
   }
@@ -485,10 +499,11 @@ const RECOVERY_WEEK = {
 
 // Phase 2 Intensity (weeks 3 & 4)
 const P2_INTENSE = {
-  1: { title: 'Monday — Legs + Shoulders', subtitle: '🦵💪 Lower Body + Delts', est: '~45 min',
+  1: { title: 'Monday — Legs + Shoulders + Abs', subtitle: '🦵💪 Lower Body + Delts + Core', est: '~45 min',
     sections: [
       { name: '🐻 Animal Flow Warmup', time: '8 min', exercises: E.flow.slice(0,5), isFlow: true },
-      { name: '🏋️ Legs + Shoulders', time: '25 min', exercises: [E.legs[1], E.legs[4], E.legs[2], E.push[3], E.push[5], E.push[7], E.kb[0]] },
+      { name: '🏋️ Legs + Shoulders', time: '20 min', exercises: [E.legs[1], E.legs[4], E.legs[2], E.push[3], E.push[5], E.push[7], E.kb[0]] },
+      { name: '🎯 Ab Finisher', time: '7 min', exercises: [E.abs[0], E.abs[2], E.abs[5], E.bodyweight[9]] },
       { name: '🧘 Stretch Cooldown', time: '5 min', exercises: [E.stretch[0], E.stretch[3], E.stretch[9]], isStretch: true },
     ]
   },
@@ -499,10 +514,11 @@ const P2_INTENSE = {
       { name: '🧘 Stretch Cooldown', time: '5 min', exercises: [E.stretch[0], E.stretch[5], E.stretch[9]], isStretch: true },
     ]
   },
-  3: { title: 'Wednesday — Back + Biceps', subtitle: '🔙 Pull Focus', est: '~45 min',
+  3: { title: 'Wednesday — Back + Biceps + Abs', subtitle: '🔙 Pull Focus + Core', est: '~45 min',
     sections: [
       { name: '🐻 Animal Flow Warmup', time: '8 min', exercises: E.flow.slice(0,5), isFlow: true },
-      { name: '🏋️ Back + Biceps', time: '25 min', exercises: [E.pull[0], E.pull[1], E.bodyweight[3], E.pull[2], E.pull[3], E.pull[4], E.pull[5]] },
+      { name: '🏋️ Back + Biceps', time: '20 min', exercises: [E.pull[0], E.pull[1], E.bodyweight[3], E.pull[2], E.pull[3], E.pull[4], E.pull[5]] },
+      { name: '🎯 Ab Finisher', time: '7 min', exercises: [E.abs[1], E.abs[3], E.abs[6], E.bodyweight[10]] },
       { name: '🧘 Stretch Cooldown', time: '5 min', exercises: [E.stretch[0], E.stretch[4], E.stretch[9]], isStretch: true },
     ]
   },
@@ -513,10 +529,11 @@ const P2_INTENSE = {
       { name: '🧘‍♀️ Yoga Poses', time: '15 min', exercises: E.yoga, isStretch: true },
     ]
   },
-  5: { title: 'Friday — Full Body Cardio Circuit', subtitle: '🔥 Total Body Blitz', est: '~45 min',
+  5: { title: 'Friday — Full Body Cardio + Abs', subtitle: '🔥 Total Body Blitz + Core', est: '~45 min',
     sections: [
       { name: '🐻 Animal Flow Warmup', time: '8 min', exercises: E.flow.slice(0,5), isFlow: true },
-      { name: '🔥 Full Body Circuit', time: '30 min', exercises: [E.bodyweight[8], E.compound[0], E.bodyweight[9], E.bodyweight[10], E.kb[0], E.bodyweight[4], E.bodyweight[5], E.bodyweight[11]] },
+      { name: '🔥 Full Body Circuit', time: '22 min', exercises: [E.bodyweight[8], E.compound[0], E.bodyweight[9], E.bodyweight[10], E.kb[0], E.bodyweight[4], E.bodyweight[5], E.bodyweight[11]] },
+      { name: '🎯 Ab Finisher', time: '7 min', exercises: [E.abs[4], E.abs[7], E.abs[0], E.bodyweight[14]] },
       { name: '🧘 Stretch Cooldown', time: '5 min', exercises: [E.stretch[0], E.stretch[4], E.stretch[9]], isStretch: true },
     ]
   }
@@ -524,10 +541,11 @@ const P2_INTENSE = {
 
 // Phase 3 Intensity (weeks 6 & 7)
 const P3_INTENSE = {
-  1: { title: 'Monday — Push Power', subtitle: '💪 Heavy Push Day', est: '~45 min',
+  1: { title: 'Monday — Push Power + Abs', subtitle: '💪 Heavy Push Day + Core', est: '~45 min',
     sections: [
       { name: '🐻 Animal Flow Warmup', time: '8 min', exercises: E.flow.slice(0,5), isFlow: true },
-      { name: '🏋️ Push Power', time: '25 min', exercises: [E.push[1], E.push[0], E.push[3], E.bodyweight[11], E.bodyweight[0], E.push[4], E.kb[1]] },
+      { name: '🏋️ Push Power', time: '20 min', exercises: [E.push[1], E.push[0], E.push[3], E.bodyweight[11], E.bodyweight[0], E.push[4], E.kb[1]] },
+      { name: '🎯 Ab Finisher', time: '7 min', exercises: [E.abs[2], E.abs[5], E.abs[1], E.bodyweight[13]] },
       { name: '🧘 Stretch Cooldown', time: '5 min', exercises: [E.stretch[0], E.stretch[5], E.stretch[9]], isStretch: true },
     ]
   },
@@ -538,10 +556,11 @@ const P3_INTENSE = {
       { name: '🧘 Stretch Cooldown', time: '5 min', exercises: [E.stretch[0], E.stretch[1], E.stretch[3], E.stretch[9]], isStretch: true },
     ]
   },
-  3: { title: 'Wednesday — Pull + Cardio', subtitle: '🔙🔥 Back + Conditioning', est: '~45 min',
+  3: { title: 'Wednesday — Pull + Cardio + Abs', subtitle: '🔙🔥 Back + Conditioning + Core', est: '~45 min',
     sections: [
       { name: '🐻 Animal Flow Warmup', time: '8 min', exercises: E.flow.slice(0,5), isFlow: true },
-      { name: '🏋️ Pull + Cardio', time: '30 min', exercises: [E.bodyweight[3], E.pull[1], E.pull[0], E.pull[4], E.compound[2], E.flow[0], E.kb[2], E.bodyweight[6]] },
+      { name: '🏋️ Pull + Cardio', time: '22 min', exercises: [E.bodyweight[3], E.pull[1], E.pull[0], E.pull[4], E.compound[2], E.flow[0], E.kb[2], E.bodyweight[6]] },
+      { name: '🎯 Ab Finisher', time: '7 min', exercises: [E.abs[0], E.abs[4], E.abs[7], E.bodyweight[10]] },
       { name: '🧘 Stretch Cooldown', time: '5 min', exercises: [E.stretch[0], E.stretch[4], E.stretch[9]], isStretch: true },
     ]
   },
@@ -552,10 +571,11 @@ const P3_INTENSE = {
       { name: '🧘‍♀️ Yoga Poses', time: '15 min', exercises: E.yoga, isStretch: true },
     ]
   },
-  5: { title: 'Friday — Total Body Burnout', subtitle: '🔥 Circuit: 3 rounds, 30s rest', est: '~45 min',
+  5: { title: 'Friday — Total Body Burnout + Abs', subtitle: '🔥 Circuit: 3 rounds + Core', est: '~45 min',
     sections: [
       { name: '🐻 Animal Flow Warmup', time: '8 min', exercises: E.flow.slice(0,5), isFlow: true },
-      { name: '🔥 Total Body Burnout (3 rounds)', time: '30 min', exercises: [E.push[0], E.bodyweight[3], E.legs[1], E.push[3], E.pull[4], E.kb[0], E.bodyweight[9]] },
+      { name: '🔥 Total Body Burnout (3 rounds)', time: '22 min', exercises: [E.push[0], E.bodyweight[3], E.legs[1], E.push[3], E.pull[4], E.kb[0], E.bodyweight[9]] },
+      { name: '🎯 Ab Finisher', time: '7 min', exercises: [E.abs[3], E.abs[6], E.abs[5], E.bodyweight[14]] },
       { name: '🧘 Stretch Cooldown', time: '5 min', exercises: [E.stretch[0], E.stretch[1], E.stretch[9]], isStretch: true },
     ]
   }
