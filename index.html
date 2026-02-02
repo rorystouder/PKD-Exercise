@@ -59,7 +59,7 @@ body { font-family: 'Inter', sans-serif; -webkit-tap-highlight-color: transparen
       <div class="flex gap-3 justify-center">
         <button onclick="selectProfileAge('young')" id="pa-young" class="profile-age-btn bg-slate-700 hover:bg-slate-600 px-4 py-3 rounded-xl font-bold active:scale-95 transition">⚡ Young<br><span class="text-xs font-normal text-slate-400">18-30</span></button>
         <button onclick="selectProfileAge('adult')" id="pa-adult" class="profile-age-btn bg-slate-700 hover:bg-slate-600 px-4 py-3 rounded-xl font-bold active:scale-95 transition">🎯 Adult<br><span class="text-xs font-normal text-slate-400">30-55</span></button>
-        <button onclick="selectProfileAge('senior')" id="pa-senior" class="profile-age-btn bg-slate-700 hover:bg-slate-600 px-4 py-3 rounded-xl font-bold active:scale-95 transition">🌿 Senior<br><span class="text-xs font-normal text-slate-400">55+</span></button>
+        <button onclick="selectProfileAge('senior')" id="pa-senior" class="profile-age-btn bg-slate-700 hover:bg-slate-600 px-4 py-3 rounded-xl font-bold active:scale-95 transition">🌿 Senior<br><span class="text-xs font-normal text-slate-400">55+ • Gentle</span></button>
       </div>
     </div>
 
@@ -109,7 +109,7 @@ body { font-family: 'Inter', sans-serif; -webkit-tap-highlight-color: transparen
         </div>
 
         <!-- PKD Notice -->
-        <div class="bg-blue-900/30 border border-blue-800/50 rounded-xl p-3 mb-4 text-sm">
+        <div id="pkd-notice" class="bg-blue-900/30 border border-blue-800/50 rounded-xl p-3 mb-4 text-sm">
           <p class="text-blue-300">⚠️ <strong>PKD Reminder:</strong> Moderate weight, perfect form. Avoid heavy straining & valsalva. Breathe through every rep. Burpees: step back, no jump, no push-up.</p>
         </div>
 
@@ -173,6 +173,7 @@ body { font-family: 'Inter', sans-serif; -webkit-tap-highlight-color: transparen
         <button onclick="filterCategory('yoga')" class="cat-btn bg-slate-700 text-slate-300 px-3 py-1.5 rounded-lg text-sm whitespace-nowrap" data-cat="yoga">🧘‍♀️ Yoga</button>
         <button onclick="filterCategory('kb')" class="cat-btn bg-slate-700 text-slate-300 px-3 py-1.5 rounded-lg text-sm whitespace-nowrap" data-cat="kb">🔔 Kettlebell</button>
         <button onclick="filterCategory('glute')" class="cat-btn bg-slate-700 text-slate-300 px-3 py-1.5 rounded-lg text-sm whitespace-nowrap" data-cat="glute">🍑 Glute/Hip</button>
+        <button onclick="filterCategory('senior')" class="cat-btn bg-slate-700 text-slate-300 px-3 py-1.5 rounded-lg text-sm whitespace-nowrap" data-cat="senior">🌿 Senior</button>
       </div>
       <div id="exercise-list"></div>
     </div>
@@ -360,6 +361,24 @@ const EXERCISES = {
     { id:'g4', name:'Single-Leg Deadlift', muscles:'Hamstrings, glutes, balance', sets:'3', reps:'10/leg', rest:60, tips:'Hinge at hip on one leg, back leg extends behind. Keep back flat, slight knee bend. DB in opposite hand.', category:'glute', video:'https://www.youtube.com/watch?v=iDKmW_fH45Q' },
     { id:'g5', name:'Donkey Kicks', muscles:'Glutes', sets:'3', reps:'15/leg', rest:30, tips:'On all fours, drive one heel toward ceiling. Squeeze glute at top. Don\'t arch lower back.', category:'glute', video:'https://www.youtube.com/watch?v=IExuMOhSu68' },
     { id:'g6', name:'Fire Hydrants', muscles:'Glute medius, hip abductors', sets:'3', reps:'15/leg', rest:30, tips:'On all fours, lift knee out to side keeping 90° bend. Control the movement. Squeeze at top.', category:'glute', video:'https://www.youtube.com/watch?v=La3xYBMpNbE' },
+  ],
+  senior: [
+    { id:'sr1', name:'Gentle Walking', muscles:'Cardio, legs, endurance', sets:'1', reps:'10-15 min', tips:'Walk at a comfortable pace. Focus on good posture — head up, shoulders back, arms swinging naturally. Breathe steadily.', category:'senior', video:'https://www.youtube.com/watch?v=n8_FZ7bORVw' },
+    { id:'sr2', name:'Chair Squats', muscles:'Quads, glutes', sets:'2', reps:'8-10', rest:60, tips:'Stand in front of a sturdy chair. Sit back slowly until you lightly touch the seat, then stand back up. Use armrests if needed.', category:'senior', video:'https://www.youtube.com/watch?v=MVU1j4l0rMU' },
+    { id:'sr3', name:'Wall Push-ups', muscles:'Chest, shoulders, triceps', sets:'2', reps:'8-10', rest:60, tips:'Hands on wall at shoulder height, shoulder-width apart. Lean in, push back. Keep body straight. Easy on the wrists.', category:'senior', video:'https://www.youtube.com/watch?v=a6YHbXD2XlU' },
+    { id:'sr4', name:'Seated Shoulder Press', muscles:'Shoulders, triceps', sets:'2', reps:'8-10', rest:60, tips:'Sit in a sturdy chair. Use very light dumbbells (2-5 lbs) or water bottles. Press overhead slowly, lower with control.', category:'senior', video:'https://www.youtube.com/watch?v=Gu7IAn_XBXY' },
+    { id:'sr5', name:'Seated Rows (Band)', muscles:'Upper back, biceps', sets:'2', reps:'10', rest:60, tips:'Sit with legs extended, band around feet. Pull band toward belly, squeeze shoulder blades. Slow and controlled.', category:'senior', video:'https://www.youtube.com/watch?v=xQNrFHEMhI4' },
+    { id:'sr6', name:'Heel-to-Toe Walk', muscles:'Balance, calves, ankles', sets:'1', reps:'2 lengths (20 steps)', tips:'Walk in a straight line placing heel directly in front of opposite toe. Use a wall or counter for balance support. Go slowly.', category:'senior', video:'https://www.youtube.com/watch?v=JTxOGihG5_U' },
+    { id:'sr7', name:'Standing Calf Raises (Chair)', muscles:'Calves, ankles, balance', sets:'2', reps:'10', rest:45, tips:'Hold the back of a chair for support. Rise onto toes slowly, hold 1-2 seconds at top, lower with control.', category:'senior', video:'https://www.youtube.com/watch?v=gwLzBJYoWlI' },
+    { id:'sr8', name:'Seated Leg Extensions', muscles:'Quads', sets:'2', reps:'10/leg', rest:45, tips:'Sit in a sturdy chair. Extend one leg straight out, hold 2 seconds, lower slowly. Keep back against chair.', category:'senior', video:'https://www.youtube.com/watch?v=YyvSfVjQeL0' },
+    { id:'sr9', name:'Arm Circles', muscles:'Shoulders, rotator cuff', sets:'1', reps:'10 each direction', tips:'Arms out to sides at shoulder height. Small circles forward, then backward. Keep shoulders relaxed. No weights needed.', category:'senior', video:'https://www.youtube.com/watch?v=bPKnHJHb4F4' },
+    { id:'sr10', name:'Standing Hip Abduction (Chair)', muscles:'Hip abductors, glutes, balance', sets:'2', reps:'8/leg', rest:45, tips:'Hold chair for support. Lift one leg out to the side, keep toes forward. Lower slowly. Don\'t lean to the side.', category:'senior', video:'https://www.youtube.com/watch?v=jghbMRmej3E' },
+    { id:'sr11', name:'Single-Leg Stand (Chair)', muscles:'Balance, ankles, core', sets:'1', reps:'20s/leg', tips:'Hold chair lightly with one hand. Lift one foot slightly off floor. Hold 20 seconds. Try to gradually use less hand support.', category:'senior', video:'https://www.youtube.com/watch?v=fp0FoLw0jKk' },
+    { id:'sr12', name:'Seated Bicep Curls', muscles:'Biceps', sets:'2', reps:'10', rest:45, tips:'Sit in a chair, very light weights (2-5 lbs). Curl slowly, squeeze at top, lower with control. Keep elbows at sides.', category:'senior', video:'https://www.youtube.com/watch?v=iui51E31sX8' },
+    { id:'sr13', name:'Marching in Place', muscles:'Cardio, hip flexors, balance', sets:'1', reps:'1-2 min', tips:'Stand tall, march in place lifting knees to a comfortable height. Swing arms naturally. Hold chair if needed for balance.', category:'senior', video:'https://www.youtube.com/watch?v=2MoGxae-zyo' },
+    { id:'sr14', name:'Seated Torso Twist', muscles:'Obliques, spine mobility', sets:'1', reps:'8 each side', tips:'Sit tall in chair, hands on shoulders. Rotate torso left and right slowly. Keep hips facing forward. Breathe naturally.', category:'senior', video:'https://www.youtube.com/watch?v=6GcBTU5bD00' },
+    { id:'sr15', name:'Wall Slides', muscles:'Shoulders, upper back, posture', sets:'2', reps:'8', rest:45, tips:'Stand with back against wall, arms in "goalpost" position. Slide arms up and down the wall. Great for posture.', category:'senior', video:'https://www.youtube.com/watch?v=d6V2Exzb324' },
+    { id:'sr16', name:'Gentle Step-ups', muscles:'Quads, glutes, balance', sets:'2', reps:'6/leg', rest:60, tips:'Use a low step (4-6 inches) or bottom stair. Step up with one foot, bring the other up, step back down. Hold railing for support.', category:'senior', video:'https://www.youtube.com/watch?v=dQqApCGd5Cw' },
   ]
 };
 
@@ -693,11 +712,176 @@ WEEK_SCHEDULES_W[6] = P3W_INTENSE;
 WEEK_SCHEDULES_W[7] = P3W_INTENSE;
 WEEK_SCHEDULES_W[8] = RECOVERY_WEEK;
 
+// ===== SENIOR SCHEDULES (completely separate, gentle program) =====
+const Sr = EXERCISES.senior;
+
+const SENIOR_RECOVERY = {
+  1: { title: 'Monday — Gentle Walking + Stretching', subtitle: '🌿 Recovery Week', est: '~25 min',
+    sections: [
+      { name: '🚶 Walking', time: '15 min', exercises: [Sr[0]], isSeniorCardio: true },
+      { name: '🧘 Gentle Stretching', time: '10 min', exercises: [E.stretch[4], E.stretch[5], E.stretch[9]], isStretch: true },
+    ]
+  },
+  2: { title: 'Tuesday — Yoga + Breathing', subtitle: '🌿 Recovery Week', est: '~25 min',
+    sections: [
+      { name: '🧘‍♀️ Gentle Yoga', time: '15 min', exercises: [E.yoga[0], E.yoga[1], E.yoga[3]], isStretch: true },
+      { name: '🧘 Stretching', time: '10 min', exercises: [E.stretch[0], E.stretch[4], E.stretch[6]], isStretch: true },
+    ]
+  },
+  3: { title: 'Wednesday — Walking + Balance', subtitle: '🌿 Recovery Week', est: '~25 min',
+    sections: [
+      { name: '🚶 Walking', time: '12 min', exercises: [Sr[0]], isSeniorCardio: true },
+      { name: '⚖️ Gentle Balance', time: '8 min', exercises: [Sr[5], Sr[10]], isSeniorBalance: true },
+      { name: '🧘 Stretching', time: '5 min', exercises: [E.stretch[5], E.stretch[9]], isStretch: true },
+    ]
+  },
+  4: { title: 'Thursday — Yoga + Flexibility', subtitle: '🌿 Recovery Week', est: '~25 min',
+    sections: [
+      { name: '🧘‍♀️ Yoga Poses', time: '15 min', exercises: E.yoga, isStretch: true },
+      { name: '🧘 Deep Stretching', time: '10 min', exercises: [E.stretch[0], E.stretch[4], E.stretch[5], E.stretch[6], E.stretch[9]], isStretch: true },
+    ]
+  },
+  5: { title: 'Friday — Walking + Light Movement', subtitle: '🌿 Recovery Week', est: '~25 min',
+    sections: [
+      { name: '🚶 Walking', time: '15 min', exercises: [Sr[0]], isSeniorCardio: true },
+      { name: '🧘 Full Body Stretch', time: '10 min', exercises: [E.stretch[0], E.stretch[3], E.stretch[4], E.stretch[9]], isStretch: true },
+    ]
+  }
+};
+
+// Phase 1 Senior — Introduction (weeks 0 & 1)
+const P1S_GENTLE = {
+  1: { title: 'Monday — Light Upper Body + Walking', subtitle: '🌿 Chair-Assisted Upper Body', est: '~30 min',
+    sections: [
+      { name: '🚶 Warmup Walk', time: '5 min', exercises: [Sr[12]], isSeniorCardio: true },
+      { name: '💪 Upper Body (Chair-Assisted)', time: '15 min', exercises: [Sr[2], Sr[3], Sr[4], Sr[8], Sr[11]] },
+      { name: '🚶 Cooldown Walk', time: '5 min', exercises: [Sr[0]], isSeniorCardio: true },
+      { name: '🧘 Stretch', time: '5 min', exercises: [E.stretch[5], E.stretch[9]], isStretch: true },
+    ]
+  },
+  2: { title: 'Tuesday — Walking + Balance', subtitle: '🌿 Balance & Stability Focus', est: '~30 min',
+    sections: [
+      { name: '🚶 Walking', time: '12 min', exercises: [Sr[0]], isSeniorCardio: true },
+      { name: '⚖️ Balance Work', time: '10 min', exercises: [Sr[5], Sr[10], Sr[6]] },
+      { name: '🧘 Stretch', time: '8 min', exercises: [E.stretch[4], E.stretch[5], E.stretch[6]], isStretch: true },
+    ]
+  },
+  3: { title: 'Wednesday — Light Lower Body + Stretching', subtitle: '🌿 Chair-Assisted Lower Body', est: '~30 min',
+    sections: [
+      { name: '🚶 Warmup Walk', time: '5 min', exercises: [Sr[12]], isSeniorCardio: true },
+      { name: '🦵 Lower Body (Chair-Assisted)', time: '15 min', exercises: [Sr[1], Sr[7], Sr[9], Sr[6]] },
+      { name: '🧘 Stretching', time: '10 min', exercises: [E.stretch[0], E.stretch[3], E.stretch[4], E.stretch[9]], isStretch: true },
+    ]
+  },
+  4: { title: 'Thursday — Yoga + Flexibility', subtitle: '🌿 Gentle Yoga & Deep Stretching', est: '~30 min',
+    sections: [
+      { name: '🧘‍♀️ Yoga Poses', time: '15 min', exercises: [E.yoga[0], E.yoga[1], E.yoga[2], E.yoga[3]], isStretch: true },
+      { name: '🧘 Deep Stretching', time: '15 min', exercises: [E.stretch[0], E.stretch[4], E.stretch[5], E.stretch[6], E.stretch[9]], isStretch: true },
+    ]
+  },
+  5: { title: 'Friday — Walking + Gentle Full Body', subtitle: '🌿 Easy Full Body Movement', est: '~30 min',
+    sections: [
+      { name: '🚶 Walking', time: '10 min', exercises: [Sr[0]], isSeniorCardio: true },
+      { name: '🏋️ Gentle Full Body', time: '12 min', exercises: [Sr[2], Sr[1], Sr[8], Sr[6], Sr[14]] },
+      { name: '🧘 Cooldown Stretch', time: '8 min', exercises: [E.stretch[4], E.stretch[5], E.stretch[9]], isStretch: true },
+    ]
+  }
+};
+
+// Phase 2 Senior — Progression (weeks 3 & 4): slightly longer walks, one more rep
+const P2S_GENTLE = {
+  1: { title: 'Monday — Upper Body + Walking', subtitle: '🌿 Building Strength Gently', est: '~30 min',
+    sections: [
+      { name: '🚶 Warmup Walk', time: '5 min', exercises: [Sr[12]], isSeniorCardio: true },
+      { name: '💪 Upper Body', time: '15 min', exercises: [Sr[2], Sr[3], Sr[4], Sr[11], Sr[14], Sr[8]] },
+      { name: '🚶 Cooldown Walk', time: '5 min', exercises: [Sr[0]], isSeniorCardio: true },
+      { name: '🧘 Stretch', time: '5 min', exercises: [E.stretch[5], E.stretch[9]], isStretch: true },
+    ]
+  },
+  2: { title: 'Tuesday — Walking + Balance', subtitle: '🌿 Longer Walk, Balance Challenge', est: '~30 min',
+    sections: [
+      { name: '🚶 Walking', time: '15 min', exercises: [Sr[0]], isSeniorCardio: true },
+      { name: '⚖️ Balance Work', time: '10 min', exercises: [Sr[5], Sr[10], Sr[6], Sr[12]] },
+      { name: '🧘 Stretch', time: '5 min', exercises: [E.stretch[4], E.stretch[6]], isStretch: true },
+    ]
+  },
+  3: { title: 'Wednesday — Lower Body + Stretching', subtitle: '🌿 Adding Gentle Step-ups', est: '~30 min',
+    sections: [
+      { name: '🚶 Warmup Walk', time: '5 min', exercises: [Sr[12]], isSeniorCardio: true },
+      { name: '🦵 Lower Body', time: '15 min', exercises: [Sr[1], Sr[7], Sr[9], Sr[6], Sr[15]] },
+      { name: '🧘 Stretching', time: '10 min', exercises: [E.stretch[0], E.stretch[3], E.stretch[4], E.stretch[9]], isStretch: true },
+    ]
+  },
+  4: { title: 'Thursday — Yoga + Flexibility', subtitle: '🌿 Gentle Yoga & Deep Stretching', est: '~30 min',
+    sections: [
+      { name: '🧘‍♀️ Yoga Poses', time: '15 min', exercises: [E.yoga[0], E.yoga[1], E.yoga[2], E.yoga[3], E.yoga[4]], isStretch: true },
+      { name: '🧘 Deep Stretching', time: '15 min', exercises: [E.stretch[0], E.stretch[1], E.stretch[4], E.stretch[5], E.stretch[6], E.stretch[9]], isStretch: true },
+    ]
+  },
+  5: { title: 'Friday — Walking + Full Body', subtitle: '🌿 Gentle Full Body Circuit', est: '~30 min',
+    sections: [
+      { name: '🚶 Walking', time: '12 min', exercises: [Sr[0]], isSeniorCardio: true },
+      { name: '🏋️ Gentle Full Body', time: '12 min', exercises: [Sr[2], Sr[1], Sr[4], Sr[8], Sr[6], Sr[13]] },
+      { name: '🧘 Cooldown Stretch', time: '6 min', exercises: [E.stretch[4], E.stretch[5], E.stretch[9]], isStretch: true },
+    ]
+  }
+};
+
+// Phase 3 Senior — Maintenance (weeks 6 & 7): confidence building, all exercises available
+const P3S_GENTLE = {
+  1: { title: 'Monday — Upper Body + Walking', subtitle: '🌿 Full Upper Body Routine', est: '~30 min',
+    sections: [
+      { name: '🚶 Warmup Walk', time: '5 min', exercises: [Sr[12]], isSeniorCardio: true },
+      { name: '💪 Upper Body', time: '15 min', exercises: [Sr[2], Sr[3], Sr[4], Sr[11], Sr[14], Sr[8], Sr[13]] },
+      { name: '🚶 Cooldown Walk', time: '5 min', exercises: [Sr[0]], isSeniorCardio: true },
+      { name: '🧘 Stretch', time: '5 min', exercises: [E.stretch[5], E.stretch[9]], isStretch: true },
+    ]
+  },
+  2: { title: 'Tuesday — Walking + Balance + Core', subtitle: '🌿 Balance & Stability', est: '~30 min',
+    sections: [
+      { name: '🚶 Walking', time: '15 min', exercises: [Sr[0]], isSeniorCardio: true },
+      { name: '⚖️ Balance + Core', time: '10 min', exercises: [Sr[5], Sr[10], Sr[6], Sr[13], Sr[12]] },
+      { name: '🧘 Stretch', time: '5 min', exercises: [E.stretch[4], E.stretch[6]], isStretch: true },
+    ]
+  },
+  3: { title: 'Wednesday — Lower Body + Stretching', subtitle: '🌿 Full Lower Body Routine', est: '~30 min',
+    sections: [
+      { name: '🚶 Warmup Walk', time: '5 min', exercises: [Sr[12]], isSeniorCardio: true },
+      { name: '🦵 Lower Body', time: '15 min', exercises: [Sr[1], Sr[7], Sr[9], Sr[6], Sr[15], Sr[10]] },
+      { name: '🧘 Stretching', time: '10 min', exercises: [E.stretch[0], E.stretch[1], E.stretch[3], E.stretch[4], E.stretch[9]], isStretch: true },
+    ]
+  },
+  4: { title: 'Thursday — Yoga + Flexibility', subtitle: '🌿 Full Yoga Session', est: '~30 min',
+    sections: [
+      { name: '🧘‍♀️ All Yoga Poses', time: '15 min', exercises: E.yoga, isStretch: true },
+      { name: '🧘 Deep Stretching', time: '15 min', exercises: [E.stretch[0], E.stretch[1], E.stretch[4], E.stretch[5], E.stretch[6], E.stretch[9]], isStretch: true },
+    ]
+  },
+  5: { title: 'Friday — Walking + Full Body', subtitle: '🌿 Gentle Full Body Finish', est: '~30 min',
+    sections: [
+      { name: '🚶 Walking', time: '12 min', exercises: [Sr[0]], isSeniorCardio: true },
+      { name: '🏋️ Full Body', time: '12 min', exercises: [Sr[2], Sr[1], Sr[3], Sr[4], Sr[8], Sr[15], Sr[13]] },
+      { name: '🧘 Cooldown Stretch', time: '6 min', exercises: [E.stretch[0], E.stretch[4], E.stretch[5], E.stretch[9]], isStretch: true },
+    ]
+  }
+};
+
+const WEEK_SCHEDULES_SR = [];
+WEEK_SCHEDULES_SR[0] = P1S_GENTLE;
+WEEK_SCHEDULES_SR[1] = P1S_GENTLE;
+WEEK_SCHEDULES_SR[2] = SENIOR_RECOVERY;
+WEEK_SCHEDULES_SR[3] = P2S_GENTLE;
+WEEK_SCHEDULES_SR[4] = P2S_GENTLE;
+WEEK_SCHEDULES_SR[5] = SENIOR_RECOVERY;
+WEEK_SCHEDULES_SR[6] = P3S_GENTLE;
+WEEK_SCHEDULES_SR[7] = P3S_GENTLE;
+WEEK_SCHEDULES_SR[8] = SENIOR_RECOVERY;
+
 // ===== AGE TIER MODIFIERS =====
 const AGE_MODIFIERS = {
   young:  { setsMult: 1.3, repsMult: 1.3, restMult: 0.8, holdMult: 1.3, label: '💪 Young — Extended Sets' },
   adult:  { setsMult: 1.0, repsMult: 1.0, restMult: 1.0, holdMult: 1.0, label: '🎯 Adult — Standard' },
-  senior: { setsMult: 0.7, repsMult: 0.7, restMult: 1.4, holdMult: 0.6, label: '🌿 Senior — Low Impact' }
+  senior: { setsMult: 1.0, repsMult: 1.0, restMult: 1.0, holdMult: 1.0, label: '🌿 Senior — Gentle, Walking-Focused' }
 };
 
 // Senior exercise substitutions (no jumping, chair-assisted options)
@@ -740,6 +924,9 @@ function setProfile(gender, age) {
 function getCurrentSchedule() {
   const info = getCycleInfo();
   const profile = getProfile();
+  if (profile && profile.age === 'senior') {
+    return WEEK_SCHEDULES_SR[info.weekNum];
+  }
   if (profile && profile.gender === 'woman') {
     return WEEK_SCHEDULES_W[info.weekNum];
   }
@@ -821,11 +1008,21 @@ function renderToday() {
   document.getElementById('today-content').classList.remove('hide');
 
   const info = getCycleInfo();
+  const profile = getProfile();
+  const isSenior = profile && profile.age === 'senior';
   const schedule = getCurrentSchedule();
   const sched = schedule[day];
   document.getElementById('today-title').textContent = sched.title;
   document.getElementById('today-subtitle').textContent = info.label + ' • ' + sched.subtitle;
   document.getElementById('today-est-time').textContent = sched.est;
+
+  // Update PKD notice for seniors
+  const pkdNotice = document.getElementById('pkd-notice');
+  if (isSenior) {
+    pkdNotice.innerHTML = '<p class="text-blue-300">🌿 <strong>Gentle Reminder:</strong> Listen to your body. Use a chair for support. No rushing — slow and controlled wins. Stay hydrated and breathe naturally.</p>';
+  } else {
+    pkdNotice.innerHTML = '<p class="text-blue-300">⚠️ <strong>PKD Reminder:</strong> Moderate weight, perfect form. Avoid heavy straining & valsalva. Breathe through every rep. Burpees: step back, no jump, no push-up.</p>';
+  }
 
   // Load today's completed
   const data = loadData();
@@ -875,8 +1072,7 @@ function renderToday() {
           <div class="flex-1 mr-3">
             <div class="font-semibold ${done ? 'line-through text-slate-500' : ''}">${ex.name} ${ex.video ? '<a href="'+ex.video+'" target="_blank" class="text-xs text-cyan-400 font-normal ml-1">🎥 Demo</a>' : ''}</div>
             <div class="text-xs text-slate-400 mt-0.5">${ex.muscles}</div>
-            <div class="text-sm text-fire-400 mt-1">${isWeighted ? applyAgeMod(ex.sets,'sets')+'×'+applyAgeMod(ex.reps,'reps') : applyAgeMod(ex.sets,'hold')+' '+applyAgeMod(ex.reps,'reps')}</div>
-            ${SENIOR_SUBS[ex.id] && getProfile()?.age === 'senior' ? '<div class="text-xs text-yellow-400 mt-1">'+SENIOR_SUBS[ex.id]+'</div>' : ''}
+            <div class="text-sm text-fire-400 mt-1">${isWeighted ? (isSenior ? ex.sets+'×'+ex.reps : applyAgeMod(ex.sets,'sets')+'×'+applyAgeMod(ex.reps,'reps')) : (isSenior ? ex.sets+' '+ex.reps : applyAgeMod(ex.sets,'hold')+' '+applyAgeMod(ex.reps,'reps'))}</div>
             ${getProfile()?.age === 'adult' ? '<details class="mt-2"><summary class="text-xs text-cyan-500 cursor-pointer">💡 Form Tips (prioritized)</summary><p class="text-xs text-cyan-300 mt-1">⚠️ Focus on controlled form over speed. '+ex.tips+'</p></details>' : '<details class="mt-2"><summary class="text-xs text-slate-500 cursor-pointer">Form Tips</summary><p class="text-xs text-slate-400 mt-1">'+ex.tips+'</p></details>'}
           </div>
           <button onclick="toggleExercise('${ex.id}', this)" class="min-w-[48px] min-h-[48px] flex items-center justify-center rounded-xl text-2xl ${done ? 'bg-green-700' : 'bg-slate-700'} active:scale-90 transition">
@@ -1004,14 +1200,14 @@ function renderExercises() {
   const container = document.getElementById('exercise-list');
   container.innerHTML = '';
 
-  const allExercises = [...E.flow, ...E.push, ...E.pull, ...E.legs, ...E.bodyweight, ...E.compound, ...E.yoga, ...E.stretch, ...E.kb, ...E.glute];
+  const allExercises = [...E.flow, ...E.push, ...E.pull, ...E.legs, ...E.bodyweight, ...E.compound, ...E.yoga, ...E.stretch, ...E.kb, ...E.glute, ...(E.senior||[])];
   const filtered = allExercises.filter(ex => {
     if (activeCat !== 'all' && ex.category !== activeCat) return false;
     if (search && !ex.name.toLowerCase().includes(search) && !ex.muscles.toLowerCase().includes(search)) return false;
     return true;
   });
 
-  const catLabels = { flow:'🐻 Animal Flow', push:'💪 Push', pull:'🔙 Pull', legs:'🦵 Legs', bodyweight:'🏃 Bodyweight', compound:'🔥 Compound', yoga:'🧘‍♀️ Yoga', stretch:'🧘 Stretch', kb:'🔔 Kettlebell', glute:'🍑 Glute/Hip' };
+  const catLabels = { flow:'🐻 Animal Flow', push:'💪 Push', pull:'🔙 Pull', legs:'🦵 Legs', bodyweight:'🏃 Bodyweight', compound:'🔥 Compound', yoga:'🧘‍♀️ Yoga', stretch:'🧘 Stretch', kb:'🔔 Kettlebell', glute:'🍑 Glute/Hip', senior:'🌿 Senior' };
   let lastCat = '';
 
   filtered.forEach(ex => {
@@ -1204,7 +1400,7 @@ function renderProgress() {
 
   const sel = document.getElementById('weight-exercise');
   if (sel.options.length === 0) {
-    const weighted = [...E.push, ...E.pull, ...E.legs, ...E.bodyweight, ...E.compound, ...E.kb, ...E.glute];
+    const weighted = [...E.push, ...E.pull, ...E.legs, ...E.bodyweight, ...E.compound, ...E.kb, ...E.glute, ...(E.senior||[])];
     weighted.forEach(ex => {
       const opt = document.createElement('option');
       opt.value = ex.id; opt.textContent = ex.name;
@@ -1299,7 +1495,7 @@ function logWeight() {
 function renderWeightHistory() {
   const data = loadData();
   const container = document.getElementById('weight-history');
-  const allEx = [...E.push, ...E.pull, ...E.legs, ...E.bodyweight, ...E.compound, ...E.kb, ...E.glute];
+  const allEx = [...E.push, ...E.pull, ...E.legs, ...E.bodyweight, ...E.compound, ...E.kb, ...E.glute, ...(E.senior||[])];
   const nameMap = Object.fromEntries(allEx.map(e => [e.id, e.name]));
   // Combine old weight log and new set log
   const setLogs = (data.setLog || []).slice(-30).reverse();
