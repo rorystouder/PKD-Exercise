@@ -265,6 +265,11 @@ const EXERCISES = {
     { id:'l5', name:'Side Lateral Raises', muscles:'Side delts', sets:'3', reps:'12-15', rest:60, tips:'Arms at sides, raise to parallel, slight elbow bend, lower slowly.', category:'legs' },
     { id:'l6', name:'Front Raises', muscles:'Front delts', sets:'3', reps:'12-15', rest:60, tips:'Hold in front of thighs, raise to shoulder height, slight elbow bend, lower slowly.', category:'legs' },
   ],
+  kettlebell: [
+    { id:'k1', name:'Kettlebell Swings', muscles:'Glutes, hamstrings, core, shoulders', sets:'1', reps:'15', rest:30, tips:'Hip hinge, not a squat. Snap hips forward to drive the bell. Arms are just along for the ride. Control on the way down. Breathe out at the top.', category:'kettlebell' },
+    { id:'k2', name:'Kettlebell Floor Press', muscles:'Chest, triceps', sets:'1', reps:'15', rest:30, tips:'Lie on floor, press kettlebell/dumbbell straight up. Floor limits range of motion — safer for shoulders. Squeeze chest at top.', category:'kettlebell' },
+    { id:'k3', name:'Kettlebell Rotational Swings', muscles:'Obliques, core, shoulders', sets:'1', reps:'15/side', rest:30, tips:'Swing bell side to side in front of body. Rotate from hips and core, not arms. Control the momentum. ⚠️ PKD: use moderate weight, avoid straining.', category:'kettlebell' },
+  ],
   stretch: [
     { id:'s1', name:'90/90 Hip Stretch', muscles:'Hip rotators', sets:'30-60s', reps:'each side', tips:'Front leg 90°, back leg 90°. Sit tall, lean forward gently. Breathe deeply.', category:'stretch' },
     { id:'s2', name:'Pigeon Pose', muscles:'Hip flexors, glutes', sets:'30-60s', reps:'each side', tips:'Front shin across mat, back leg extended. Square hips. Fold forward for deeper stretch.', category:'stretch' },
@@ -276,6 +281,12 @@ const EXERCISES = {
     { id:'s8', name:'Frog Stretch', muscles:'Inner thighs, groin', sets:'30-60s', reps:'hold', tips:'Knees wide on all fours, push hips back. Go only as far as comfortable.', category:'stretch' },
     { id:'s9', name:'Lizard Pose', muscles:'Hip flexors, hamstrings', sets:'30-60s', reps:'each side', tips:'Low lunge, both hands inside front foot. Drop to forearms for depth.', category:'stretch' },
     { id:'s10', name:'Reclined Twist', muscles:'Spine, obliques, hips', sets:'30-60s', reps:'each side', tips:'On back, knees to one side, arms out. Look opposite direction. Let gravity do the work.', category:'stretch' },
+  ],
+  kb: [
+    { id:'k1', name:'Kettlebell Swings', muscles:'Glutes, hamstrings, core, shoulders', sets:'1', reps:'15', rest:30, tips:'Hip hinge, snap hips forward. Arms guide—don\'t lift with shoulders. Breathe out at top. Moderate weight (25-35 lb).', category:'kb' },
+    { id:'k2', name:'Kettlebell Chest Press', muscles:'Chest, triceps', sets:'1', reps:'15', rest:30, tips:'Floor press. Lower with control, elbows at 45°. Press straight up, squeeze chest at top. Can use dumbbell substitute.', category:'kb' },
+    { id:'k3', name:'Kettlebell Side Swings (Left)', muscles:'Obliques, core, shoulders', sets:'1', reps:'15', rest:15, tips:'Rotational swing to the left. Control the rotation from your core, not arms. Feet planted, pivot slightly.', category:'kb' },
+    { id:'k4', name:'Kettlebell Side Swings (Right)', muscles:'Obliques, core, shoulders', sets:'1', reps:'15', rest:0, tips:'Rotational swing to the right. Match tempo with left side. Exhale on exertion. 60 total reps done!', category:'kb' },
   ]
 };
 
@@ -285,6 +296,7 @@ const SCHEDULE = {
     sections: [
       { name: '🐻 Free Movement Warmup', time: '12 min', exercises: EXERCISES.flow, isFlow: true },
       { name: '🏋️ Push Day', time: '35-40 min', exercises: EXERCISES.push },
+      { name: '🔥 Kettlebell Finisher', time: '5 min', exercises: EXERCISES.kettlebell },
       { name: '🧘 Hip Stretching', time: '15 min', exercises: EXERCISES.stretch, isStretch: true },
     ]
   },
@@ -293,6 +305,7 @@ const SCHEDULE = {
     sections: [
       { name: '🐻 Free Movement Warmup', time: '12 min', exercises: EXERCISES.flow, isFlow: true },
       { name: '🏋️ Pull Day', time: '35-40 min', exercises: EXERCISES.pull },
+      { name: '🔥 Kettlebell Finisher', time: '5 min', exercises: EXERCISES.kettlebell },
       { name: '🧘 Hip Stretching', time: '15 min', exercises: EXERCISES.stretch, isStretch: true },
     ]
   },
@@ -308,6 +321,7 @@ const SCHEDULE = {
     sections: [
       { name: '🐻 Free Movement Warmup', time: '12 min', exercises: EXERCISES.flow, isFlow: true },
       { name: '🏋️ Leg Day', time: '35-40 min', exercises: EXERCISES.legs },
+      { name: '🔥 Kettlebell Finisher', time: '5 min', exercises: EXERCISES.kettlebell },
       { name: '🧘 Hip Stretching', time: '15 min', exercises: EXERCISES.stretch, isStretch: true },
     ]
   },
