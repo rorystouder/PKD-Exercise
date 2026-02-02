@@ -652,8 +652,14 @@ function renderToday() {
             ${done ? '✅' : '⬜'}
           </button>
         </div>
-        ${isWeighted ? `<div class="mt-2 flex gap-2">
-          <button onclick="startRest(${ex.rest||60})" class="text-xs bg-slate-700 px-3 py-1.5 rounded-lg active:scale-95">⏱ Rest ${ex.rest||60}s</button>
+        ${isWeighted ? `<div class="mt-2">
+          <div class="flex gap-2 mb-2">
+            <input type="number" id="wt-${ex.id}" placeholder="lbs" class="bg-slate-700 rounded-lg px-2 py-1.5 text-sm w-16 text-center" value="${getLastWeight(ex.id)}">
+            <input type="number" id="rp-${ex.id}" placeholder="reps" class="bg-slate-700 rounded-lg px-2 py-1.5 text-sm w-16 text-center" value="${getLastReps(ex.id)}">
+            <button onclick="logSet('${ex.id}')" class="text-xs bg-fire-600 px-3 py-1.5 rounded-lg active:scale-95 font-semibold">+ Set</button>
+            <button onclick="startRest(${ex.rest||60})" class="text-xs bg-slate-700 px-3 py-1.5 rounded-lg active:scale-95">⏱ ${ex.rest||60}s</button>
+          </div>
+          <div id="sets-${ex.id}" class="text-xs text-slate-400 flex flex-wrap gap-1">${renderSetBadges(ex.id)}</div>
         </div>` : ''}
       `;
       secEl.appendChild(card);
@@ -951,6 +957,42 @@ function resetWater() {
   renderWater();
 }
 
+function getLastWeight(exId) {
+  const data = loadData();
+  const sets = (data.setLog || []).filter(s => s.exercise === exId);
+  return sets.length ? sets[sets.length - 1].weight : '';
+}
+
+function getLastReps(exId) {
+  const data = loadData();
+  const sets = (data.setLog || []).filter(s => s.exercise === exId);
+  return sets.length ? sets[sets.length - 1].reps : '';
+}
+
+function logSet(exId) {
+  const wt = parseFloat(document.getElementById('wt-' + exId).value);
+  const rp = parseInt(document.getElementById('rp-' + exId).value);
+  if (!wt && !rp) return;
+  const data = loadData();
+  if (!data.setLog) data.setLog = [];
+  data.setLog.push({ date: todayKey(), exercise: exId, weight: wt || 0, reps: rp || 0, time: Date.now() });
+  saveData(data);
+  beep(660, 80);
+  // Update badges
+  const badgeEl = document.getElementById('sets-' + exId);
+  if (badgeEl) badgeEl.innerHTML = renderSetBadges(exId);
+}
+
+function renderSetBadges(exId) {
+  const data = loadData();
+  const tk = todayKey();
+  const todaySets = (data.setLog || []).filter(s => s.exercise === exId && s.date === tk);
+  if (!todaySets.length) return '';
+  return todaySets.map((s, i) =>
+    `<span class="bg-slate-700 px-2 py-0.5 rounded text-fire-400">S${i+1}: ${s.weight}lb × ${s.reps}</span>`
+  ).join('');
+}
+
 function logWeight() {
   const exId = document.getElementById('weight-exercise').value;
   const val = parseFloat(document.getElementById('weight-value').value);
@@ -967,12 +1009,25 @@ function logWeight() {
 function renderWeightHistory() {
   const data = loadData();
   const container = document.getElementById('weight-history');
-  const weights = (data.weights || []).slice(-20).reverse();
   const allEx = [...E.push, ...E.pull, ...E.legs, ...E.bodyweight, ...E.compound, ...E.kb];
   const nameMap = Object.fromEntries(allEx.map(e => [e.id, e.name]));
-  container.innerHTML = weights.length ? weights.map(w =>
-    `<div class="flex justify-between"><span>${nameMap[w.exercise]||w.exercise}</span><span class="text-fire-400">${w.weight} lbs</span><span class="text-slate-500">${w.date}</span></div>`
-  ).join('') : '<p class="text-slate-500">No weights logged yet</p>';
+  // Combine old weight log and new set log
+  const setLogs = (data.setLog || []).slice(-30).reverse();
+  const oldWeights = (data.weights || []).slice(-10).reverse();
+  let html = '';
+  if (setLogs.length) {
+    html += '<p class="text-xs text-slate-500 mb-1 font-semibold">Recent Sets</p>';
+    html += setLogs.map(s =>
+      `<div class="flex justify-between text-xs"><span>${nameMap[s.exercise]||s.exercise}</span><span class="text-fire-400">${s.weight}lb × ${s.reps}</span><span class="text-slate-500">${s.date}</span></div>`
+    ).join('');
+  }
+  if (oldWeights.length) {
+    html += '<p class="text-xs text-slate-500 mb-1 mt-2 font-semibold">Weight Log</p>';
+    html += oldWeights.map(w =>
+      `<div class="flex justify-between text-xs"><span>${nameMap[w.exercise]||w.exercise}</span><span class="text-fire-400">${w.weight} lbs</span><span class="text-slate-500">${w.date}</span></div>`
+    ).join('');
+  }
+  container.innerHTML = html || '<p class="text-slate-500">No weights logged yet. Track sets during your workout!</p>';
 }
 
 function exportData() {
