@@ -423,23 +423,24 @@ const P1_INTENSE = {
   1: { title: 'Monday — Chest + Back + Abs', subtitle: '💪 Push & Pull Supersets + Core', est: '~45 min',
     sections: [
       { name: '🐻 Animal Flow Warmup', time: '8 min', exercises: E.flow.slice(0,5), isFlow: true },
-      { name: '🏋️ Chest + Back', time: '20 min', exercises: [E.push[0], E.bodyweight[0], E.pull[1], E.bodyweight[3], E.push[2], E.bodyweight[1], E.pull[0]] },
-      { name: '🎯 Ab Finisher', time: '7 min', exercises: [E.abs[0], E.abs[1], E.abs[3], E.bodyweight[9]] },
+      { name: '🏋️ Chest + Back', time: '25 min', exercises: [E.push[0], E.pull[0], E.push[1], E.pull[1], E.bodyweight[0], E.bodyweight[3], E.push[2], E.pull[2], E.bodyweight[1], E.compound[2]] },
+      { name: '🎯 Ab Finisher', time: '7 min', exercises: [E.abs[0], E.abs[1], E.abs[3], E.abs[6], E.bodyweight[9]] },
       { name: '🧘 Hip Stretching', time: '5 min', exercises: [E.stretch[0], E.stretch[1], E.stretch[3], E.stretch[9]], isStretch: true },
     ]
   },
   2: { title: 'Tuesday — Cardio Circuit', subtitle: '🔥 45s work / 15s rest, 2 rounds', est: '~45 min',
     sections: [
       { name: '🐻 Animal Flow Warmup', time: '8 min', exercises: E.flow.slice(0,5), isFlow: true },
-      { name: '🔥 Cardio Circuit', time: '30 min', exercises: [E.kb[0], E.flow[2], E.flow[0], E.flow[1], E.bodyweight[4], E.bodyweight[5], E.bodyweight[6], E.kb[2], E.flow[4], E.bodyweight[7]] },
+      { name: '🔥 Cardio Circuit (Round 1)', time: '15 min', exercises: [E.kb[0], E.flow[2], E.bodyweight[4], E.flow[0], E.bodyweight[5], E.flow[1], E.bodyweight[6], E.compound[0], E.flow[4], E.bodyweight[7], E.kb[2], E.glute[0], E.bodyweight[8], E.legs[1], E.abs[0]] },
+      { name: '🔥 Cardio Circuit (Round 2)', time: '15 min', exercises: [E.kb[0], E.flow[2], E.bodyweight[4], E.flow[0], E.bodyweight[5], E.flow[1], E.bodyweight[6], E.compound[0], E.flow[4], E.bodyweight[7], E.kb[2], E.glute[0], E.bodyweight[8], E.legs[1], E.abs[0]] },
       { name: '🧘 Stretch Cooldown', time: '5 min', exercises: [E.stretch[0], E.stretch[4], E.stretch[9]], isStretch: true },
     ]
   },
   3: { title: 'Wednesday — Arms + Shoulders + Abs', subtitle: '💪 Biceps, Triceps, Delts + Core', est: '~45 min',
     sections: [
       { name: '🐻 Animal Flow Warmup', time: '8 min', exercises: E.flow.slice(0,5), isFlow: true },
-      { name: '🏋️ Arms + Shoulders', time: '20 min', exercises: [E.pull[4], E.push[4], E.pull[5], E.push[3], E.push[5], E.bodyweight[2], E.push[6], E.push[7]] },
-      { name: '🎯 Ab Finisher', time: '7 min', exercises: [E.abs[2], E.abs[4], E.abs[6], E.bodyweight[10]] },
+      { name: '🏋️ Arms + Shoulders', time: '25 min', exercises: [E.pull[4], E.push[4], E.pull[5], E.push[3], E.push[5], E.pull[3], E.bodyweight[2], E.bodyweight[12], E.push[6], E.push[7], E.bodyweight[11]] },
+      { name: '🎯 Ab Finisher', time: '7 min', exercises: [E.abs[2], E.abs[4], E.abs[6], E.abs[5], E.bodyweight[10]] },
       { name: '🧘 Stretch Cooldown', time: '5 min', exercises: [E.stretch[0], E.stretch[5], E.stretch[9]], isStretch: true },
     ]
   },
@@ -453,8 +454,8 @@ const P1_INTENSE = {
   5: { title: 'Friday — Legs + Back + Abs', subtitle: '🦵 Lower Body + Pull + Core', est: '~45 min',
     sections: [
       { name: '🐻 Animal Flow Warmup', time: '8 min', exercises: E.flow.slice(0,5), isFlow: true },
-      { name: '🏋️ Legs + Back', time: '20 min', exercises: [E.legs[1], E.bodyweight[3], E.legs[0], E.pull[1], E.legs[2], E.legs[3], E.kb[0]] },
-      { name: '🎯 Ab Finisher', time: '7 min', exercises: [E.abs[5], E.abs[7], E.abs[1], E.bodyweight[14]] },
+      { name: '🏋️ Legs + Back', time: '25 min', exercises: [E.legs[1], E.pull[0], E.legs[0], E.pull[1], E.legs[2], E.bodyweight[3], E.legs[3], E.legs[4], E.legs[5], E.glute[3], E.kb[0]] },
+      { name: '🎯 Ab Finisher', time: '7 min', exercises: [E.abs[5], E.abs[7], E.abs[1], E.abs[3], E.bodyweight[14]] },
       { name: '🧘 Stretch Cooldown', time: '5 min', exercises: [E.stretch[0], E.stretch[1], E.stretch[3], E.stretch[8], E.stretch[9]], isStretch: true },
     ]
   }
