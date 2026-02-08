@@ -1,0 +1,13 @@
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700;800&display=swap');
+body { font-family: 'Inter', sans-serif; -webkit-tap-highlight-color: transparent; }
+.tab-active { color: #f97316; }
+.hide { display: none !important; }
+::-webkit-scrollbar { width: 4px; }
+::-webkit-scrollbar-thumb { background: #334155; border-radius: 4px; }
+.exercise-card { transition: all 0.2s; }
+.exercise-card.completed { opacity: 0.5; }
+.heatmap-cell { width: 14px; height: 14px; border-radius: 2px; }
+@keyframes pulse-orange { 0%,100% { box-shadow: 0 0 0 0 rgba(249,115,22,0.4); } 50% { box-shadow: 0 0 0 12px rgba(249,115,22,0); } }
+.timer-active { animation: pulse-orange 1.5s infinite; }
+.water-drop { animation: wobble 0.5s; }
+@keyframes wobble { 0%,100% { transform: scale(1); } 50% { transform: scale(1.3); } }
