@@ -59,7 +59,7 @@ var EXERCISES = {
   compound: [
     { id:'c1', name:'Dumbbell Thrusters', muscles:'Quads, shoulders, full body', sets:'3', reps:'10', rest:30, tips:'Squat holding DBs at shoulders, explode up pressing overhead in one motion.', category:'compound', video:'https://www.youtube.com/watch?v=-rHJkjHUbmo' },
     { id:'c2', name:'DB Clean and Press', muscles:'Full body, shoulders', sets:'3', reps:'8', rest:30, tips:'Power clean DB from floor to shoulder, press overhead. One fluid motion.', category:'compound', video:'https://www.youtube.com/watch?v=sZ4XMWn8bAU' },
-    { id:'c3', name:'DB Pullover', muscles:'Chest, lats', sets:'3', reps:'10', rest:30, tips:'Lying on floor/bench, hold DB over chest, lower behind head with straight arms, pull back over.', category:'compound', video:'https://www.youtube.com/watch?v=7ymJefk5FKw' },
+    { id:'c3', name:'DB Pullover', muscles:'Chest, lats', sets:'3', reps:'10', rest:30, tips:'Lying on floor/bench, hold DB over chest, lower behind head with straight arms, pull back over.', category:'compound', video:'https://www.youtube.com/watch?v=5YStMv6m2g8' },
   ],
   yoga: [
     { id:'y1', name:'Downward Dog', muscles:'Hamstrings, calves, shoulders', sets:'30-60s', reps:'hold', tips:'Inverted V shape, press heels toward floor, spread fingers wide. Hold 30-60s.', category:'yoga', video:'https://www.youtube.com/watch?v=j97SSGsnCAQ' },
