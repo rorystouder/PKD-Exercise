@@ -145,13 +145,26 @@ function toggleSectionCollapse(secIdx) {
 
 function completeWorkout() {
   tripleBeep();
+  // Stop the workout timer (but don't clear it so they can see duration)
+  if (timerRunning) {
+    clearInterval(timerInterval);
+    timerRunning = false;
+    timerStartTimestamp = null;
+    _saveTimerState();
+    document.getElementById('timer-btn').textContent = '▶️';
+    document.getElementById('timer-btn').classList.remove('timer-active');
+  }
   var data = loadData();
   var tk = todayKey();
   if (!data[tk]) data[tk] = {};
   data[tk].workoutDone = true;
+  data[tk].duration = timerSeconds; // save workout duration
   saveData(data);
   document.getElementById('complete-workout-btn').classList.add('hide');
-  alert('🎉 Workout complete! Great job!');
+  var m = Math.floor(timerSeconds/60);
+  var s = timerSeconds%60;
+  var timeStr = timerSeconds > 0 ? ' Time: ' + m + 'm ' + s + 's' : '';
+  alert('🎉 Workout complete!' + timeStr + ' Great job!');
 }
 
 function dismissHydration() {
