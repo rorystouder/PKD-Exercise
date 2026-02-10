@@ -134,6 +134,7 @@ function resetAllData() {
 function initApp() {
   updateProfileBadge();
   showPage('today');
+  _restoreTimerState();
 }
 
 // ===== INIT =====

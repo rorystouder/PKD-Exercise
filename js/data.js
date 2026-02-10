@@ -154,12 +154,11 @@ var P1_INTENSE = {
       { name: '🧘 Hip Stretching', time: '5 min', exercises: [E.stretch[0], E.stretch[1], E.stretch[3], E.stretch[9]], isStretch: true },
     ]
   },
-  2: { title: 'Tuesday — Cardio Circuit', subtitle: '🔥 45s work / 15s rest, 2 rounds', est: '~45 min',
+  2: { title: 'Tuesday — Cardio Circuit', subtitle: '🔥 HIIT + 45s work / 15s rest', est: '~45 min',
     sections: [
       { name: '🐻 Animal Flow Warmup', time: '8 min', exercises: E.flow.slice(0,5), isFlow: true },
-      { name: '🔥 Cardio Circuit (Round 1)', time: '15 min', exercises: [E.kb[0], E.flow[2], E.bodyweight[4], E.flow[0], E.bodyweight[5], E.flow[1], E.bodyweight[6], E.compound[0], E.flow[4], E.bodyweight[7], E.kb[2], E.glute[0], E.bodyweight[8], E.legs[1], E.abs[0]] },
-      { name: '🔥 Cardio Circuit (Round 2)', time: '15 min', exercises: [E.kb[0], E.flow[2], E.bodyweight[4], E.flow[0], E.bodyweight[5], E.flow[1], E.bodyweight[6], E.compound[0], E.flow[4], E.bodyweight[7], E.kb[2], E.glute[0], E.bodyweight[8], E.legs[1], E.abs[0]] },
-      { name: '⚡ HIIT WB Finisher (4 min)', time: '4 min', exercises: [E.bodyweight[5], E.bodyweight[4], E.bodyweight[16], E.bodyweight[17]], isHIIT: true },
+      { name: '⚡ HIIT WB (4 min)', time: '4 min', exercises: [E.bodyweight[5], E.bodyweight[4], E.bodyweight[16], E.bodyweight[17]], isHIIT: true },
+      { name: '🔥 Cardio Circuit', time: '25 min', exercises: [E.kb[0], E.flow[2], E.bodyweight[4], E.flow[0], E.bodyweight[5], E.flow[1], E.bodyweight[6], E.compound[0], E.flow[4], E.bodyweight[7], E.kb[2], E.glute[0], E.bodyweight[8], E.legs[1], E.abs[0]] },
       { name: '🧘 Stretch Cooldown', time: '5 min', exercises: [E.stretch[0], E.stretch[4], E.stretch[9]], isStretch: true },
     ]
   },

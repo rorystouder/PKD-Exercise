@@ -3,23 +3,30 @@ var timerRunning = false;
 var timerSeconds = 0;
 var timerInterval = null;
 var restInterval = null;
+var timerStartTimestamp = null; // epoch ms when timer started — for persistence
 
 // ===== TIMER =====
 function toggleTimer() {
   if (timerRunning) {
+    // Pause — save elapsed time
     clearInterval(timerInterval);
     timerRunning = false;
+    timerStartTimestamp = null;
+    _saveTimerState();
     document.getElementById('timer-btn').textContent = '▶️';
     document.getElementById('timer-btn').classList.remove('timer-active');
     document.getElementById('rest-timer-section').classList.add('hide');
   } else {
+    // Start/resume
     timerRunning = true;
+    timerStartTimestamp = Date.now() - (timerSeconds * 1000);
+    _saveTimerState();
     document.getElementById('timer-btn').textContent = '⏸';
     document.getElementById('timer-btn').classList.add('timer-active');
     document.getElementById('rest-timer-section').classList.remove('hide');
     document.getElementById('header-timer').classList.remove('hide');
     timerInterval = setInterval(function() {
-      timerSeconds++;
+      timerSeconds = Math.floor((Date.now() - timerStartTimestamp) / 1000);
       updateTimerDisplay();
     }, 1000);
   }
@@ -29,11 +36,55 @@ function resetTimer() {
   clearInterval(timerInterval);
   timerRunning = false;
   timerSeconds = 0;
+  timerStartTimestamp = null;
+  _clearTimerState();
   updateTimerDisplay();
   document.getElementById('timer-btn').textContent = '▶️';
   document.getElementById('timer-btn').classList.remove('timer-active');
   document.getElementById('rest-timer-section').classList.add('hide');
   document.getElementById('header-timer').classList.add('hide');
+}
+
+// ===== TIMER PERSISTENCE =====
+function _saveTimerState() {
+  var state = { seconds: timerSeconds, running: timerRunning, startTs: timerStartTimestamp, date: todayKey() };
+  try { localStorage.setItem('pkd-workout-timer', JSON.stringify(state)); } catch(e) {}
+}
+
+function _clearTimerState() {
+  try { localStorage.removeItem('pkd-workout-timer'); } catch(e) {}
+}
+
+function _restoreTimerState() {
+  try {
+    var raw = localStorage.getItem('pkd-workout-timer');
+    if (!raw) return;
+    var state = JSON.parse(raw);
+    // Only restore if same day
+    if (state.date !== todayKey()) { _clearTimerState(); return; }
+    if (state.running && state.startTs) {
+      // Timer was running when page closed — calculate elapsed
+      timerSeconds = Math.floor((Date.now() - state.startTs) / 1000);
+      timerStartTimestamp = state.startTs;
+      timerRunning = true;
+      updateTimerDisplay();
+      document.getElementById('timer-btn').textContent = '⏸';
+      document.getElementById('timer-btn').classList.add('timer-active');
+      document.getElementById('rest-timer-section').classList.remove('hide');
+      document.getElementById('header-timer').classList.remove('hide');
+      timerInterval = setInterval(function() {
+        timerSeconds = Math.floor((Date.now() - timerStartTimestamp) / 1000);
+        updateTimerDisplay();
+      }, 1000);
+      openTimerPopup();
+    } else if (state.seconds > 0) {
+      // Timer was paused — restore elapsed time
+      timerSeconds = state.seconds;
+      updateTimerDisplay();
+      document.getElementById('header-timer').classList.remove('hide');
+      openTimerPopup();
+    }
+  } catch(e) {}
 }
 
 function updateTimerDisplay() {
