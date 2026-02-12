@@ -68,6 +68,11 @@ var EXERCISES = {
     { id:'y4', name:'Triangle Pose', muscles:'Hamstrings, obliques, hips', sets:'30-60s', reps:'each side', tips:'Front leg straight, reach down to shin/floor, top arm to sky. Don\'t collapse chest.', category:'yoga', video:'https://www.youtube.com/watch?v=upFYlxZHif0' },
     { id:'y5', name:'Chair Pose', muscles:'Quads, glutes, core', sets:'30-60s', reps:'hold', tips:'Feet together, sit back like sitting in chair, arms overhead. Weight in heels.', category:'yoga', video:'https://www.youtube.com/watch?v=_GIKyB_n1TA' },
   ],
+  vinyasa: [
+    { id:'v1', name:'Vinyasa → Mountain Pose', muscles:'Full body, breath, posture', sets:'3-5 rounds', reps:'flow', tips:'Sun Salutation A: Mountain → Forward Fold → Halfway Lift → Chaturanga → Up Dog → Down Dog → step forward → Mountain. Match breath to movement.', category:'vinyasa', video:'https://www.youtube.com/watch?v=nic2mjLRYKg' },
+    { id:'v2', name:'Vinyasa → Plank Hold', muscles:'Core, shoulders, chest', sets:'3 rounds', reps:'30s hold', tips:'Flow through Sun Sal A but hold plank for 30s before lowering to chaturanga. Engage core, straight line head to heels.', category:'vinyasa', video:'https://www.youtube.com/watch?v=dCPRn1ZF0pk' },
+    { id:'v3', name:'Vinyasa → Side Plank', muscles:'Obliques, shoulders, balance', sets:'3 rounds', reps:'30s each side', tips:'From plank, rotate to side plank. Stack feet or stagger. Top arm to sky. Hold 30s, switch sides. Keep hips lifted.', category:'vinyasa', video:'https://www.youtube.com/watch?v=_J6aGhFKAfI' },
+  ],
   stretch: [
     { id:'s1', name:'90/90 Hip Stretch', muscles:'Hip rotators', sets:'30-60s', reps:'each side', tips:'Front leg 90°, back leg 90°. Sit tall, lean forward gently. Breathe deeply.', category:'stretch', video:'https://www.youtube.com/watch?v=VYvMMw8z3rE' },
     { id:'s2', name:'Pigeon Pose', muscles:'Hip flexors, glutes', sets:'30-60s', reps:'each side', tips:'Front shin across mat, back leg extended. Square hips. Fold forward for deeper stretch.', category:'stretch', video:'https://www.youtube.com/watch?v=op-eDU9eNqM' },
@@ -170,11 +175,11 @@ var P1_INTENSE = {
       { name: '🧘 Stretch Cooldown', time: '5 min', exercises: [E.stretch[0], E.stretch[5], E.stretch[9]], isStretch: true },
     ]
   },
-  4: { title: 'Thursday — Yoga + Flexibility', subtitle: '🧘 Deep Stretching & Breathing', est: '~45 min',
+  4: { title: 'Thursday — Yoga + Flexibility', subtitle: '🧘 Fat Burn + Deep Stretch', est: '~45 min',
     sections: [
-      { name: '🐻 Full Animal Flow Session', time: '15 min', exercises: E.flow, isFlow: true },
-      { name: '🧘 All 10 Hip Stretches', time: '15 min', exercises: E.stretch, isStretch: true },
-      { name: '🧘‍♀️ Yoga Poses', time: '15 min', exercises: E.yoga, isStretch: true },
+      { name: '🔥 Vinyasa Warmup', time: '10 min', exercises: E.vinyasa, isStretch: true },
+      { name: '🧘 Yoga + Stretch Flow', time: '25 min', exercises: [E.yoga[1], E.stretch[3], E.yoga[2], E.yoga[3], E.stretch[0], E.yoga[4], E.stretch[1], E.stretch[8], E.stretch[2]], isStretch: true },
+      { name: '🌙 Floor Cooldown', time: '10 min', exercises: [E.stretch[4], E.stretch[9], E.stretch[5], E.stretch[6], E.stretch[7]], isStretch: true },
     ]
   },
   5: { title: 'Friday — Legs + Back + Abs', subtitle: '🦵 Lower Body + Pull + Core', est: '~45 min',
@@ -208,11 +213,11 @@ var RECOVERY_WEEK = {
       { name: '🧘‍♀️ Yoga Poses + Deep Breathing', time: '20 min', exercises: E.yoga, isStretch: true },
     ]
   },
-  4: { title: 'Thursday — Yoga + Flexibility', subtitle: '🧘 Recovery Week — ANCHORED', est: '~45 min',
+  4: { title: 'Thursday — Yoga + Flexibility', subtitle: '🌿 Recovery — Gentle Flow & Stretch', est: '~30 min',
     sections: [
-      { name: '🐻 Full Animal Flow Session', time: '15 min', exercises: E.flow, isFlow: true },
-      { name: '🧘 All 10 Hip Stretches', time: '15 min', exercises: E.stretch, isStretch: true },
-      { name: '🧘‍♀️ Yoga Poses', time: '15 min', exercises: E.yoga, isStretch: true },
+      { name: '🔥 Vinyasa Warmup', time: '8 min', exercises: [E.vinyasa[0], E.vinyasa[1]], isStretch: true },
+      { name: '🧘 Yoga + Stretch Flow', time: '15 min', exercises: [E.yoga[1], E.stretch[3], E.yoga[2], E.yoga[3], E.stretch[0], E.stretch[1]], isStretch: true },
+      { name: '🌙 Floor Cooldown', time: '7 min', exercises: [E.stretch[4], E.stretch[9], E.stretch[5], E.stretch[6]], isStretch: true },
     ]
   },
   5: { title: 'Friday — Active Recovery', subtitle: '🧘 Recovery Week — Creative Movement', est: '~45 min',
@@ -247,11 +252,11 @@ var P2_INTENSE = {
       { name: '🧘 Stretch Cooldown', time: '5 min', exercises: [E.stretch[0], E.stretch[4], E.stretch[9]], isStretch: true },
     ]
   },
-  4: { title: 'Thursday — Yoga + Flexibility', subtitle: '🧘 ANCHORED — Deep Stretching & Breathing', est: '~45 min',
+  4: { title: 'Thursday — Yoga + Flexibility', subtitle: '🧘 Fat Burn + Deep Stretch', est: '~45 min',
     sections: [
-      { name: '🐻 Full Animal Flow Session', time: '15 min', exercises: E.flow, isFlow: true },
-      { name: '🧘 All 10 Hip Stretches', time: '15 min', exercises: E.stretch, isStretch: true },
-      { name: '🧘‍♀️ Yoga Poses', time: '15 min', exercises: E.yoga, isStretch: true },
+      { name: '🔥 Vinyasa Warmup', time: '10 min', exercises: E.vinyasa, isStretch: true },
+      { name: '🧘 Yoga + Stretch Flow', time: '25 min', exercises: [E.yoga[1], E.stretch[3], E.yoga[2], E.yoga[3], E.stretch[0], E.yoga[4], E.stretch[1], E.stretch[8], E.stretch[2]], isStretch: true },
+      { name: '🌙 Floor Cooldown', time: '10 min', exercises: [E.stretch[4], E.stretch[9], E.stretch[5], E.stretch[6], E.stretch[7]], isStretch: true },
     ]
   },
   5: { title: 'Friday — Full Body Cardio + Abs', subtitle: '🔥 Total Body Blitz + Core', est: '~45 min',
@@ -290,11 +295,11 @@ var P3_INTENSE = {
       { name: '🧘 Stretch Cooldown', time: '5 min', exercises: [E.stretch[0], E.stretch[4], E.stretch[9]], isStretch: true },
     ]
   },
-  4: { title: 'Thursday — Yoga + Flexibility', subtitle: '🧘 ANCHORED — Deep Stretching & Breathing', est: '~45 min',
+  4: { title: 'Thursday — Yoga + Flexibility', subtitle: '🧘 Fat Burn + Deep Stretch', est: '~45 min',
     sections: [
-      { name: '🐻 Full Animal Flow Session', time: '15 min', exercises: E.flow, isFlow: true },
-      { name: '🧘 All 10 Hip Stretches', time: '15 min', exercises: E.stretch, isStretch: true },
-      { name: '🧘‍♀️ Yoga Poses', time: '15 min', exercises: E.yoga, isStretch: true },
+      { name: '🔥 Vinyasa Warmup', time: '10 min', exercises: E.vinyasa, isStretch: true },
+      { name: '🧘 Yoga + Stretch Flow', time: '25 min', exercises: [E.yoga[1], E.stretch[3], E.yoga[2], E.yoga[3], E.stretch[0], E.yoga[4], E.stretch[1], E.stretch[8], E.stretch[2]], isStretch: true },
+      { name: '🌙 Floor Cooldown', time: '10 min', exercises: [E.stretch[4], E.stretch[9], E.stretch[5], E.stretch[6], E.stretch[7]], isStretch: true },
     ]
   },
   5: { title: 'Friday — Total Body Burnout + Abs', subtitle: '🔥 Circuit: 3 rounds + Core', est: '~45 min',
@@ -353,11 +358,11 @@ var P1W_INTENSE = {
       { name: '🧘 Stretch Cooldown', time: '5 min', exercises: [E.stretch[0], E.stretch[5], E.stretch[9]], isStretch: true },
     ]
   },
-  4: { title: 'Thursday — Yoga + Flexibility', subtitle: '🧘 Deep Stretching & Breathing', est: '~45 min',
+  4: { title: 'Thursday — Yoga + Flexibility', subtitle: '🧘 Fat Burn + Deep Stretch', est: '~45 min',
     sections: [
-      { name: '🐻 Full Animal Flow Session', time: '15 min', exercises: E.flow, isFlow: true },
-      { name: '🧘 All 10 Hip Stretches', time: '15 min', exercises: E.stretch, isStretch: true },
-      { name: '🧘‍♀️ Yoga Poses', time: '15 min', exercises: E.yoga, isStretch: true },
+      { name: '🔥 Vinyasa Warmup', time: '10 min', exercises: E.vinyasa, isStretch: true },
+      { name: '🧘 Yoga + Stretch Flow', time: '25 min', exercises: [E.yoga[1], E.stretch[3], E.yoga[2], E.yoga[3], E.stretch[0], E.yoga[4], E.stretch[1], E.stretch[8], E.stretch[2]], isStretch: true },
+      { name: '🌙 Floor Cooldown', time: '10 min', exercises: [E.stretch[4], E.stretch[9], E.stretch[5], E.stretch[6], E.stretch[7]], isStretch: true },
     ]
   },
   5: { title: 'Friday — Legs + Glutes', subtitle: '🦵🍑 Lower Body Power', est: '~45 min',
@@ -391,11 +396,11 @@ var P2W_INTENSE = {
       { name: '🧘 Stretch Cooldown', time: '5 min', exercises: [E.stretch[0], E.stretch[4], E.stretch[9]], isStretch: true },
     ]
   },
-  4: { title: 'Thursday — Yoga + Flexibility', subtitle: '🧘 ANCHORED — Deep Stretching & Breathing', est: '~45 min',
+  4: { title: 'Thursday — Yoga + Flexibility', subtitle: '🧘 Fat Burn + Deep Stretch', est: '~45 min',
     sections: [
-      { name: '🐻 Full Animal Flow Session', time: '15 min', exercises: E.flow, isFlow: true },
-      { name: '🧘 All 10 Hip Stretches', time: '15 min', exercises: E.stretch, isStretch: true },
-      { name: '🧘‍♀️ Yoga Poses', time: '15 min', exercises: E.yoga, isStretch: true },
+      { name: '🔥 Vinyasa Warmup', time: '10 min', exercises: E.vinyasa, isStretch: true },
+      { name: '🧘 Yoga + Stretch Flow', time: '25 min', exercises: [E.yoga[1], E.stretch[3], E.yoga[2], E.yoga[3], E.stretch[0], E.yoga[4], E.stretch[1], E.stretch[8], E.stretch[2]], isStretch: true },
+      { name: '🌙 Floor Cooldown', time: '10 min', exercises: [E.stretch[4], E.stretch[9], E.stretch[5], E.stretch[6], E.stretch[7]], isStretch: true },
     ]
   },
   5: { title: 'Friday — Full Body Cardio Circuit', subtitle: '🔥 Lower-Body Emphasis Blitz', est: '~45 min',
@@ -431,11 +436,11 @@ var P3W_INTENSE = {
       { name: '🧘 Stretch Cooldown', time: '5 min', exercises: [E.stretch[0], E.stretch[4], E.stretch[9]], isStretch: true },
     ]
   },
-  4: { title: 'Thursday — Yoga + Flexibility', subtitle: '🧘 ANCHORED — Deep Stretching & Breathing', est: '~45 min',
+  4: { title: 'Thursday — Yoga + Flexibility', subtitle: '🧘 Fat Burn + Deep Stretch', est: '~45 min',
     sections: [
-      { name: '🐻 Full Animal Flow Session', time: '15 min', exercises: E.flow, isFlow: true },
-      { name: '🧘 All 10 Hip Stretches', time: '15 min', exercises: E.stretch, isStretch: true },
-      { name: '🧘‍♀️ Yoga Poses', time: '15 min', exercises: E.yoga, isStretch: true },
+      { name: '🔥 Vinyasa Warmup', time: '10 min', exercises: E.vinyasa, isStretch: true },
+      { name: '🧘 Yoga + Stretch Flow', time: '25 min', exercises: [E.yoga[1], E.stretch[3], E.yoga[2], E.yoga[3], E.stretch[0], E.yoga[4], E.stretch[1], E.stretch[8], E.stretch[2]], isStretch: true },
+      { name: '🌙 Floor Cooldown', time: '10 min', exercises: [E.stretch[4], E.stretch[9], E.stretch[5], E.stretch[6], E.stretch[7]], isStretch: true },
     ]
   },
   5: { title: 'Friday — Total Body Burnout', subtitle: '🔥 Circuit: 3 rounds, 30s rest', est: '~45 min',
@@ -481,10 +486,11 @@ var SENIOR_RECOVERY = {
       { name: '🧘 Stretching', time: '5 min', exercises: [E.stretch[5], E.stretch[9]], isStretch: true },
     ]
   },
-  4: { title: 'Thursday — Yoga + Flexibility', subtitle: '🌿 Recovery Week', est: '~25 min',
+  4: { title: 'Thursday — Yoga + Flexibility', subtitle: '🌿 Recovery — Gentle Flow & Stretch', est: '~30 min',
     sections: [
-      { name: '🧘‍♀️ Yoga Poses', time: '15 min', exercises: E.yoga, isStretch: true },
-      { name: '🧘 Deep Stretching', time: '10 min', exercises: [E.stretch[0], E.stretch[4], E.stretch[5], E.stretch[6], E.stretch[9]], isStretch: true },
+      { name: '🔥 Vinyasa Warmup', time: '8 min', exercises: [E.vinyasa[0], E.vinyasa[1]], isStretch: true },
+      { name: '🧘 Yoga + Stretch Flow', time: '15 min', exercises: [E.yoga[1], E.stretch[3], E.yoga[2], E.yoga[3], E.stretch[0], E.stretch[1]], isStretch: true },
+      { name: '🌙 Floor Cooldown', time: '7 min', exercises: [E.stretch[4], E.stretch[9], E.stretch[5], E.stretch[6]], isStretch: true },
     ]
   },
   5: { title: 'Friday — Walking + Light Movement', subtitle: '🌿 Recovery Week', est: '~25 min',
@@ -518,10 +524,11 @@ var P1S_GENTLE = {
       { name: '🧘 Stretching', time: '10 min', exercises: [E.stretch[0], E.stretch[3], E.stretch[4], E.stretch[9]], isStretch: true },
     ]
   },
-  4: { title: 'Thursday — Yoga + Flexibility', subtitle: '🌿 Gentle Yoga & Deep Stretching', est: '~30 min',
+  4: { title: 'Thursday — Yoga + Flexibility', subtitle: '🌿 Recovery — Gentle Flow & Stretch', est: '~30 min',
     sections: [
-      { name: '🧘‍♀️ Yoga Poses', time: '15 min', exercises: [E.yoga[0], E.yoga[1], E.yoga[2], E.yoga[3]], isStretch: true },
-      { name: '🧘 Deep Stretching', time: '15 min', exercises: [E.stretch[0], E.stretch[4], E.stretch[5], E.stretch[6], E.stretch[9]], isStretch: true },
+      { name: '🔥 Vinyasa Warmup', time: '8 min', exercises: [E.vinyasa[0], E.vinyasa[1]], isStretch: true },
+      { name: '🧘 Yoga + Stretch Flow', time: '15 min', exercises: [E.yoga[1], E.stretch[3], E.yoga[2], E.yoga[3], E.stretch[0], E.stretch[1]], isStretch: true },
+      { name: '🌙 Floor Cooldown', time: '7 min', exercises: [E.stretch[4], E.stretch[9], E.stretch[5], E.stretch[6]], isStretch: true },
     ]
   },
   5: { title: 'Friday — Walking + Gentle Full Body', subtitle: '🌿 Easy Full Body Movement', est: '~30 min',
@@ -556,10 +563,11 @@ var P2S_GENTLE = {
       { name: '🧘 Stretching', time: '10 min', exercises: [E.stretch[0], E.stretch[3], E.stretch[4], E.stretch[9]], isStretch: true },
     ]
   },
-  4: { title: 'Thursday — Yoga + Flexibility', subtitle: '🌿 Gentle Yoga & Deep Stretching', est: '~30 min',
+  4: { title: 'Thursday — Yoga + Flexibility', subtitle: '🌿 Recovery — Gentle Flow & Stretch', est: '~30 min',
     sections: [
-      { name: '🧘‍♀️ Yoga Poses', time: '15 min', exercises: [E.yoga[0], E.yoga[1], E.yoga[2], E.yoga[3], E.yoga[4]], isStretch: true },
-      { name: '🧘 Deep Stretching', time: '15 min', exercises: [E.stretch[0], E.stretch[1], E.stretch[4], E.stretch[5], E.stretch[6], E.stretch[9]], isStretch: true },
+      { name: '🔥 Vinyasa Warmup', time: '8 min', exercises: [E.vinyasa[0], E.vinyasa[1]], isStretch: true },
+      { name: '🧘 Yoga + Stretch Flow', time: '15 min', exercises: [E.yoga[1], E.stretch[3], E.yoga[2], E.yoga[3], E.stretch[0], E.stretch[1]], isStretch: true },
+      { name: '🌙 Floor Cooldown', time: '7 min', exercises: [E.stretch[4], E.stretch[9], E.stretch[5], E.stretch[6]], isStretch: true },
     ]
   },
   5: { title: 'Friday — Walking + Full Body', subtitle: '🌿 Gentle Full Body Circuit', est: '~30 min',
@@ -594,10 +602,11 @@ var P3S_GENTLE = {
       { name: '🧘 Stretching', time: '10 min', exercises: [E.stretch[0], E.stretch[1], E.stretch[3], E.stretch[4], E.stretch[9]], isStretch: true },
     ]
   },
-  4: { title: 'Thursday — Yoga + Flexibility', subtitle: '🌿 Full Yoga Session', est: '~30 min',
+  4: { title: 'Thursday — Yoga + Flexibility', subtitle: '🌿 Recovery — Gentle Flow & Stretch', est: '~30 min',
     sections: [
-      { name: '🧘‍♀️ All Yoga Poses', time: '15 min', exercises: E.yoga, isStretch: true },
-      { name: '🧘 Deep Stretching', time: '15 min', exercises: [E.stretch[0], E.stretch[1], E.stretch[4], E.stretch[5], E.stretch[6], E.stretch[9]], isStretch: true },
+      { name: '🔥 Vinyasa Warmup', time: '8 min', exercises: [E.vinyasa[0], E.vinyasa[1]], isStretch: true },
+      { name: '🧘 Yoga + Stretch Flow', time: '15 min', exercises: [E.yoga[1], E.stretch[3], E.yoga[2], E.yoga[3], E.stretch[0], E.stretch[1]], isStretch: true },
+      { name: '🌙 Floor Cooldown', time: '7 min', exercises: [E.stretch[4], E.stretch[9], E.stretch[5], E.stretch[6]], isStretch: true },
     ]
   },
   5: { title: 'Friday — Walking + Full Body', subtitle: '🌿 Gentle Full Body Finish', est: '~30 min',
