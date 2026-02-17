@@ -98,6 +98,11 @@ var EXERCISES = {
     { id:'s8', name:'Frog Stretch', muscles:'Inner thighs, groin', sets:'30-60s', reps:'hold', tips:'Knees wide on all fours, push hips back. Go only as far as comfortable.', category:'stretch', video:'https://www.youtube.com/watch?v=G9ePAFrI07k' },
     { id:'s9', name:'Lizard Pose', muscles:'Hip flexors, hamstrings', sets:'30-60s', reps:'each side', tips:'Low lunge, both hands inside front foot. Drop to forearms for depth.', category:'stretch', video:'https://www.youtube.com/watch?v=W_oWXtvTUB0' },
     { id:'s10', name:'Reclined Twist', muscles:'Spine, obliques, hips', sets:'30-60s', reps:'each side', tips:'On back, knees to one side, arms out. Look opposite direction. Let gravity do the work.', category:'stretch', video:'https://www.youtube.com/watch?v=V5-z1_1FH4w' },
+    { id:'s11', name:'Standing Hamstring Stretch', muscles:'Hamstrings', sets:'30-60s', reps:'each side', tips:'Place heel on low surface, keep leg straight. Hinge at hips, reach toward toes. Keep back flat, feel the pull behind the knee.', category:'stretch', video:'https://www.youtube.com/watch?v=FDwpEdxZ4H4' },
+    { id:'s12', name:'Seated Forward Fold', muscles:'Hamstrings, lower back', sets:'30-60s', reps:'hold', tips:'Sit with legs straight, reach for toes. Keep back as flat as possible, fold from hips not upper back. Breathe into the stretch.', category:'stretch', video:'https://www.youtube.com/watch?v=g_tea8ZNorA' },
+    { id:'s13', name:'Standing Quad Stretch', muscles:'Quadriceps, hip flexors', sets:'30-60s', reps:'each side', tips:'Stand on one leg, pull opposite heel to glute. Keep knees together, push hips slightly forward. Hold wall for balance if needed.', category:'stretch', video:'https://www.youtube.com/watch?v=ORyGr04gDCw' },
+    { id:'s14', name:'Wall Calf Stretch', muscles:'Calves, Achilles tendon', sets:'30-60s', reps:'each side', tips:'Hands on wall, one foot back with heel pressed to floor. Lean forward until you feel stretch in back calf. Keep back leg straight.', category:'stretch', video:'https://www.youtube.com/watch?v=b2t67Ck6EJo' },
+    { id:'s15', name:'Lying Hamstring Stretch (Strap)', muscles:'Hamstrings, calves', sets:'30-60s', reps:'each side', tips:'On back, loop towel/strap around foot. Pull leg toward ceiling keeping it straight. Keep opposite leg flat on floor. Flex foot for calf stretch.', category:'stretch', video:'https://www.youtube.com/watch?v=yzbWbSlTkQY' },
   ],
   kb: [
     { id:'k1', name:'Kettlebell Swings', muscles:'Glutes, hamstrings, core, shoulders', sets:'3', reps:'15', rest:15, tips:'Hip hinge, snap hips forward. Arms guide—don\'t lift with shoulders. Breathe out at top. Moderate weight (25-35 lb).', category:'kb', video:'https://www.youtube.com/watch?v=cY38L70lxro' },
@@ -207,37 +212,44 @@ var P1_INTENSE = {
 };
 
 var RECOVERY_WEEK = {
-  1: { title: 'Monday — Yoga + Light Movement', subtitle: '🧘 Recovery Week', est: '~45 min',
+  1: { title: 'Monday — Light Cardio + Full Body Stretch', subtitle: '🧘 Recovery Week', est: '~45 min',
     sections: [
-      { name: '🏃 Light Warmup', time: '8 min', exercises: [E.warmup[0], E.warmup[3], E.warmup[5]], isFlow: true },
-      { name: '🧘 Deep Stretching', time: '20 min', exercises: E.stretch, isStretch: true },
-      { name: '🧘‍♀️ Yoga Poses', time: '10 min', exercises: E.yoga, isStretch: true },
+      { name: '🏃 Light Cardio', time: '12 min', exercises: [E.warmup[0], E.warmup[6], E.warmup[10], E.warmup[5]], isFlow: true },
+      { name: '🧘 Hip Stretches', time: '10 min', exercises: [E.stretch[0], E.stretch[1], E.stretch[3], E.stretch[8]], isStretch: true },
+      { name: '🦵 Hamstring + Quad + Calf', time: '12 min', exercises: [E.stretch[10], E.stretch[11], E.stretch[14], E.stretch[12], E.stretch[13]], isStretch: true },
+      { name: '🧘‍♀️ Yoga Cooldown', time: '8 min', exercises: [E.yoga[0], E.yoga[3], E.stretch[9]], isStretch: true },
     ]
   },
-  2: { title: 'Tuesday — Light Cardio + Stretch', subtitle: '🧘 Recovery Week', est: '~45 min',
+  2: { title: 'Tuesday — Cardio Circuit + Lower Body Stretch', subtitle: '🧘 Recovery Week', est: '~45 min',
     sections: [
-      { name: '🏃 Light Warmup', time: '8 min', exercises: [E.warmup[0], E.warmup[11], E.warmup[5]], isFlow: true },
-      { name: '🔔 Light Kettlebell (swings only)', time: '15 min', exercises: [E.kb[0]] },
-      { name: '🧘 Stretching', time: '15 min', exercises: E.stretch, isStretch: true },
+      { name: '🏃 Cardio Circuit', time: '15 min', exercises: [E.warmup[0], E.warmup[4], E.kb[0], E.warmup[6], E.flow[2]], isFlow: true },
+      { name: '🦵 Hamstring + Calf Focus', time: '12 min', exercises: [E.stretch[10], E.stretch[14], E.stretch[11], E.stretch[13]], isStretch: true },
+      { name: '🧘 Hip + Quad Stretch', time: '10 min', exercises: [E.stretch[0], E.stretch[3], E.stretch[12], E.stretch[4]], isStretch: true },
+      { name: '🌙 Floor Cooldown', time: '5 min', exercises: [E.stretch[6], E.stretch[9]], isStretch: true },
     ]
   },
-  3: { title: 'Wednesday — Full Yoga Session', subtitle: '🧘 Recovery Week — Meditation Focus', est: '~45 min',
+  3: { title: 'Wednesday — Yoga + Full Flexibility', subtitle: '🧘 Recovery Week — Deep Stretch', est: '~45 min',
     sections: [
-      { name: '🧘 All Stretches', time: '25 min', exercises: E.stretch, isStretch: true },
-      { name: '🧘‍♀️ Yoga Poses + Deep Breathing', time: '20 min', exercises: E.yoga, isStretch: true },
+      { name: '🔥 Vinyasa Warmup', time: '10 min', exercises: E.vinyasa, isStretch: true },
+      { name: '🧘 Hip Openers', time: '10 min', exercises: [E.stretch[0], E.stretch[1], E.stretch[5], E.stretch[7]], isStretch: true },
+      { name: '🦵 Legs: Hamstrings, Quads, Calves', time: '10 min', exercises: [E.stretch[10], E.stretch[14], E.stretch[12], E.stretch[13], E.stretch[11]], isStretch: true },
+      { name: '🧘‍♀️ Yoga Poses + Breathing', time: '12 min', exercises: [E.yoga[1], E.yoga[2], E.yoga[3], E.yoga[4], E.stretch[9]], isStretch: true },
     ]
   },
-  4: { title: 'Thursday — Yoga + Flexibility', subtitle: '🌿 Recovery — Gentle Flow & Stretch', est: '~30 min',
+  4: { title: 'Thursday — Light Cardio + Yoga Flow', subtitle: '🌿 Recovery — Cardio & Stretch', est: '~45 min',
     sections: [
-      { name: '🔥 Vinyasa Warmup', time: '8 min', exercises: [E.vinyasa[0], E.vinyasa[1]], isStretch: true },
+      { name: '🏃 Light Cardio', time: '12 min', exercises: [E.warmup[0], E.warmup[10], E.warmup[5], E.warmup[11]], isFlow: true },
       { name: '🧘 Yoga + Stretch Flow', time: '15 min', exercises: [E.yoga[1], E.stretch[3], E.yoga[2], E.yoga[3], E.stretch[0], E.stretch[1]], isStretch: true },
-      { name: '🌙 Floor Cooldown', time: '7 min', exercises: [E.stretch[4], E.stretch[9], E.stretch[5], E.stretch[6]], isStretch: true },
+      { name: '🦵 Hamstring + Calf + Quad', time: '10 min', exercises: [E.stretch[10], E.stretch[14], E.stretch[12], E.stretch[13]], isStretch: true },
+      { name: '🌙 Floor Cooldown', time: '7 min', exercises: [E.stretch[4], E.stretch[9], E.stretch[6]], isStretch: true },
     ]
   },
-  5: { title: 'Friday — Active Recovery', subtitle: '🧘 Recovery Week — Creative Movement', est: '~45 min',
+  5: { title: 'Friday — Active Recovery + Full Stretch', subtitle: '🧘 Recovery Week — Movement + Mobility', est: '~45 min',
     sections: [
-      { name: '🏃 Light Warmup', time: '8 min', exercises: [E.warmup[0], E.warmup[5], E.warmup[1]], isFlow: true },
-      { name: '🧘 Deep Stretching + Breathing', time: '25 min', exercises: [].concat(E.stretch, E.yoga), isStretch: true },
+      { name: '🏃 Light Cardio', time: '12 min', exercises: [E.warmup[0], E.warmup[6], E.kb[0], E.warmup[4]], isFlow: true },
+      { name: '🧘 Hip Stretches', time: '8 min', exercises: [E.stretch[0], E.stretch[1], E.stretch[3], E.stretch[7]], isStretch: true },
+      { name: '🦵 Hamstring + Quad + Calf', time: '10 min', exercises: [E.stretch[10], E.stretch[11], E.stretch[14], E.stretch[12], E.stretch[13]], isStretch: true },
+      { name: '🧘‍♀️ Yoga Cooldown', time: '10 min', exercises: [E.yoga[0], E.yoga[1], E.yoga[3], E.stretch[9]], isStretch: true },
     ]
   }
 };
