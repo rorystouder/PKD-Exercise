@@ -214,7 +214,7 @@ var P1_INTENSE = {
 var RECOVERY_WEEK = {
   1: { title: 'Monday — Light Cardio + Full Body Stretch', subtitle: '🧘 Recovery Week', est: '~45 min',
     sections: [
-      { name: '🏃 Light Cardio', time: '12 min', exercises: [E.warmup[0], E.warmup[6], E.warmup[10], E.warmup[5]], isFlow: true },
+      { name: '🏃 Light Cardio', time: '15 min', exercises: [E.warmup[0], E.warmup[6], E.warmup[10], E.warmup[5], E.warmup[4], E.warmup[11]], isFlow: true },
       { name: '🧘 Hip Stretches', time: '10 min', exercises: [E.stretch[0], E.stretch[1], E.stretch[3], E.stretch[8]], isStretch: true },
       { name: '🦵 Hamstring + Quad + Calf', time: '12 min', exercises: [E.stretch[10], E.stretch[11], E.stretch[14], E.stretch[12], E.stretch[13]], isStretch: true },
       { name: '🧘‍♀️ Yoga Cooldown', time: '8 min', exercises: [E.yoga[0], E.yoga[3], E.stretch[9]], isStretch: true },
@@ -222,18 +222,19 @@ var RECOVERY_WEEK = {
   },
   2: { title: 'Tuesday — Cardio Circuit + Lower Body Stretch', subtitle: '🧘 Recovery Week', est: '~45 min',
     sections: [
-      { name: '🏃 Cardio Circuit', time: '15 min', exercises: [E.warmup[0], E.warmup[4], E.kb[0], E.warmup[6], E.flow[2]], isFlow: true },
-      { name: '🦵 Hamstring + Calf Focus', time: '12 min', exercises: [E.stretch[10], E.stretch[14], E.stretch[11], E.stretch[13]], isStretch: true },
+      { name: '🏃 Cardio Circuit', time: '20 min', exercises: [E.warmup[0], E.warmup[4], E.kb[0], E.warmup[6], E.flow[2], E.warmup[10], E.bodyweight[4], E.flow[0]], isFlow: true },
+      { name: '🦵 Hamstring + Calf Focus', time: '10 min', exercises: [E.stretch[10], E.stretch[14], E.stretch[11], E.stretch[13]], isStretch: true },
       { name: '🧘 Hip + Quad Stretch', time: '10 min', exercises: [E.stretch[0], E.stretch[3], E.stretch[12], E.stretch[4]], isStretch: true },
       { name: '🌙 Floor Cooldown', time: '5 min', exercises: [E.stretch[6], E.stretch[9]], isStretch: true },
     ]
   },
   3: { title: 'Wednesday — Yoga + Full Flexibility', subtitle: '🧘 Recovery Week — Deep Stretch', est: '~45 min',
     sections: [
-      { name: '🔥 Vinyasa Warmup', time: '10 min', exercises: E.vinyasa, isStretch: true },
-      { name: '🧘 Hip Openers', time: '10 min', exercises: [E.stretch[0], E.stretch[1], E.stretch[5], E.stretch[7]], isStretch: true },
+      { name: '🏃 Light Cardio Warmup', time: '10 min', exercises: [E.warmup[0], E.warmup[6], E.warmup[5], E.warmup[11]], isFlow: true },
+      { name: '🔥 Vinyasa Flow', time: '10 min', exercises: E.vinyasa, isStretch: true },
+      { name: '🧘 Hip Openers', time: '8 min', exercises: [E.stretch[0], E.stretch[1], E.stretch[5], E.stretch[7]], isStretch: true },
       { name: '🦵 Legs: Hamstrings, Quads, Calves', time: '10 min', exercises: [E.stretch[10], E.stretch[14], E.stretch[12], E.stretch[13], E.stretch[11]], isStretch: true },
-      { name: '🧘‍♀️ Yoga Poses + Breathing', time: '12 min', exercises: [E.yoga[1], E.yoga[2], E.yoga[3], E.yoga[4], E.stretch[9]], isStretch: true },
+      { name: '🧘‍♀️ Yoga Poses + Breathing', time: '8 min', exercises: [E.yoga[1], E.yoga[2], E.yoga[3], E.yoga[4], E.stretch[9]], isStretch: true },
     ]
   },
   4: { title: 'Thursday — Yoga + Flexibility', subtitle: '🌿 Recovery — Deep Stretch & Flow', est: '~45 min',
@@ -246,7 +247,7 @@ var RECOVERY_WEEK = {
   },
   5: { title: 'Friday — Active Recovery + Full Stretch', subtitle: '🧘 Recovery Week — Movement + Mobility', est: '~45 min',
     sections: [
-      { name: '🏃 Light Cardio', time: '12 min', exercises: [E.warmup[0], E.warmup[6], E.kb[0], E.warmup[4]], isFlow: true },
+      { name: '🏃 Cardio Circuit', time: '18 min', exercises: [E.warmup[0], E.warmup[6], E.kb[0], E.warmup[4], E.flow[2], E.warmup[10], E.warmup[5]], isFlow: true },
       { name: '🧘 Hip Stretches', time: '8 min', exercises: [E.stretch[0], E.stretch[1], E.stretch[3], E.stretch[7]], isStretch: true },
       { name: '🦵 Hamstring + Quad + Calf', time: '10 min', exercises: [E.stretch[10], E.stretch[11], E.stretch[14], E.stretch[12], E.stretch[13]], isStretch: true },
       { name: '🧘‍♀️ Yoga Cooldown', time: '10 min', exercises: [E.yoga[0], E.yoga[1], E.yoga[3], E.stretch[9]], isStretch: true },

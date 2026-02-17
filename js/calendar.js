@@ -35,7 +35,7 @@ function renderDayPreview(sched) {
         '<span class="text-xs text-slate-500">' + sec.time + '</span>' +
       '</div>';
     sec.exercises.forEach(function(ex) {
-      var isWeighted = !sec.isFlow && !sec.isStretch && ex.rest;
+      var isWeighted = ex.rest && !isNaN(parseInt(ex.sets)) && parseInt(ex.sets) <= 10;
       html += '<div class="bg-navy-950/50 rounded-lg p-2.5 mb-1.5">' +
         '<div class="font-semibold text-sm">' + ex.name + ' ' + (ex.video ? '<a href="'+ex.video+'" target="_blank" onclick="event.stopPropagation()" class="text-xs text-cyan-400 font-normal ml-1">🎥 Demo</a>' : '') + '</div>' +
         '<div class="text-xs text-slate-400">' + ex.muscles + '</div>' +

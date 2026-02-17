@@ -81,10 +81,11 @@ function renderToday() {
 
       var card = document.createElement('div');
       card.className = 'exercise-card bg-navy-800 rounded-xl p-4 mb-2 ' + (done ? 'completed' : '');
-      var isWeighted = !sec.isFlow && !sec.isStretch && ex.rest;
-      var isTimed = sec.isFlow || sec.isStretch || (ex.sets && (ex.sets.includes('s') || ex.sets.includes('min'))) || (ex.reps && (ex.reps.includes('s ') || ex.reps.includes('s/') || ex.reps.match(/^\d+s$/) || ex.reps.includes('s hold') || ex.reps.includes('min')));
+      var isWeighted = ex.rest && !isNaN(parseInt(ex.sets)) && parseInt(ex.sets) <= 10;
+      var isTimed = !isWeighted && (sec.isFlow || sec.isStretch || (ex.sets && (ex.sets.includes('s') || ex.sets.includes('min'))) || (ex.reps && (ex.reps.includes('s ') || ex.reps.includes('s/') || ex.reps.match(/^\d+s$/) || ex.reps.includes('s hold') || ex.reps.includes('min'))));
       var timedSeconds = parseTimedValue(ex.sets);
       if (timedSeconds === 0 && ex.reps) timedSeconds = parseTimedValue(ex.reps);
+      if (isWeighted) timedSeconds = 0;
       card.innerHTML =
         '<div class="flex items-start justify-between">' +
           '<div class="flex-1 mr-3">' +
