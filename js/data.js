@@ -80,7 +80,7 @@ var EXERCISES = {
     { id:'wu9', name:'Inchworms', muscles:'Hamstrings, core, shoulders', sets:'2', reps:'6', tips:'Stand, fold forward, walk hands to plank, walk feet to hands, stand. Legs as straight as possible.', category:'warmup', video:'https://www.youtube.com/watch?v=VSp3cRE8Lc8' },
     { id:'wu10', name:'Lateral Lunges', muscles:'Adductors, quads, glutes', sets:'2', reps:'8/side', tips:'Wide step to side, sit hips back, keep other leg straight. Push back to center. Alternate sides.', category:'warmup', video:'https://www.youtube.com/watch?v=gwWv7aPcD88' },
     { id:'wu11', name:'Butt Kicks', muscles:'Hamstrings, quads, cardio', sets:'45s', reps:'continuous', tips:'Jog in place, kick heels to glutes. Quick tempo, light on your feet.', category:'warmup', video:'https://www.youtube.com/watch?v=Bek5MOU2KRo' },
-    { id:'wu12', name:'Torso Twists', muscles:'Obliques, thoracic spine', sets:'30s', reps:'continuous', tips:'Feet shoulder-width, arms out. Rotate torso side to side. Keep hips facing forward.', category:'warmup', video:'https://www.youtube.com/watch?v=TjLNr0J52OI' },
+    { id:'wu12', name:'Torso Twists', muscles:'Obliques, thoracic spine', sets:'30s', reps:'continuous', tips:'Feet shoulder-width, arms out. Rotate torso side to side. Keep hips facing forward.', category:'warmup', video:'https://www.youtube.com/watch?v=LqdvhvePVFU' },
   ],
   vinyasa: [
     { id:'v1', name:'Vinyasa → Mountain Pose', muscles:'Full body, breath, posture', sets:'3-5 rounds', reps:'flow', tips:'Sun Salutation A: Mountain → Forward Fold → Halfway Lift → Chaturanga → Up Dog → Down Dog → step forward → Mountain. Match breath to movement.', category:'vinyasa', video:'https://www.youtube.com/watch?v=nic2mjLRYKg' },

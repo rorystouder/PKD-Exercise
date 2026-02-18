@@ -47,11 +47,16 @@ document.addEventListener('click', ensureAudioCtx, {passive: true});
 
 function parseTimedValue(str) {
   if (!str) return 0;
-  var match = str.match(/(\d+)/);
-  if (match) {
-    var val = parseInt(match[1], 10);
-    if (str.toLowerCase().includes('min')) return val * 60;
-    return val;
+  var lower = str.toLowerCase();
+  // Only parse as timed if the string contains a time indicator
+  if (lower.includes('min')) {
+    var match = str.match(/(\d+)/);
+    return match ? parseInt(match[1], 10) * 60 : 0;
   }
+  if (lower.includes('s') && (lower.match(/\d+s/) || lower.includes('s hold') || lower.includes('s/'))) {
+    var match = str.match(/(\d+)/);
+    return match ? parseInt(match[1], 10) : 0;
+  }
+  // Plain numbers like '3' or '2' are set counts, not seconds
   return 0;
 }
