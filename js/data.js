@@ -79,7 +79,7 @@ var EXERCISES = {
     { id:'wu8', name:'Bodyweight Good Mornings', muscles:'Hamstrings, lower back, glutes', sets:'2', reps:'12', tips:'Hands behind head, hinge at hips, flat back. Feel hamstring stretch, squeeze glutes to stand.', category:'warmup', video:'https://www.youtube.com/watch?v=vKPGe8zb2S4' },
     { id:'wu9', name:'Inchworms', muscles:'Hamstrings, core, shoulders', sets:'2', reps:'6', tips:'Stand, fold forward, walk hands to plank, walk feet to hands, stand. Legs as straight as possible.', category:'warmup', video:'https://www.youtube.com/watch?v=VSp3cRE8Lc8' },
     { id:'wu10', name:'Lateral Lunges', muscles:'Adductors, quads, glutes', sets:'2', reps:'8/side', tips:'Wide step to side, sit hips back, keep other leg straight. Push back to center. Alternate sides.', category:'warmup', video:'https://www.youtube.com/watch?v=gwWv7aPcD88' },
-    { id:'wu11', name:'Butt Kicks', muscles:'Hamstrings, quads, cardio', sets:'45s', reps:'continuous', tips:'Jog in place, kick heels to glutes. Quick tempo, light on your feet.', category:'warmup', video:'https://www.youtube.com/watch?v=Bek5MOU2KRo' },
+    { id:'wu11', name:'Butt Kicks', muscles:'Hamstrings, quads, cardio', sets:'45s', reps:'continuous', tips:'Jog in place, kick heels to glutes. Quick tempo, light on your feet.', category:'warmup', video:'https://www.youtube.com/watch?v=oMW59TKZvaI' },
     { id:'wu12', name:'Torso Twists', muscles:'Obliques, thoracic spine', sets:'30s', reps:'continuous', tips:'Feet shoulder-width, arms out. Rotate torso side to side. Keep hips facing forward.', category:'warmup', video:'https://www.youtube.com/watch?v=LqdvhvePVFU' },
   ],
   vinyasa: [
